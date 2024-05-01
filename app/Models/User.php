@@ -16,10 +16,17 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    public $timestamps = false;
     protected $fillable = [
-        'name',
+        'lastname',
+        'firstname',
+        'login',
+        'phone',
         'email',
+        'age',
+        'student',
         'password',
+        'langue',
     ];
 
     /**
@@ -37,11 +44,36 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    protected function casts()
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+
+    public function activity()
+    {
+        return $this->hasMany(Activity::class);
+    }
+
+
+
+    public function trips()
+    {
+        return $this->hasMany(Trip::class);
+    }
+
+    //allows users to recover their activities,
+    public function getActivities()
+    {
+        return $this->belongsToMany(Activity::class, 'user_activity', 'created_by', 'activity_id')->withPivot(['place_id', 'duration', 'date', 'duration', 'status', 'start_time', 'end_time']);
     }
 }
