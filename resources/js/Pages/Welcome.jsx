@@ -1,4 +1,4 @@
-import { Link, Head } from '@inertiajs/react';
+import { Link, Head } from "@inertiajs/react";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     return (
@@ -7,19 +7,54 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             <div className="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
                 <div className="relative min-h-screen flex flex-col items-center justify-center">
                     <div className="relative w-full max-w-7xl">
-                        <header className="w-full flex justify-between items-center p-6">
-                            <Link href="/" className="text-lg font-bold text-red-500 hover:text-red-700">Laravel Inertia App</Link>
+                        <header className="w-full flex justify-between items-center p-6 mb-4">
+                            <Link
+                                href="/"
+                                className="text-lg font-bold text-red-500 hover:text-red-700"
+                            >
+                                Laravel Inertia App
+                            </Link>
                             <nav className="flex gap-4">
-                                <Link href="/home" className="text-gray-800 dark:text-white hover:underline">Accueil</Link>
-                                <Link href="/dashboard" className="text-gray-800 dark:text-white hover:underline">Dasboard</Link>
-                                <Link href="/itinéraires" className="text-gray-800 dark:text-white hover:underline">Itinéraires</Link>
-                               
-                                
-                                <Link href="/profil" className="text-gray-800 dark:text-white hover:underline">Profil</Link>
-                                <Link href="/carte" className="text-gray-800 dark:text-white hover:underline">Carte</Link>
+                                <Link
+                                    href="/home"
+                                    className="text-gray-800 dark:text-white hover:underline"
+                                >
+                                    Accueil
+                                </Link>
+                                <Link
+                                    href="/dashboard"
+                                    className="text-gray-800 dark:text-white hover:underline"
+                                >
+                                    Dasboard
+                                </Link>
+                                <Link
+                                    href="/itinéraires"
+                                    className="text-gray-800 dark:text-white hover:underline"
+                                >
+                                    Itinéraires
+                                </Link>
+                                <Link
+                                    href="/dépenses"
+                                    className="text-gray-800 dark:text-white hover:underline"
+                                >
+                                    Dépenses
+                                </Link>
+
+                                <Link
+                                    href="/profil"
+                                    className="text-gray-800 dark:text-white hover:underline"
+                                >
+                                    Profil
+                                </Link>
+                                <Link
+                                    href="/carte"
+                                    className="text-gray-800 dark:text-white hover:underline"
+                                >
+                                    Carte
+                                </Link>
                                 {auth.user ? (
                                     <Link
-                                        href={route('dashboard')}
+                                        href={route("dashboard")}
                                         className="text-black ring-1 ring-transparent hover:text-black/70 focus:outline-none focus-visible:ring-red-500 dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                     >
                                         Dashboard
@@ -27,13 +62,13 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 ) : (
                                     <>
                                         <Link
-                                            href={route('login')}
+                                            href={route("login")}
                                             className="text-black ring-1 ring-transparent hover:text-black/70 focus:outline-none focus-visible:ring-red-500 dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                         >
                                             Log in
                                         </Link>
                                         <Link
-                                            href={route('register')}
+                                            href={route("register")}
                                             className="text-black ring-1 ring-transparent hover:text-black/70 focus:outline-none focus-visible:ring-red-500 dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                         >
                                             Register
@@ -42,6 +77,20 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 )}
                             </nav>
                         </header>
+
+                        {/* image  */}
+                        <div className="relative min-h-screen flex flex-col items-center justify-center">
+                            <img
+                                src="/path_to_your_image.jpg"
+                                alt="Description"
+                                className="max-w-full h-auto"
+                            />
+                            ...
+                        </div>
+
+                        <button className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110">
+                            Cliquez-moi
+                        </button>
 
                         {/* Ajoutez le contenu de la page ici */}
 
