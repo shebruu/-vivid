@@ -70,47 +70,25 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="student" value="Student" />
+                    <InputLabel htmlFor="email" value="Email" />
 
                     <TextInput
-                        id="student"
-                        type="checkbox"
-                        name="student"
-                        checked={data.student}
-                        onChange={(e) => setData("student", e.target.checked)}
-                    />
-
-                    <InputError message={errors.student} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="age" value="Age" />
-                    <TextInput
-                        id="age"
-                        type="number"
-                        name="age"
-                        value={data.age}
+                        id="email"
+                        type="email"
+                        name="email"
+                        value={data.email}
                         className="mt-1 block w-full"
-                        onChange={(e) => setData("age", e.target.value)}
+                        autoComplete="username"
+                        onChange={(e) => setData('email', e.target.value)}
                         required
                     />
 
-                    <InputError message={errors.age} className="mt-2" />
+                    <InputError message={errors.email} className="mt-2" />
                 </div>
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="phone" value="Phone" />
-                    <TextInput
-                        id="phone"
-                        type="text"
-                        name="phone"
-                        value={data.phone}
-                        className="mt-1 block w-full"
-                        onChange={(e) => setData("phone", e.target.value)}
-                        required
-                    />
-                    <InputError message={errors.phone} className="mt-2" />
-                </div>
+
+            
+            
 
                 <div className="mt-4">
                     <InputLabel htmlFor="login" value="Login" />
@@ -126,19 +104,7 @@ export default function Register() {
                     <InputError message={errors.login} className="mt-2" />
                 </div>
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="langue" value="Language" />
-                    <TextInput
-                        id="langue"
-                        type="text"
-                        name="langue"
-                        value={data.langue}
-                        className="mt-1 block w-full"
-                        onChange={(e) => setData("langue", e.target.value)}
-                        required
-                    />
-                    <InputError message={errors.langue} className="mt-2" />
-                </div>
+            
 
 
                 <div className="mt-4">
