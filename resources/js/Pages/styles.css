@@ -1,19 +1,30 @@
 
-.custom-header {
+.full-page-background {
+    background-image: url('/illustrations/acceuil.jpg'); /* Remplacez par le chemin de votre image */
+    background-size: cover; /* Assure que l'image couvre toute la zone disponible */
+
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 24px; 
-    margin-bottom: 16px; 
-    background-color: #ff8c00; /* Orange, remplacez par la couleur que vous voulez */
-    height: 130px;
+    height: 100%;
+    z-index: -1; /* Garde l'image en arrière-plan */
 }
 
-.logo {
-    height: 100px; 
-    width: auto; 
+
+.bg-gray-50,.grid, .text-center, .footer {
+    background: rgba(255, 255, 255, 0); /* Assurez-vous que le contenu est lisible sur l'image de fond */
+    padding: 20px;
+    margin: 0; 
+    box-shadow: none;
+    
 }
+.text-lg, .text-3xl, .font-bold {
+    color: #333;
+}
+
+
+
 
 
 h1 {
@@ -32,21 +43,14 @@ h1 {
     margin-bottom: 32px;
   }
 
-  .header-container {
-    width: 100%;  
-    margin: 0 auto;
-    padding: 0; 
-}
-@media (max-width: 768px) {
-    .header-image {
-        height: 90px;  /* Hauteur plus petite sur les appareils mobiles */
-    }
-}
+
+
 
 .card {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
+    margin-top:500px;
     margin-bottom: 10px;  /* Espacement entre les cartes */
     background-color: #f9f9f9;
     /*width: calc(25% - 20px); /*  pour mettre en verticale */
@@ -69,13 +73,7 @@ h1 {
 
 }
 
-.img-animation {
-    transition: transform 0.5s ease; /* Animation de transition */
-  }
 
-  .img-animation:hover {
-    transform: scale(1.1); /* Taille de l'image augmentée au survol */
-  }
 
 
   svg {
