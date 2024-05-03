@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
     {
         $dataset = [
             [
-                'firstname' => 'ebru ',
+                'name' => 'ebru ',
                 'lastname' => 'sahin ',
                 'login' => 'ebrusahin',
                 'phone' => 0456407361,
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('mypass'),
             ],
             [
-                'firstname' => 'ferah ',
+                'name' => 'ferah ',
                 'lastname' => 'zeynep ',
                 'login' => 'zeyn',
                 'phone' => 0456407361,
