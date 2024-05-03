@@ -9,13 +9,10 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             <div className="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
                 <div className="relative min-h-screen flex flex-col items-center justify-center">
                     <div className="relative w-full max-w-7xl">
-                        <header className="w-full flex justify-between items-center p-6 mb-4">
-                            <Link
-                                href="/"
-                                className="text-lg font-bold text-red-500 hover:text-red-700"
-                            >
-                                VividPalette
-                            </Link>
+                        <header class="custom-header">
+                        <Link href="/" className="logo-link">
+        <img src="illustrations/logo.png" alt="VividPalette Logo" class="logo" />
+    </Link>
                             <nav className="flex gap-4">
                                 <Link
                                     href="/home"
@@ -58,17 +55,20 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                         </header>
 
                         {/*   header  */}
-                        
+
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
-                      
-
+  {/* 
+                        
+                        
                         {/*   content  */}
                         <div className="text-center">
 
                             <h1 className="text-3xl font-bold mb-4">
                                 Bienvenue !
+                                
                             </h1>
+                           
                             <p className="text-lg mb-8">
                                 Avec notre outil convivial, vous pouvez créer
                                 des itinéraires sur mesure, découvrir de
@@ -79,14 +79,15 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             <img
                                 src="/images/Acceuil/carte.jpeg"
                                 alt="Description"
-                                className="max-w-full h-auto transition duration-500 ease-in-out transform hover:scale-110 mb-8"
+                                class="fond-image"
+                               
                             />
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div className="card">
-                            <img src="illustrations/avent.svg" alt="Adventure " class="text-4xl text-center mb-2"/>
-                                
+                                <img src="illustrations/avent.svg" alt="Adventure " class="text-4xl text-center mb-2" />
+
                                 <div className="text-center font-bold">
                                     <strong>Créez vos propres aventures</strong>{" "}
                                     :
@@ -102,9 +103,9 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 </p>
                             </div>
                             <div className="card">
-                              
-                              {/*    <i className="fas fa-hiking text-4xl text-center mb-2"></i>*/} 
-                                <img src="illustrations/sharing.svg" alt="Sharing " class="text-4xl text-center mb-2"/>
+
+                                {/*    <i className="fas fa-hiking text-4xl text-center mb-2"></i>*/}
+                                <img src="illustrations/sharing.svg" alt="Sharing " class="text-4xl text-center mb-2" />
                                 <div className="text-center font-bold">
                                     <strong>Partagez vos découvertes</strong> :
                                 </div>
@@ -118,8 +119,8 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 </p>
                             </div>
                             <div className="card">
-                              
-                            <img src="illustrations/itinairies.svg" alt="Itinéraires " class="text-4xl text-center mb-2"/>
+
+                                <img src="illustrations/itinairies.svg" alt="Itinéraires " class="text-4xl text-center mb-2" />
                                 <div className="text-center font-bold">
                                     <strong> Visualisez votre aventure </strong>{" "}
                                     :
@@ -132,8 +133,8 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                                 </p>
                             </div>
                             <div className="card">
-                               
-                            <img src="illustrations/value.svg" alt="Wallet " class="text-4xl text-center mb-2"/>
+
+                                <img src="illustrations/value.svg" alt="Wallet " class="text-4xl text-center mb-2" />
                                 <div className="text-center font-bold">
                                     <strong> Gérez votre budget </strong> :
                                 </div>

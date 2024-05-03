@@ -1,14 +1,47 @@
 
+.custom-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px; 
+    margin-bottom: 16px; 
+    background-color: #ff8c00; /* Orange, remplacez par la couleur que vous voulez */
+    height: 130px;
+}
+
+.logo {
+    height: 100px; 
+    width: auto; 
+}
+
+
 h1 {
     font-family: 'Arial', sans-serif;
-    font-size: 15rem; 
+    font-size: 2.25rem; 
+    text-align: center;
+    font-weight: bold; 
+    margin-top: 20px; 
+    margin-bottom: 16px;
   }
 
   p {
     font-family: 'Arial', sans-serif; 
-    font-size: 9rem; /* Taille de police pour le contenu */
+    font-size: 1.124rem;
+    margin-top: 8px; 
+    margin-bottom: 32px;
   }
 
+  .header-container {
+    width: 100%;  
+    margin: 0 auto;
+    padding: 0; 
+}
+@media (max-width: 768px) {
+    .header-image {
+        height: 90px;  /* Hauteur plus petite sur les appareils mobiles */
+    }
+}
 
 .card {
     border: 1px solid #ccc;
@@ -27,6 +60,13 @@ h1 {
 
 .card p {
     margin: 0;
+}
+
+.fond-image{
+    width: 100%;       
+  
+    margin-bottom: 100px;   
+
 }
 
 .img-animation {
