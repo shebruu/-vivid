@@ -1,0 +1,53 @@
+
+h1 {
+    font-family: 'Arial', sans-serif;
+    font-size: 15rem; 
+  }
+
+  p {
+    font-family: 'Arial', sans-serif; 
+    font-size: 9rem; /* Taille de police pour le contenu */
+  }
+
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;  /* Espacement entre les cartes */
+    background-color: #f9f9f9;
+    /*width: calc(25% - 20px); /*  pour mettre en verticale */
+    display: inline-block;
+    vertical-align: top;
+}
+
+.card i {
+    margin-right: 5px; /* Espacement entre l'icône et le texte */
+  }
+
+.card p {
+    margin: 0;
+}
+
+.img-animation {
+    transition: transform 0.5s ease; /* Animation de transition */
+  }
+
+  .img-animation:hover {
+    transform: scale(1.1); /* Taille de l'image augmentée au survol */
+  }
+
+
+  svg {
+    fill: #34568B; /* Change the color of the SVG */
+    width: 60px; /* Set the width */
+    height:60px; /* Set the height */
+    display: block; 
+    margin: auto;  
+    border: 1px solid red;
+ 
+}
+
+svg:hover {
+    transform: scale(1.1); /* Scale up on hover */
+}
