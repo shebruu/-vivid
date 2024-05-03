@@ -99,6 +99,24 @@ export default function Register() {
                     <InputError message={errors.password_confirmation} className="mt-2" />
                 </div>
 
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="login" value="Login" />
+
+                    <TextInput
+                        id="login"
+                        type="text"
+                        name="login"
+                        value={data.login}
+                        className="mt-1 block w-full"
+                        autoComplete="login"
+                        onChange={(e) => setData('login', e.target.value)}
+                        required
+                    />
+
+                    <InputError message={errors.login} className="mt-2" />
+                </div>
+
                 <div className="flex items-center justify-end mt-4">
                     <Link
                         href={route('login')}
