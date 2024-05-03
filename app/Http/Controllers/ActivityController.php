@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Trip;
+use App\Models\Activity;
 use Illuminate\Http\Request;
 
-class TripController extends Controller
+class ActivityController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class TripController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Trip $trip)
+    public function show(Activity $activity)
     {
         //
     }
@@ -42,7 +42,7 @@ class TripController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Trip $trip)
+    public function edit(Activity $activity)
     {
         //
     }
@@ -50,7 +50,7 @@ class TripController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Trip $trip)
+    public function update(Request $request, Activity $activity)
     {
         //
     }
@@ -58,7 +58,7 @@ class TripController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Trip $trip)
+    public function destroy(Activity $activity)
     {
         //
     }
