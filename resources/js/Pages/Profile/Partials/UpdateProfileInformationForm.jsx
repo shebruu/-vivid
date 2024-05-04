@@ -9,10 +9,15 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const user = usePage().props.auth.user;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
-        name: user.name,
+        firstname: user.firstname ?? '',
+        lastname: user.lastname ?? '',
         email: user.email,
+        age: user.age ?? '',
+        phone: user.phone ?? '',
+        student: user.student ?? false,
+        login: user.login ?? '',
+        langue: user.langue ?? '',
     });
-
     const submit = (e) => {
         e.preventDefault();
 
@@ -30,20 +35,30 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
             </header>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
+            <div>
+                    <InputLabel htmlFor="firstname" value="First Name" />
                     <TextInput
-                        id="name"
+                        id="firstname"
                         className="mt-1 block w-full"
-                        value={data.name}
-                        onChange={(e) => setData('name', e.target.value)}
+                        value={data.firstname}
+                        onChange={(e) => setData('firstname', e.target.value)}
                         required
-                        isFocused
-                        autoComplete="name"
+                        autoComplete="given-name"
                     />
+                    <InputError className="mt-2" message={errors.firstname} />
+                </div>
 
-                    <InputError className="mt-2" message={errors.name} />
+
+                <div>
+                    <InputLabel htmlFor="lastname" value="Last Name" />
+                    <TextInput
+                        id="lastname"
+                        className="mt-1 block w-full"
+                        value={data.lastname}
+                        onChange={(e) => setData('lastname', e.target.value)}
+                        autoComplete="family-name"
+                    />
+                    <InputError className="mt-2" message={errors.lastname} />
                 </div>
 
                 <div>
@@ -60,6 +75,55 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     />
 
                     <InputError className="mt-2" message={errors.email} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="age" value="Age" />
+                    <TextInput
+                        id="age"
+                        type="number"
+                        className="mt-1 block w-full"
+                        value={data.age}
+                        onChange={(e) => setData('age', e.target.value)}
+                        autoComplete="age"
+                    />
+                    <InputError className="mt-2" message={errors.age} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="phone" value="Phone" />
+                    <TextInput
+                        id="phone"
+                        type="tel"
+                        className="mt-1 block w-full"
+                        value={data.phone}
+                        onChange={(e) => setData('phone', e.target.value)}
+                        autoComplete="tel"
+                    />
+                    <InputError className="mt-2" message={errors.phone} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="student" value="Are you a student?" />
+                    <input
+                        id="student"
+                        type="checkbox"
+                        className="mt-1"
+                        checked={data.student}
+                        onChange={(e) => setData('student', e.target.checked)}
+                    />
+                    <InputError className="mt-2" message={errors.student} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="langue" value="Language" />
+                    <TextInput
+                        id="langue"
+                        className="mt-1 block w-full"
+                        value={data.langue}
+                        onChange={(e) => setData('langue', e.target.value)}
+                    />
+                    <InputError className="mt-2" message={errors.langue} />
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
@@ -83,6 +147,9 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         )}
                     </div>
                 )}
+
+                
+                {/* Submit Button */}
 
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing}>Save</PrimaryButton>

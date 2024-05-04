@@ -10,6 +10,8 @@ export default function Dashboard({ auth }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
         >
+
+            
             <Navbar2 auth={auth} />
             <Head title="Dashboard" />
 
