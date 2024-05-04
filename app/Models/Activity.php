@@ -47,4 +47,10 @@ class Activity extends Model
     {
         return $this->belongsToMany(User::class, 'user_activity', 'activity_id', 'created_by')->withPivot(['place_id', 'duration', 'status', 'start_time', 'end_time']);
     }
+
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class, 'activity_id');
+    }
 }

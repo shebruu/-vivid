@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             PhotoSeeder::class,
             TripSeeder::class,
             UserActivitySeeder::class,
+            PriceSeeder::class,
 
 
         ]);
