@@ -11,7 +11,7 @@ class PlaceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class PlaceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'adress' => ['required', 'string'],
+            'title' => ['required', 'string'],
+            'postal_code' => ['required', 'integer'],
+            'description' => ['required', 'string'],
+            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
+            'locality_id' => ['nullable', 'exists:localities,id'], // Ensure it matches an existing locality
         ];
     }
 }

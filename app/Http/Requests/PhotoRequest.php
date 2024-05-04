@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TripRequest extends FormRequest
+class PhotoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +22,8 @@ class TripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'slug' => ['required', 'string', 'max:255', 'unique:trips,slug'],
-            'title' => ['nullable', 'string', 'max:255'],
-            'departure' => ['nullable', 'date'],
-            'arrival' => ['nullable', 'date', 'after_or_equal:departure'],
-            'totalestimation' => ['nullable', 'integer'],
-            'note' => ['nullable', 'string'],
-            'created_by' => ['required', 'exists:users,id'],
+            'url' => ['required', 'url'], // Ensure it's a valid URL
+            'place_id' => ['required', 'exists:places,id'],
         ];
     }
 }

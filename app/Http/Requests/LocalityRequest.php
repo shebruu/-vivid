@@ -11,7 +11,7 @@ class LocalityRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class LocalityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'postal_code' => ['required', 'integer'],
+            'city' => ['required', 'string', 'max:60'],
+            'province' => ['required', 'string'],
+            'country' => ['nullable', 'string', 'max:60'],
+            'adress' => ['nullable', 'string'],
+            'population' => ['required', 'integer', 'min:0'],
+            'description' => ['required', 'string'],
+            'language' => ['required', 'string'],
+            'googleplace_id' => ['nullable', 'string'],
+            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
         ];
     }
 }

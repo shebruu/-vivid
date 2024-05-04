@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TripRequest extends FormRequest
+class UserActivityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,13 +22,15 @@ class TripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'slug' => ['required', 'string', 'max:255', 'unique:trips,slug'],
-            'title' => ['nullable', 'string', 'max:255'],
-            'departure' => ['nullable', 'date'],
-            'arrival' => ['nullable', 'date', 'after_or_equal:departure'],
-            'totalestimation' => ['nullable', 'integer'],
-            'note' => ['nullable', 'string'],
+            'activity_id' => ['required', 'exists:activities,id'],
             'created_by' => ['required', 'exists:users,id'],
+            'place_id' => ['required', 'exists:places,id'],
+            'duration' => ['nullable', 'integer', 'min:0'],
+            'status' => ['required', 'string', 'in:proposed,revised,validated,rejected'],
+            'start_time' => ['nullable', 'date'],
+
+
+
         ];
     }
 }

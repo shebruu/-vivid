@@ -11,7 +11,7 @@ class ActivityRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class ActivityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'activity' => ['required', 'string', 'max:255'],
+            'created_by' => ['nullable', 'exists:users,id'], // Should reference an existing user
         ];
     }
 }
