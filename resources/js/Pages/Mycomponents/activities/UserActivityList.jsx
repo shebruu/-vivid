@@ -13,7 +13,7 @@ function UserActivityList({ activities }) {
                                 </h1>
 
             {activities.map((activity) => (
-                 <Link href={route('activity.show', activity.id)} key={activity.id} className="card-link">
+                 <Link href={route('user_activity.show', activity.id)} key={activity.id} className="card-link">
                  <div className="card">
 
                     <h2>{activity.activity.activity}</h2>

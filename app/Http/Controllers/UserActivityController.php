@@ -46,10 +46,49 @@ class UserActivityController extends Controller
         $realizedActivities = UserActivity::where('status', 'validated')
             ->with(['activity.prices', 'place', 'user'])
             ->get();
-        // ($realizedActivities);
+        dump($realizedActivities);
 
         return inertia('Mycomponents/activities/UserActivityList', [
             'activities' => $realizedActivities,
+        ]);
+    }
+
+
+
+    public function show(UserActivity $useractivity)
+    {
+        $useractivity->load('activity.prices', 'activity.place', 'activity.createdby', 'user');
+        $placeTitle = $useractivity->place->title;
+        $folderPath = public_path("images/{$placeTitle}");
+
+
+        $imageFiles = [];
+        if (is_dir($folderPath)) {
+            $files = scandir($folderPath);
+            foreach ($files as $file) {
+                if (in_array(pathinfo($file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif'])) {
+                    $imageFiles[] = "/images/{$placeTitle}/{$file}";
+                }
+            }
+        }
+
+
+        $activityData = [
+            'activity' => $useractivity->activity,
+            'place' => $useractivity->place, // UserActivity has a direct place association
+            'createdby' => $useractivity->user, // User who created the user activity
+            'prices' => $useractivity->activity->prices, // Prices come from the activity relationship,
+            'placeImages' => $imageFiles
+        ];
+        // dd($useractivity);  // instance du modele  UserActivity ( id, act, created, place, duration, status, start) 
+        //  dd($activityData); //collection de   UserActivity ( champs de places, activity, createdby ..) 
+
+        return inertia('Mycomponents/activities/ShowUseractivity',   [
+            'activity' => $activityData['activity'],
+            'place' => $activityData['place'],
+            'createdby' => $activityData['createdby'],
+            'prices' => $activityData['prices'],
+            'placeImages' => $activityData['placeImages'] //
         ]);
     }
 
@@ -104,13 +143,7 @@ class UserActivityController extends Controller
             ->with('success', 'User activity created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(UserActivity $userActivity)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.

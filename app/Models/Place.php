@@ -34,6 +34,7 @@ class Place extends Model
     }
 
 
+
     public function activities()
     {
         return $this->belongsToMany(Activity::class, 'user_activities', 'place_id', 'activity_id')->withPivot(['user_id', 'duration', 'status', 'start_time', 'end_time']);

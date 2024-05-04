@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
-
-//use App\Models\UserActivity;
+use App\Models\UserActivity;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -15,7 +14,7 @@ class ActivityController extends Controller
     public function index()
     {
         // Charger les activités avec leurs participants et lieux
-        $activities = Activity::with(['participants', 'places'])
+        $activities = Activity::with(['participants', 'place'])
             ->get();
 
         return inertia('Mycomponents/activities/ActivityList', [
@@ -42,12 +41,12 @@ class ActivityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Activity $id)
+    public function show(Activity $activity)
     { {
-            $act = Activity::with(['place', 'user', 'prices'])->findOrFail($id);
-            // dd($act);
+            $activity->load(['place', 'createdby', 'prices']);
+            //  dd($activity);
 
-            return inertia('Mycomponents/activities/Show',  ['activity' => $act]);
+            return inertia('Mycomponents/activities/Show',  ['activity' => $activity]);
         }
     }
 

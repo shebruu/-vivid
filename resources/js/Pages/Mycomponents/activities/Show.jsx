@@ -3,13 +3,16 @@
 import React from 'react';
 
 function Show({ activity }) {
+    const place = activity.place || {};
+    const creator = activity.user || {};
     return (
-        <div className="activity-detail">
+        <div>
             <h1>{activity.activity}</h1>
-            <p><strong>Place:</strong> {activity.place.title}</p>
-            <p><strong>Locality:</strong> {activity.place.locality}</p>
-            <p><strong>Created by:</strong> {activity.user.firstname} {activity.user.lastname}</p>
-            <p><strong>Status:</strong> {activity.status}</p>
+            <p><strong>Place:</strong> {place.title}</p>
+            <p><strong>Locality:</strong> {place.description}</p>
+            <p><strong>Created by:</strong> {createdby.firstname} {createdby.lastname}</p>
+            
+            
             <p><strong>Prices:</strong></p>
             <ul>
                 {activity.prices.map((price) => (

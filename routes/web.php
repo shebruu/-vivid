@@ -52,10 +52,14 @@ Route::middleware('auth')->group(function () {
 
 
 //listes des activite depuis user activities
-Route::get('/user-activities', [UserActivityController::class, 'index'])->name('user_activities.index');
+Route::get('/user-activity', [UserActivityController::class, 'index'])->name('user_activities.index');
 
-//Pour la page détaillée de l' activité.
-Route::get('/activities/{id}', [ActivityController::class, 'show'])->name('activity.show');
+
+//detail de l activité
+Route::get('/user-activity/{useractivity}', [UserActivityController::class, 'show'])->name('user_activity.show');
+
+//Pour la page détaillée de l' activité.  n a pas marché car il sahit de l id useractivitie
+Route::get('/activity/{activity}', [ActivityController::class, 'show'])->name('activity.show');
 
 //s Formulaire de soumission d'une activité.
 Route::get('/useractivities/form', [UserActivityController::class, 'showValidatedActivitiesForm'])->name('useractivities.form');

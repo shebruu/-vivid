@@ -26,7 +26,7 @@ class Activity extends Model
 
 
     //an activity belongs to a creator. 
-    public function CreatedBy()
+    public function createdby()
     {
         return $this->belongsTo('App\Models\User', 'created_by');
     }

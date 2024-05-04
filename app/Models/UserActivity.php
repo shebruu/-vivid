@@ -11,7 +11,7 @@ class UserActivity extends Model
 
     public $timestamps = false;
     protected $fillable = [
-        'name',
+
         'activity_id',
         'created_by',
         'place_id',
