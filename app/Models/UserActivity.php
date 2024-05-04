@@ -29,4 +29,20 @@ class UserActivity extends Model
      * @var string
      */
     protected $table = 'user_activities';
+
+
+    public function activity()
+    {
+        return $this->belongsTo(Activity::class, 'activity_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function place()
+    {
+        return $this->belongsTo(Place::class, 'place_id');
+    }
 }

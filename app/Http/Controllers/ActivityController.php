@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+
+use App\Models\UserActivity;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -14,6 +16,7 @@ class ActivityController extends Controller
     {
         //
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Inertia\Inertia;
 
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\UserActivityController;
+use App\Http\Controllers\UserActivityControllerController;
+use App\Models\UserActivity;
+
 //racine de l app 
 
 
@@ -42,6 +47,8 @@ Route::middleware('auth')->group(function () {
 });
 
 
+
+Route::get('/useractivities/form', [UserActivityController::class, 'showValidatedActivitiesForm'])->name('useractivities.form');
 
 
 Route::get('/itinerarie', function () {

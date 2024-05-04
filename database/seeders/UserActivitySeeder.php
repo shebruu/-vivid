@@ -28,7 +28,7 @@ class UserActivitySeeder extends Seeder
                 'created_by' => 1,
                 'place_id' => 3,
                 'duration' => 4,
-                'status' => 'proposed',
+                'status' => 'validated',
                 'start_time' => Carbon::create(2024, 6, 12, 5, 0, 0),
 
             ],
@@ -38,7 +38,7 @@ class UserActivitySeeder extends Seeder
                 'created_by' => 1,
                 'place_id' => 4,
                 'duration' => 4,
-                'status' => 'proposed',
+                'status' => 'validated',
                 'start_time' => Carbon::create(2024, 7, 12, 5, 0, 0),
 
             ],
@@ -47,7 +47,7 @@ class UserActivitySeeder extends Seeder
                 'created_by' => 1,
                 'place_id' => 2,
                 'duration' => 4,
-                'status' => 'proposed',
+                'status' => 'validated',
                 'start_time' => Carbon::create(2024, 7, 12, 5, 0, 0),
 
             ],
