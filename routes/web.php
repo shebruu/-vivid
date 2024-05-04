@@ -54,14 +54,15 @@ Route::middleware('auth')->group(function () {
 //listes des activite depuis user activities
 Route::get('/user-activities', [UserActivityController::class, 'index'])->name('user_activities.index');
 
+//Pour la page détaillée de l' activité.
+Route::get('/activities/{id}', [ActivityController::class, 'show'])->name('activity.show');
+
 //s Formulaire de soumission d'une activité.
 Route::get('/useractivities/form', [UserActivityController::class, 'showValidatedActivitiesForm'])->name('useractivities.form');
 
 //Pour afficher liste d activité.
 Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
 
-//Pour la page détaillée de l' activité.
-Route::get('/activities/{id}', [ActivityController::class, 'show'])->name('activities.show');
 
 
 Route::get('/itinerarie', function () {

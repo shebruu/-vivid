@@ -43,10 +43,10 @@ class UserActivityController extends Controller
     $realizedActivities = $query->get();
         
          */
-        $realizedActivities = UserActivity::where('status', 'realized')
-            ->with(['activity', 'place', 'user'])
+        $realizedActivities = UserActivity::where('status', 'validated')
+            ->with(['activity.prices', 'place', 'user'])
             ->get();
-        dd($realizedActivities);
+        // ($realizedActivities);
 
         return inertia('Mycomponents/activities/UserActivityList', [
             'activities' => $realizedActivities,
@@ -69,7 +69,7 @@ class UserActivityController extends Controller
             ->unique();
         // dump($validatedActivities);
 
-        // Pass the activities a partir de pages
+
         return inertia('Mycomponents/activities/UserActivityForm', [
             'activities' => $validatedActivities,
         ]);

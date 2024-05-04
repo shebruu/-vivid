@@ -53,4 +53,9 @@ class Activity extends Model
     {
         return $this->hasMany(Price::class, 'activity_id');
     }
+
+    public function place()
+    {
+        return $this->belongsTo(Place::class);
+    }
 }

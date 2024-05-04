@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 
-use App\Models\UserActivity;
+//use App\Models\UserActivity;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
     /**
-     * Afficher toutes les activités réalisées sous forme de carte.
+     * Afficher toutes les activités réalisées
      */
     public function index()
     {
@@ -42,14 +42,13 @@ class ActivityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Activity $activity)
-    {
-        $activity = Activity::with('place') // Charger les relations nécessaires
-            ->findOrFail($activity);
+    public function show(Activity $id)
+    { {
+            $act = Activity::with(['place', 'user', 'prices'])->findOrFail($id);
+            // dd($act);
 
-        return inertia('Mycomponents/activities/ActivityShow', [
-            'activity' => $activity,
-        ]);
+            return inertia('Mycomponents/activities/Show',  ['activity' => $act]);
+        }
     }
 
     /**
