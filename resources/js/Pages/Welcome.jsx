@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Head } from "@inertiajs/react";
 import "./styles.css";
-import Navbar2 from "../Components/Mycomponents/Navbar2";
+import Navbar2 from "./Mycomponents/Navbar2";
 
 export default function Welcome({ auth, laravelVersion, phpVersion }) {
     return (

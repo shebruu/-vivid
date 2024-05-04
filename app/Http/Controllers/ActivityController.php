@@ -10,13 +10,18 @@ use Illuminate\Http\Request;
 class ActivityController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Afficher toutes les activités réalisées sous forme de carte.
      */
     public function index()
     {
-        //
-    }
+        // Charger les activités avec leurs participants et lieux
+        $activities = Activity::with(['participants', 'places'])
+            ->get();
 
+        return inertia('Mycomponents/activities/ActivityList', [
+            'activities' => $activities,
+        ]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -39,7 +44,12 @@ class ActivityController extends Controller
      */
     public function show(Activity $activity)
     {
-        //
+        $activity = Activity::with('place') // Charger les relations nécessaires
+            ->findOrFail($activity);
+
+        return inertia('Mycomponents/activities/ActivityShow', [
+            'activity' => $activity,
+        ]);
     }
 
     /**

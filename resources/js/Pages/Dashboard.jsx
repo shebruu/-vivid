@@ -1,7 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
-import Navbar2 from '../Components/Mycomponents/Navbar2';
+import Navbar2 from './Mycomponents/Navbar2';
+
+import UserActivityForm from './Mycomponents/activities/UserActivityForm';
 
 
 export default function Dashboard({ auth }) {

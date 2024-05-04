@@ -15,7 +15,42 @@ class UserActivityController extends Controller
 
     public function index()
     {
-        //
+        // Charger les activités validées dans `user_activities` avec les relations nécessaires
+        //gerer les filtres selon les inpus user 
+        /*
+    Obtenir les filtres de la requête
+    $locality = $request->input('locality');
+    $type = $request->input('type');
+    $price = $request->input('price');
+
+      if ($locality) {
+        $query->whereHas('place', function ($query) use ($locality) {
+            $query->where('locality', $locality);
+        });
+    }
+
+    if ($type) {
+        $query->whereHas('activity', function ($query) use ($type) {
+            $query->where('type', $type);
+        });
+    }
+
+    if ($price) {
+        // Exemple: comparer les activités qui ont un prix inférieur ou égal à la valeur entrée
+        $query->where('price', '<=', $price);
+    }
+
+    $realizedActivities = $query->get();
+        
+         */
+        $realizedActivities = UserActivity::where('status', 'realized')
+            ->with(['activity', 'place', 'user'])
+            ->get();
+        dd($realizedActivities);
+
+        return inertia('Mycomponents/activities/UserActivityList', [
+            'activities' => $realizedActivities,
+        ]);
     }
 
 
@@ -34,7 +69,7 @@ class UserActivityController extends Controller
             ->unique();
         // dump($validatedActivities);
 
-        // Pass the activities to the view/component
+        // Pass the activities a partir de pages
         return inertia('Mycomponents/activities/UserActivityForm', [
             'activities' => $validatedActivities,
         ]);
