@@ -50,8 +50,8 @@ class TripSeeder extends Seeder
             [
                 'id' => 3,
                 'title' => 'Gang Only',
-                'departure' => Carbon::parse('2024-02-02'),
-                'arrival' => Carbon::parse('2024-02-29'),
+                'departure' => Carbon::parse('2022-02-02'),
+                'arrival' => Carbon::parse('2022-02-29'),
                 'totalestimation' => 800,
                 'note' => null,
                 'created_by' => 1,

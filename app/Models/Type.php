@@ -25,6 +25,6 @@ class Type extends Model
 
     public function activities()
     {
-        return $this->belongsToMany('App\Models\Activity', 'activity_type');
+        return $this->belongsToMany(Activity::class, 'activity_type');
     }
 }

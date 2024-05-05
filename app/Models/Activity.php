@@ -28,17 +28,17 @@ class Activity extends Model
     //an activity belongs to a creator. 
     public function createdby()
     {
-        return $this->belongsTo('App\Models\User', 'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function types()
     {
-        return $this->belongsToMany('App\Models\Type', 'activity_type');
+        return $this->belongsToMany(Type::class, 'activity_type');
     }
 
     public function categories()
     {
-        return $this->belongsToMany('App\Models\Category', 'activity_category');
+        return $this->belongsToMany(Category::class, 'activity_category');
     }
 
 

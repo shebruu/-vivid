@@ -7,14 +7,32 @@ use Illuminate\Http\Request;
 
 use Inertia\Inertia;
 
+use Illuminate\Routing\Controller;
+
+use Illuminate\Support\Facades\Auth;
+
 class TripController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $userId = Auth::id();
+
+        $trips = Trip::where('created_by', $userId)->get();
+        //dd($trips);
+
+        return Inertia::render('Mycomponents/trips/Trips', [
+            'usertrips' => $trips,
+        ]);
     }
 
     /**
@@ -22,7 +40,7 @@ class TripController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Mycomponents/trips/Trips');
     }
 
     /**
@@ -30,7 +48,7 @@ class TripController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validated();
     }
 
     /**
@@ -38,7 +56,8 @@ class TripController extends Controller
      */
     public function show(Trip $trip)
     {
-        //
+
+        return Inertia::render('Mycomponents/trips/Show', ['trip' => $trip]);
     }
 
     /**
@@ -46,7 +65,7 @@ class TripController extends Controller
      */
     public function edit(Trip $trip)
     {
-        //
+        return Inertia::render('Mycomponents/trips/Show', ['trip' => $trip]);
     }
 
     /**
@@ -54,7 +73,9 @@ class TripController extends Controller
      */
     public function update(Request $request, Trip $trip)
     {
-        //
+        $validatedData = $request->validated();
+        $trip->update($validatedData);
+        return redirect()->route('Mycomponents/trips/Show')->with('success', 'Voyage modifié avec succès.');
     }
 
     /**

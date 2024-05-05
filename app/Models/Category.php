@@ -30,6 +30,6 @@ class Category extends Model
 
     public function activities()
     {
-        return $this->belongsToMany('App\Models\Activity', 'activity_category');
+        return $this->belongsToMany(Activity::class, 'activity_category');
     }
 }

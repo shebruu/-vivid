@@ -20,7 +20,7 @@ class ActivityController extends Controller
         $activities = Activity::with(['participants', 'place'])
             ->get();
 
-        return inertia('Mycomponents/activities/ActivityList', [
+        return Inertia::render('ActivityList', [
             'activities' => $activities,
         ]);
     }
@@ -49,7 +49,7 @@ class ActivityController extends Controller
             $activity->load(['place', 'createdby', 'prices']);
             //  dd($activity);
 
-            return inertia('Mycomponents/activities/Show',  ['activity' => $activity]);
+            return Inertia::render('Show',  ['activity' => $activity]);
         }
     }
 

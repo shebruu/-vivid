@@ -100,7 +100,7 @@ class UserActivityController extends Controller
         // dump($validatedActivities);
 
 
-        return inertia('Mycomponents/activities/UserActivityForm', [
+        return Inertia::render('UserActivityForm', [
             'activities' => $validatedActivities,
         ]);
     }

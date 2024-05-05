@@ -11,14 +11,17 @@ function UserActivityList({ activities, auth }) {
 
         <div>
         <Navbar2 auth={auth} />
+        <div className="content-container">
+
+        <h1 className="text-3xl font-bold mb-4">
+                                    Liste des activitées réalisé par nos utilisateurs !
+                                 
+                                </h1>
             
         <div className="cards-container">
   
       
-                                <h1 className="text-3xl font-bold mb-4">
-                                    Liste des activitées réalisé par nos utilisateurs !
-                                 
-                                </h1>
+                            
 
             {activities.map((activity) => (
                  <Link href={route('user_activity.show', activity.id)} key={activity.id} className="card-link">
@@ -41,7 +44,7 @@ function UserActivityList({ activities, auth }) {
                 </Link>
             ))}
         </div>
-
+        </div>
 </div>
     );
 }

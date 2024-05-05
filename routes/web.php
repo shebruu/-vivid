@@ -9,7 +9,9 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserActivityController;
+
 
 use App\Models\UserActivity;
 
@@ -60,6 +62,11 @@ Route::get('/itineraries', [UserActivityController::class, 'index'])->middleware
 //detail de l activité
 Route::get('/itineraries/{useractivity}', [UserActivityController::class, 'show'])->name('user_activity.show');
 
+
+//les voyages d' un user 
+Route::get('/trip',  [TripController::class, 'index'])->middleware(['auth'])->name('trip.index');
+Route::get('/trip/{trip}/show',  [TripController::class, 'show'])->middleware(['auth'])->name('trip.show');
+
 //s Formulaire de soumission d'une activité.
 Route::get('/itinerarie/form', [UserActivityController::class, 'showValidatedActivitiesForm'])->name('useractivities.form');
 
@@ -80,9 +87,6 @@ Route::get('/map', function () {
     return Inertia::render('Maps');
 })->name('map.index');
 
-Route::get('/travel', function () {
-    return Inertia::render('Trips');
-})->name('travel.index');
 
 
 require __DIR__ . '/auth.php';

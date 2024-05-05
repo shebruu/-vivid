@@ -1,4 +1,6 @@
-
+.content-container {
+    text-align: center; 
+}
 
 /* user-activities .css */
 .card-link {
@@ -9,22 +11,20 @@
 }
 .cards-container {
     display: flex;
-    flex-wrap: wrap;
     gap: 20px;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 20px;
+    overflow-x: auto; /* Permettre le défilement horizontal  */
 }
 
 .card {
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    width: 300px;
+    width: 300px; 
+    height: 300px;
     padding: 16px;
     margin: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 .card h2 {
