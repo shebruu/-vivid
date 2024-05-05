@@ -33,7 +33,10 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Ajoute des informations spécifiques à la session acces ->session()
+        $request->session()->put('user_theme', 'dark_mode');
+
+        return redirect()->intended(route('dashboard'));
     }
 
     /**

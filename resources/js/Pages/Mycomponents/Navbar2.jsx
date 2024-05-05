@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from "@inertiajs/react";
 import { Inertia } from '@inertiajs/inertia';
 import "./Navbarstyle.css";
+import { route } from 'ziggy-js';
+
 
 //import LogoutModal from './LogoutModal';
 
@@ -21,8 +23,11 @@ const Navbar2 = ({ auth, csrfToken }) => {
                     <Link href="/" className="nav-link">Accueil</Link>
                     {auth.user ? (
                         <>
-                            <Link href="/expenses" className="nav-link">Dépenses</Link>
-                            <Link href="/itineraries" className="nav-link">Itinéraires</Link>
+                            <Link href={route('expense.index')} className="nav-link">Dépenses</Link>
+                           
+                            <Link href={route('user_activities.index')} className="nav-link">Itinéraires</Link>
+                         
+                           
                         </>
                     ) : (
                         <>

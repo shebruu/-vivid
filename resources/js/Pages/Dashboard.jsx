@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
 import Navbar2 from './Mycomponents/Navbar2';
+//import "./Mycomponents/Navbarstyle.css";
 
 import UserActivityForm from './Mycomponents/activities/UserActivityForm';
 

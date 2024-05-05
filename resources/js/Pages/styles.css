@@ -13,7 +13,7 @@
 
 
 .bg-gray-50,.grid, .text-center, .footer {
-    background: rgba(255, 255, 255, 0); /* Assurez-vous que le contenu est lisible sur l'image de fond */
+    background: rgba(255, 255, 255, 0);
     padding: 20px;
     margin: 0; 
     box-shadow: none;
@@ -77,9 +77,9 @@ h1 {
 
 
   svg {
-    fill: #34568B; /* Change the color of the SVG */
-    width: 60px; /* Set the width */
-    height:60px; /* Set the height */
+    fill: #34568B;
+    width: 60px; 
+    height:60px;
     display: block; 
     margin: auto;  
     border: 1px solid red;

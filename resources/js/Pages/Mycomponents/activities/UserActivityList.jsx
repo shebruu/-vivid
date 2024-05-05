@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from '@inertiajs/inertia-react';
 import './style.css'; // Assurez-vous que le chemin soit correct
 
+
 function UserActivityList({ activities }) {
     return (
         <div className="cards-container">

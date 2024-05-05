@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Place;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PlaceController extends Controller
 {

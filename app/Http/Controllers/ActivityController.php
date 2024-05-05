@@ -6,6 +6,9 @@ use App\Models\Activity;
 use App\Models\UserActivity;
 use Illuminate\Http\Request;
 
+
+use Inertia\Inertia;
+
 class ActivityController extends Controller
 {
     /**
