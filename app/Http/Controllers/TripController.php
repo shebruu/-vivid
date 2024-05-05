@@ -57,6 +57,7 @@ class TripController extends Controller
     public function show(Trip $trip)
     {
 
+        // dd($trip);
         return Inertia::render('Mycomponents/trips/Show', ['trip' => $trip]);
     }
 
