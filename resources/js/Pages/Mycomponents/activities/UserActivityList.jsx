@@ -1,12 +1,19 @@
 import React from 'react';
 import { Link } from '@inertiajs/inertia-react';
-import './style.css'; // Assurez-vous que le chemin soit correct
+import Navbar2 from '../Navbar2';
+import './style.css'; 
 
 
-function UserActivityList({ activities }) {
+function UserActivityList({ activities, auth }) {
     return (
-        <div className="cards-container">
 
+     
+
+        <div>
+        <Navbar2 auth={auth} />
+            
+        <div className="cards-container">
+  
       
                                 <h1 className="text-3xl font-bold mb-4">
                                     Liste des activitées réalisé par nos utilisateurs !
@@ -34,6 +41,9 @@ function UserActivityList({ activities }) {
                 </Link>
             ))}
         </div>
+
+</div>
     );
 }
+
 export default UserActivityList;

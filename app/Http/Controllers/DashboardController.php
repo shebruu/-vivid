@@ -7,14 +7,15 @@ use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // $request->session();
+        $user = $request->user();
+        // dd($user);
+        $message = $user ? 'Bienvenue ' . $user->firstname : 'Bienvenue sur le tableau de bord, individus';
 
-        $data = [
-            // Exemple de données
-            'message' => 'Bienvenue sur le tableau de bord',
-        ];
-
-        return Inertia::render('Dashboard', $data);
+        return Inertia::render('Dashboard', [
+            'message' => $message,
+        ]);
     }
 }

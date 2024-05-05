@@ -1,14 +1,18 @@
 // ShowUserActivity.jsx
 
 import React from 'react';
-import './style.css'; // Ensure this CSS file includes styles for the new image section
+import Navbar2 from '../Navbar2';
+import './style.css';
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet"></link>
 
-function ShowUserActivity({ activity, place, createdby, prices, placeImages  }) {
+function ShowUserActivity({ activity, place, createdby, prices, placeImages, auth }) {
   
     
 
     return (
+
+        <div>
+        <Navbar2 auth={auth} />
         <div className="activity-details-container">
             <header className="activity-header">
                 <h1>{activity.activity}</h1>
@@ -60,6 +64,8 @@ function ShowUserActivity({ activity, place, createdby, prices, placeImages  }) 
                     Add to My List
                 </button>
             </div>
+        </div>
+        
         </div>
     );
 }

@@ -11,6 +11,12 @@
     z-index: -1; /* Garde l'image en arrière-plan */
 }
 
+ .user{
+    font-weight: bold; 
+    font-size: 2rem;
+
+
+}
 
 .bg-gray-50,.grid, .text-center, .footer {
     background: rgba(255, 255, 255, 0);
