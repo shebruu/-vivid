@@ -63,11 +63,16 @@ Route::get('/itineraries', [UserActivityController::class, 'index'])->middleware
 Route::get('/itineraries/{useractivity}', [UserActivityController::class, 'show'])->name('user_activity.show');
 
 
-//les voyages d' un user 
+
+// Update a specific trip
+Route::put('/trip/{trip}',  [TripController::class, 'update'])->middleware(['auth'])->name('trip.update');
+
+// List all trips for the current user
 Route::get('/trip',  [TripController::class, 'index'])->middleware(['auth'])->name('trip.index');
+
+// Show details of a specific trip
 Route::get('/trip/{trip}/show',  [TripController::class, 'show'])->middleware(['auth'])->name('trip.show');
-Route::get('/trip/update/{id}',  [TripController::class, 'show'])->middleware(['auth'])->name('trip.update');
-//Route::get('/trip/{trip}/edit',  [TripController::class, 'show'])->middleware(['auth'])->name('trip.edit');
+
 
 //s Formulaire de soumission d'une activité.
 Route::get('/itinerarie/form', [UserActivityController::class, 'showValidatedActivitiesForm'])->name('useractivities.form');

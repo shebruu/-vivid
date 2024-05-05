@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 use Illuminate\Routing\Controller;
+use App\Http\Requests\TripRequest;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -72,7 +73,7 @@ class TripController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Trip $trip)
+    public function update(TripRequest $request, Trip $trip)
     {
         $validatedData = $request->validated();
         $trip->update($validatedData);

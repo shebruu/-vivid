@@ -31,4 +31,18 @@ class TripRequest extends FormRequest
 
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'title.string' => 'Le titre doit être une chaîne de caractères.',
+            'title.max' => 'Le titre ne doit pas dépasser 255 caractères.',
+            'departure.date' => 'La date de départ doit être une date valide.',
+            'arrival.date' => 'La date d\'arrivée doit être une date valide.',
+            'arrival.after_or_equal' => 'La date d\'arrivée doit être après ou égale à la date de départ.',
+            'totalestimation.integer' => 'L\'estimation totale doit être un nombre entier.',
+            'totalestimation.min' => 'L\'estimation totale doit être supérieure ou égale à 0.',
+            'note.string' => 'La note doit être une chaîne de caractères.'
+        ];
+    }
 }

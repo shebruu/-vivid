@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from '@inertiajs/inertia-react';
-
+import { Inertia } from '@inertiajs/inertia';
 import Navbar2 from '../Navbar2';
 import './style.css'; 
 
-function Show({ trip, auth }) {
-   
+function Show({ errors, trip, auth }) {
     const [tripDetails, setTripDetails] = useState({
         title: trip.title || '',
         departure: trip.departure || '',
@@ -26,7 +25,10 @@ function Show({ trip, auth }) {
     const toggleEditing = () => setIsEditing(!isEditing);
 
     const handleSave = () => {
-       
+        // Verify that `trip.id` is available and correctly passed to the route
+        console.log("Trip ID:", trip.id);
+
+        // Update the trip using the specified ID
         Inertia.put(route('trip.update', { trip: trip.id }), tripDetails);
         setIsEditing(false);
     };
@@ -35,7 +37,20 @@ function Show({ trip, auth }) {
         <div>
             <Navbar2 auth={auth} />
             <div className="container">
-                <h1 className="title">Détails du voyage</h1>
+                <h1 className="title">Détails du voyage : {trip.title}</h1>
+
+                {/* Error Messages Section */}
+                {Object.keys(errors).length > 0 && (
+                    <div className="error-messages">
+                        <ul>
+                            {Object.keys(errors).map((key) => (
+                                <li key={key}>{errors[key]}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+
+                {/* Trip Details */}
                 <div className="card trip-details">
                     <div>
                         <h2>Titre du voyage:</h2>
