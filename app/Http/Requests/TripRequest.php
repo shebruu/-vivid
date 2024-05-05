@@ -22,13 +22,13 @@ class TripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'slug' => ['required', 'string', 'max:255', 'unique:trips,slug'],
+            // 'slug' => ['required', 'string', 'max:255', 'unique:trips,slug'],
             'title' => ['nullable', 'string', 'max:255'],
             'departure' => ['nullable', 'date'],
             'arrival' => ['nullable', 'date', 'after_or_equal:departure'],
             'totalestimation' => ['nullable', 'integer'],
             'note' => ['nullable', 'string'],
-            'created_by' => ['required', 'exists:users,id'],
+
         ];
     }
 }
