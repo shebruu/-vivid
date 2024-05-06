@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
-import Navbar2 from '../Navbar2';
+import Navbar2 from '../Navbar';
 import './style.css';
 
 function Edit({ trip, auth }) {

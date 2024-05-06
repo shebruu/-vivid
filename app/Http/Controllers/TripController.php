@@ -11,6 +11,7 @@ use Illuminate\Routing\Controller;
 use App\Http\Requests\TripRequest;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class TripController extends Controller
 {
@@ -47,9 +48,23 @@ class TripController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TripRequest $request)
     {
         $validatedData = $request->validated();
+
+
+        // Génération du slug à partir du titre
+        $slug = Str::slug($validatedData['title']);
+
+        // Ajout du slug aux données validées
+        $validatedData['slug'] = $slug;
+
+        // Ajout de l'ID de l'utilisateur créant le voyage
+        $validatedData['created_by'] = auth()->id();
+
+
+        $trip = Trip::create($validatedData);
+        return redirect()->route('Mycomponents/trips/Create')->with('success', 'Voyage crée avec succes.');
     }
 
     /**

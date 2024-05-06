@@ -1,8 +1,9 @@
 // ShowUserActivity.jsx
 
 import React from 'react';
-import Navbar2 from '../Navbar2';
+import Navbar2 from '../Navbar';
 import './style.css';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet"></link>
 
 function ShowUserActivity({ activity, place, createdby, prices, placeImages, auth }) {
@@ -11,8 +12,13 @@ function ShowUserActivity({ activity, place, createdby, prices, placeImages, aut
 
     return (
 
+        <AuthenticatedLayout
+        user={auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Itinéraires</h2>}
+    >
+
         <div>
-        <Navbar2 auth={auth} />
+    
         <div className="activity-details-container">
             <header className="activity-header">
                 <h1>{activity.activity}</h1>
@@ -67,6 +73,7 @@ function ShowUserActivity({ activity, place, createdby, prices, placeImages, aut
         </div>
         
         </div>
+        </AuthenticatedLayout>
     );
 }
 

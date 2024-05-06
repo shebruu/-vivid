@@ -17,8 +17,6 @@ use App\Models\UserActivity;
 
 
 
-//racine de l app 
-
 Route::get('/', function () {
     // Redirige les utilisateurs authentifiés vers le tableau de bord
     if (Auth::check()) {

@@ -1,13 +1,18 @@
 import React from 'react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link } from '@inertiajs/inertia-react';
-import Navbar2 from '../Navbar2';
+import Navbar2 from '../Navbar';
 import './style.css'; 
 
 function Trips({ usertrips, auth }) {
     return (
+        <AuthenticatedLayout
+        user={auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Itinéraires</h2>}
+    >
         <div>
             <Navbar2 auth={auth} />
-            <div className="container"  style={{ marginTop: '180px'}}>
+            <div className="container"  style={{ marginTop: '20px'}}>
                 <h1 className="title">Liste de mes voyages</h1>
                 <div className="trip-container">
                     {usertrips.map((trip) => (
@@ -23,6 +28,7 @@ function Trips({ usertrips, auth }) {
                 
             </div>
         </div>
+        </AuthenticatedLayout>
     );
 }
 

@@ -1,7 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { Link } from '@inertiajs/inertia-react';
-import Navbar2 from './Mycomponents/Navbar2';
+import Navbar2 from './Mycomponents/Navbar';
 
 import "./styles.css";
 //import "./Mycomponents/Navbarstyle.css";

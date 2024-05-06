@@ -27,9 +27,16 @@ class TripRequest extends FormRequest
             'departure' => ['nullable', 'date'],
             'arrival' => ['nullable', 'date', 'after_or_equal:departure'],
             'totalestimation' => ['nullable', 'integer'],
-            'note' => ['nullable', 'string'],
+
 
         ];
+
+        if ($this->isMethod('put')) {
+            $rules['title'][] = 'required';
+            $rules['departure'][] = 'required';
+            $rules['arrival'][] = 'required';
+            $rules['note'] = ['nullable', 'string'];
+        }
     }
 
     public function messages(): array

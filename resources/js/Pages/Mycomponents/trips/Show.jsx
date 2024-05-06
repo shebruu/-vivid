@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from '@inertiajs/inertia-react';
 import { Inertia } from '@inertiajs/inertia';
-import Navbar2 from '../Navbar2';
+import Navbar2 from '../Navbar';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import './style.css'; 
 
 function Show({ errors, trip, auth }) {
@@ -42,8 +43,13 @@ function Show({ errors, trip, auth }) {
     });
 
     return (
+
+        <AuthenticatedLayout
+        user={auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Itinéraires</h2>}
+    >
         <div>
-            <Navbar2 auth={auth} />
+         
             <div className="container">
                 <h1 className="title">Détails du voyage : {trip.title}</h1>
 
@@ -143,6 +149,7 @@ function Show({ errors, trip, auth }) {
                 </div>
             </div>
         </div>
+        </AuthenticatedLayout>
     );
 }
 
