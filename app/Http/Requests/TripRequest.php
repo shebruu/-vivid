@@ -23,20 +23,21 @@ class TripRequest extends FormRequest
     {
         return [
             // 'slug' => ['required', 'string', 'max:255', 'unique:trips,slug'],
-            'title' => ['nullable', 'string', 'max:255'],
-            'departure' => ['nullable', 'date'],
-            'arrival' => ['nullable', 'date', 'after_or_equal:departure'],
-            'totalestimation' => ['nullable', 'integer'],
+            'title' => 'required|string|max:255',
+            'departure' => 'required|date',
+            'arrival' => 'required|date|after:departure',
+            'totalestimation' => 'required|numeric',
+            //   'note' => ['nullable', 'string'],
 
 
         ];
-
-        if ($this->isMethod('put')) {
-            $rules['title'][] = 'required';
-            $rules['departure'][] = 'required';
-            $rules['arrival'][] = 'required';
-            $rules['note'] = ['nullable', 'string'];
+        /*
+        if ($this->isMethod('put') || $this->isMethod('patch')) {
+            $rules['title'][0] = 'required';
+            $rules['departure'][0] = 'required';
+            $rules['arrival'][0] = 'required';
         }
+        */
     }
 
     public function messages(): array
@@ -49,7 +50,7 @@ class TripRequest extends FormRequest
             'arrival.after_or_equal' => 'La date d\'arrivée doit être après ou égale à la date de départ.',
             'totalestimation.integer' => 'L\'estimation totale doit être un nombre entier.',
             'totalestimation.min' => 'L\'estimation totale doit être supérieure ou égale à 0.',
-            'note.string' => 'La note doit être une chaîne de caractères.'
+
         ];
     }
 }

@@ -45,13 +45,19 @@ class TripController extends Controller
         return Inertia::render('Mycomponents/trips/Create');
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(TripRequest $request)
     {
-        $validatedData = $request->validated();
 
+
+
+        //les data qui arrivent au controller de http post
+        // dd($request->all());
+        $validatedData = $request->validated();
 
         // Génération du slug à partir du titre
         $slug = Str::slug($validatedData['title']);
@@ -64,7 +70,7 @@ class TripController extends Controller
 
 
         $trip = Trip::create($validatedData);
-        return redirect()->route('Mycomponents/trips/Create')->with('success', 'Voyage crée avec succes.');
+        return response()->json(['message' => 'Voyage créé avec succès'], 201);
     }
 
     /**
