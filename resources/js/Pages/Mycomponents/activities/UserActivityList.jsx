@@ -1,4 +1,5 @@
 import React from 'react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link } from '@inertiajs/inertia-react';
 import Navbar2 from '../Navbar2';
 import './style.css'; 
@@ -7,11 +8,14 @@ import './style.css';
 function UserActivityList({ activities, auth }) {
     return (
 
-     
+        <AuthenticatedLayout
+        user={auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Itinéraires</h2>}
+    >
 
         <div>
         <Navbar2 auth={auth} />
-        <div className="content-container">
+        <div className="content-container" style={{ marginTop: '150px'}}>
 
         <h1 className="text-3xl font-bold mb-4">
                                     Liste des activitées réalisé par nos utilisateurs !
@@ -46,7 +50,9 @@ function UserActivityList({ activities, auth }) {
         </div>
         </div>
 </div>
+</AuthenticatedLayout>
     );
 }
+
 
 export default UserActivityList;

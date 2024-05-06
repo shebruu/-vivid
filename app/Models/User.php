@@ -76,4 +76,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Activity::class, 'user_activity', 'created_by', 'activity_id')->withPivot(['place_id', 'duration', 'date', 'duration', 'status', 'start_time', 'end_time']);
     }
+
+
+
+    public function userstrips()
+    {
+        return $this->belongsToMany(Trip::class, 'user_trip')
+            ->withPivot('user_activities')
+            ->withTimestamps();
+    }
 }

@@ -32,4 +32,12 @@ class Trip extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
+
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_trip')
+            ->withPivot('user_activities')
+            ->withTimestamps();
+    }
 }

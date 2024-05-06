@@ -18,7 +18,7 @@ class TripController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->only(['index', 'create', 'store', 'edit', 'update', 'destroy', 'addMemberByLogin']);
     }
 
     /**
@@ -41,7 +41,7 @@ class TripController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Mycomponents/trips/Trips');
+        return Inertia::render('Mycomponents/trips/Create');
     }
 
     /**
@@ -86,5 +86,24 @@ class TripController extends Controller
     public function destroy(Trip $trip)
     {
         //
+    }
+
+
+
+    public function addMemberByLogin(Request $request, Trip $trip)
+    {
+        $validatedData = $request->validate([
+            'login' => 'required|string',
+            'user_activities' => 'nullable|integer'
+        ]);
+
+        // Attach the user to the trip with additional data
+        $trip->users()->attach($validatedData['user_id'], [
+            'user_activities' => $validatedData['user_activities'] ?? null
+        ]);
+
+
+        return redirect()->route('trip.show', ['trip' => $trip->id])
+            ->with('success', 'Membre ajouté au voyage.');
     }
 }

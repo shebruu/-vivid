@@ -1,97 +1,87 @@
-
+/* Styles pour le fond plein écran */
 .full-page-background {
-    background-image: url('/illustrations/acceuil.jpg'); /* Remplacez par le chemin de votre image */
-    background-size: cover; /* Assure que l'image couvre toute la zone disponible */
-
+    background-image: url('/illustrations/acceuil.jpg');
+    background-size: cover;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Garde l'image en arrière-plan */
+    z-index: -1;
 }
 
- .user{
-    font-weight: bold; 
+/* Style général pour la classe `user` */
+.user {
+    font-weight: bold;
     font-size: 2rem;
-
-
-}
-
-.bg-gray-50,.grid, .text-center, .footer {
-    background: rgba(255, 255, 255, 0);
-    padding: 20px;
-    margin: 0; 
-    box-shadow: none;
-    
-}
-.text-lg, .text-3xl, .font-bold {
     color: #333;
 }
 
+/* Style des éléments du conteneur général */
+.bg-gray-50,
+.grid,
+.text-center,
+.footer {
+    background: rgba(255, 255, 255, 0);
+    padding: 20px;
+    margin: 0;
+    box-shadow: none;
+}
 
-
-
+/* Styles pour le texte de différentes tailles et en gras */
+.text-lg,
+.text-3xl,
+.font-bold {
+    color: #333;
+}
 
 h1 {
     font-family: 'Arial', sans-serif;
-    font-size: 2.25rem; 
+    font-size: 2.25rem;
     text-align: center;
-    font-weight: bold; 
-    margin-top: 20px; 
+    font-weight: bold;
+    margin-top: 20px;
     margin-bottom: 16px;
-  }
+}
 
-  p {
-    font-family: 'Arial', sans-serif; 
-    font-size: 1.124rem;
-    margin-top: 8px; 
+p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.125rem;
+    margin-top: 8px;
     margin-bottom: 32px;
-  }
+}
 
-
-
-
+/* Styles des cartes */
 .card {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
-    margin-top:500px;
-    margin-bottom: 10px;  /* Espacement entre les cartes */
+    margin-top: 20px;
+    margin-bottom: 10px;
     background-color: #f9f9f9;
-    /*width: calc(25% - 20px); /*  pour mettre en verticale */
     display: inline-block;
     vertical-align: top;
 }
-
-.card i {
-    margin-right: 5px; /* Espacement entre l'icône et le texte */
-  }
 
 .card p {
     margin: 0;
 }
 
-.fond-image{
-    width: 100%;       
-  
-    margin-bottom: 100px;   
-
+/* Image de fond */
+.fond-image {
+    width: 100%;
+    margin-bottom: 100px;
 }
 
-
-
-
-  svg {
+/* Icônes SVG */
+svg {
     fill: #34568B;
-    width: 60px; 
-    height:60px;
-    display: block; 
-    margin: auto;  
-    border: 1px solid red;
- 
+    width: 60px;
+    height: 60px;
+    display: block;
+    margin: auto;
 }
 
 svg:hover {
-    transform: scale(1.1); /* Scale up on hover */
+    transform: scale(1.1);
 }

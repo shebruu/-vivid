@@ -7,7 +7,7 @@ function Trips({ usertrips, auth }) {
     return (
         <div>
             <Navbar2 auth={auth} />
-            <div className="container">
+            <div className="container"  style={{ marginTop: '180px'}}>
                 <h1 className="title">Liste de mes voyages</h1>
                 <div className="trip-container">
                     {usertrips.map((trip) => (
@@ -19,6 +19,8 @@ function Trips({ usertrips, auth }) {
                         </div>
                     ))}
                 </div>
+
+                
             </div>
         </div>
     );

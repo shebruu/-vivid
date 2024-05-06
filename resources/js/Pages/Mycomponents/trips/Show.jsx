@@ -12,6 +12,8 @@ function Show({ errors, trip, auth }) {
         totalestimation: trip.totalestimation || '',
         note: trip.note || ''
     });
+
+
     const [isEditing, setIsEditing] = useState(false);
 
     const handleInputChange = (e) => {
@@ -32,6 +34,12 @@ function Show({ errors, trip, auth }) {
         Inertia.put(route('trip.update', { trip: trip.id }), tripDetails);
         setIsEditing(false);
     };
+
+
+    const [newMemberLogin, setNewMemberLogin] = useState({
+        login: '',
+        user_activities: ''
+    });
 
     return (
         <div>

@@ -23,11 +23,12 @@ const Navbar2 = ({ auth, csrfToken }) => {
                     <Link href="/" className="nav-link">Accueil</Link>
                     {auth.user ? (
                         <>
-                            <Link href={route('expense.index')} className="nav-link">Dépenses</Link>
+                           
                            
                             <Link href={route('user_activities.index')} className="nav-link">Itinéraires</Link>
                             <Link href={route('trip.index')} className="nav-link">Mes voyages</Link>
                             
+                            <Link href={route('expense.index')} className="nav-link">Dépenses</Link>
                            
                         </>
                     ) : (
