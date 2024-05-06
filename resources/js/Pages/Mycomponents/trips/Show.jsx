@@ -6,7 +6,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import './style.css'; 
 
 function Show({ errors, trip, auth }) {
-    const [tripDetails, setTripDetails] = useState({
+    const [formData, setFormData] = useState({
         title: trip.title || '',
         departure: trip.departure || '',
         arrival: trip.arrival || '',
@@ -17,22 +17,23 @@ function Show({ errors, trip, auth }) {
 
     const [isEditing, setIsEditing] = useState(false);
 
-    const handleInputChange = (e) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        setTripDetails({
-            ...tripDetails,
+        setFormData({
+            ...formData,
             [name]: value
         });
     };
 
+    //mode show, edit 
     const toggleEditing = () => setIsEditing(!isEditing);
 
-    const handleSave = () => {
-        // Verify that `trip.id` is available and correctly passed to the route
+    const handleSubmit = () => {
+        
         console.log("Trip ID:", trip.id);
 
-        // Update the trip using the specified ID
-        Inertia.put(route('trip.update', { trip: trip.id }), tripDetails);
+     
+        Inertia.put(route('trip.update', { trip: trip.id }), formData);
         setIsEditing(false);
     };
 
@@ -72,11 +73,11 @@ function Show({ errors, trip, auth }) {
                             <input
                                 type="text"
                                 name="title"
-                                value={tripDetails.title}
-                                onChange={handleInputChange}
+                                value={formData.title}
+                                onChange={handleChange}
                             />
                         ) : (
-                            <p>{tripDetails.title}</p>
+                            <p>{formData.title}</p>
                         )}
                     </div>
                     <div>
@@ -85,11 +86,11 @@ function Show({ errors, trip, auth }) {
                             <input
                                 type="date"
                                 name="departure"
-                                value={tripDetails.departure}
-                                onChange={handleInputChange}
+                                value={formData.departure}
+                                onChange={handleChange}
                             />
                         ) : (
-                            <p>{tripDetails.departure}</p>
+                            <p>{formData.departure}</p>
                         )}
                     </div>
                     <div>
@@ -98,11 +99,11 @@ function Show({ errors, trip, auth }) {
                             <input
                                 type="date"
                                 name="arrival"
-                                value={tripDetails.arrival}
-                                onChange={handleInputChange}
+                                value={formData.arrival}
+                                onChange={handleChange}
                             />
                         ) : (
-                            <p>{tripDetails.arrival}</p>
+                            <p>{formData.arrival}</p>
                         )}
                     </div>
                     <div>
@@ -111,11 +112,11 @@ function Show({ errors, trip, auth }) {
                             <input
                                 type="text"
                                 name="totalestimation"
-                                value={tripDetails.totalestimation}
-                                onChange={handleInputChange}
+                                value={formData.totalestimation}
+                                onChange={handleChange}
                             />
                         ) : (
-                            <p>{tripDetails.totalestimation}</p>
+                            <p>{formData.totalestimation}</p>
                         )}
                     </div>
                     <div>
@@ -124,11 +125,11 @@ function Show({ errors, trip, auth }) {
                             <input
                                 type="text"
                                 name="note"
-                                value={tripDetails.note}
-                                onChange={handleInputChange}
+                                value={formData.note}
+                                onChange={handleChange}
                             />
                         ) : (
-                            <p>{tripDetails.note}</p>
+                            <p>{formData.note}</p>
                         )}
                     </div>
                     <div>
@@ -137,7 +138,7 @@ function Show({ errors, trip, auth }) {
                     </div>
                     <div>
                         {isEditing ? (
-                            <button type="button" onClick={handleSave} className="btn-primary">
+                            <button type="button" onClick={handleSubmit} className="btn-primary">
                                 Enregistrer les modifications
                             </button>
                         ) : (

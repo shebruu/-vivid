@@ -43,13 +43,24 @@ const Create = ({ auth, errors }) => {
 <div className="container">
                 <div className="title">Créer un nouveau voyage</div>
                 <div className="card">
+
+                         {/* Error Messages Section */}
+                {Object.keys(errors).length > 0 && (
+                    <div className="error-messages">
+                        <ul>
+                            {Object.keys(errors).map((key) => (
+                                <li key={key}>{errors[key]}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
         <form onSubmit={handleSubmit}>
             
             {/* Champ Titre */}
             <div>
                 <label htmlFor="title">Titre du Voyage</label>
                 <input id="title" type="text" name="title" value={formData.title} onChange={handleChange} />
-                {errors.title && <span>{errors.title}</span>}
+               
           
             </div>
 
@@ -57,7 +68,7 @@ const Create = ({ auth, errors }) => {
             <div>
                 <label htmlFor="departure">Date de Départ</label>
                 <input id="departure" type="date" name="departure" value={formData.departure} onChange={handleChange} />
-                {errors.departure && <span>{errors.departure}</span>}
+               
               
             </div>
 
@@ -65,7 +76,7 @@ const Create = ({ auth, errors }) => {
             <div>
                 <label htmlFor="arrival">Date d'Arrivée</label>
                 <input id="arrival" type="date" name="arrival" value={formData.arrival} onChange={handleChange} />
-                {errors.arrival && <span>{errors.arrival}</span>}
+            
             
             </div>
 
@@ -73,7 +84,7 @@ const Create = ({ auth, errors }) => {
             <div>
                 <label htmlFor="totalestimation">Estimation Totale</label>
                 <input id="totalestimation" type="number" name="totalestimation" value={formData.totalestimation} onChange={handleChange} />
-                {errors.totalestimation && <span>{errors.totalestimation}</span>}
+                
         
             </div>
 
