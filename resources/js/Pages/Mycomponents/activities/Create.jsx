@@ -4,9 +4,9 @@ import Navbar2 from "../Navbar";
 import "./style.css";
 
 const initialFormData = {
-    activity_title: "",
+    activity: "",
     duration: "",
-    address: "",
+    adress: "",
     postal_code: "",
     start_time: "",
     amount: "",
@@ -17,14 +17,21 @@ const initialFormData = {
 const Create = ({ auth }) => {
     const [formData, setFormData] = useState(initialFormData);
 
-
+// récupérer les données stockées 
     useEffect(() => {
-        // Récupérer les données du formulaire depuis le stockage local
+
         const storedFormData = JSON.parse(localStorage.getItem("formData"));
         if (storedFormData) {
             setFormData(storedFormData);
         }
     }, []);
+//non submission ou rechargement de page 
+    //Écouteur pour les changements de formData pour mise à jour du localStorage
+
+    useEffect(() => {
+        localStorage.setItem("formData", JSON.stringify(formData));
+    }, [formData]);
+    
 
 
     const handleChange = (e) => {
@@ -33,17 +40,32 @@ const Create = ({ auth }) => {
             ...prevFormData,
             [name]: value,
         }));
+        
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Inertia.post(route("user_activity.store"), formData);
-    };
+        console.log('Envoi des données :', formData); 
 
-    useEffect(() => {
-        // Sauvegarder les données du formulaire dans le stockage local à chaque modification
-        localStorage.setItem("formData", JSON.stringify(formData));
-    }, [formData]); // Exécuter chaque fois que formData change
+        Inertia.post(route("user_activity.store"), formData)
+        .then(response => {
+            console.log('Réponse reçue:', response);
+            // statut de réponse
+            if (response.props.success) {
+                // Si la requête est un succès, supprimez les données stockées
+                localStorage.removeItem("formData");
+                alert('Activité ajoutée avec succès!');
+            } else {
+                // sinon erreur 
+                alert('Une erreur s\'est produite lors de la validation.');
+            }
+        })
+        .catch(error => {
+            // gestion d'  erreurs de requête 
+            console.error('Erreur de requête:', error);
+            alert('Erreur lors de l\'ajout de l\'activité. Veuillez réessayer.');
+        });
+};
 
     return (
         <div>
@@ -58,8 +80,8 @@ const Create = ({ auth }) => {
                             label="Titre de l'activité"
                             id="title"
                             type="text"
-                            name="activity_title"
-                            value={formData.activity_title}
+                            name="activity"
+                            value={formData.activity}
                             onChange={handleChange}
                         />
                         <FormField
@@ -72,9 +94,9 @@ const Create = ({ auth }) => {
                         />
                         <FormField
                             label="Adresse"
-                            id="address"
+                            id="adress"
                             type="text"
-                            name="address"
+                            name="adress"
                             value={formData.address}
                             onChange={handleChange}
                         />

@@ -62,7 +62,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ]);
 
     // Gestion des activités utilisateur
-    Route::resource('itineraries', UserActivityController::class)->only(['index', 'show', 'create', 'store'])
+    Route::resource('itineraries', UserActivityController::class)->only(['index', 'show', 'create', 'store', 'edit'])
         ->parameters(['itineraries' => 'useractivity'])
         ->names([
             'index' => 'user_activities.index',

@@ -23,15 +23,14 @@ class UserActivityRequest extends FormRequest
     {
         return [
             //'activity_id' => ['required', 'exists:activities,id'],
-            'activity_title' => 'required|string|max:255',
+            'activity' => 'required|string|max:255',
             //'created_by' => ['required', 'exists:users,id'],
             //'place_id' => ['required', 'exists:places,id'],
-            'address'        => 'required|string|max:255',
+            'adress'    => 'required|string|max:255',
             'postal_code'    => 'required|string|max:10',
             'duration' => ['nullable', 'integer', 'min:0'],
             //'status' => ['required', 'string', 'in:proposed,revised,validated,rejected'],
             'start_time' => ['required', 'date'],
-
             //price 
             'amount'         => 'required|numeric|min:0',
             'age_range'      => 'required|string',

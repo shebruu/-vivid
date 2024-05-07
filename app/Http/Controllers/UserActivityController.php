@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 
 use App\Models\UserActivity;
+use App\Http\Requests\UseractivityRequest;
 use Illuminate\Http\Request;
 
 use App\Models\Activity;
 use App\Models\Place;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
 
@@ -118,29 +120,32 @@ class UserActivityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserActivity $request)
+    public function store(UserActivityRequest $urequest)
     {
+        Log::info('Entering the store method of UserActivityController at' . now());
+        dd($urequest->all());
         $place = Place::create([
-            'adress'     => $request->address,
-            'postal_code' => $request->postal_code,
+
+            'adress' => $urequest->adress,
+            'postal_code' => $urequest->postal_code,
         ]);
 
         $activity = Activity::create([
-            'title'    => $request->activity_title,
+            'activity'    => $urequest->activity,
             //  'place_id' => $place->id,
             'price'    => [
-                'amount'     => $request->amount,
-                'age_range'  => $request->input('age_range'),
-                'season'     => $request->input('season'),
+                'amount'     => $urequest->amount,
+                'age_range'  => $urequest->input('age_range'),
+                'season'     => $urequest->input('season'),
             ]
         ]);
         $userActivity = UserActivity::create([
             'created_by' => auth()->id(),
             'place_id'    => $place->id,
             'activity_id' => $activity->id,
-            'duration'    => $request->duration,
-            'start_time'  => $request->start_time,
-            'status'      => $request->status,
+            'duration'    => $urequest->duration,
+            'start_time'  => $urequest->start_time,
+            'status'      => $urequest->status,
         ]);
 
 
