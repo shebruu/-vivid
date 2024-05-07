@@ -27,7 +27,7 @@ class TripRequest extends FormRequest
             'departure' => 'required|date',
             'arrival' => 'required|date|after:departure',
             'totalestimation' => 'required|numeric',
-            //   'note' => ['nullable', 'string'],
+            'note' => ['nullable', 'string'],
 
 
         ];

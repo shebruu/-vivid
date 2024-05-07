@@ -16,14 +16,16 @@ export default function Dashboard({ auth, message }) {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
         >
             
-            <Navbar2 auth={auth} />
+            
           
 
             {/* Arrière-plan plein écran */}
             <div className="full-page-background"></div>
-            <div className="relative py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <Navbar2 auth={auth} />
+            <div className="relative py-12 ">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
+                    <div className="bg-transparent shadow-none sm:rounded-lg">
+                        
                         {/* Titre utilisateur */}
                         <h1 className='user'>{message}</h1>
 

@@ -165,3 +165,68 @@ p {
     text-transform: uppercase;
   
 }
+
+/* Formulaire Create activity */
+
+.create-form {
+    text-align: center; 
+}
+
+
+
+.create-form .container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+}
+
+.create-form .title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.create-form .card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 400px;
+    padding: 20px;
+}
+
+.create-form .form-group {
+    margin-bottom: 20px;
+}
+
+.create-form .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.create-form .form-group input,
+.create-form .form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.create-form .button-container {
+    text-align: center;
+}
+
+.create-form .form-submit {
+    background-color: blueviolet;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.create-form .form-submit:hover {
+    background-color: red;
+}

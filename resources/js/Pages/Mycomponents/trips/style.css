@@ -40,6 +40,14 @@
     margin-bottom: 20px;
 }
 
+.form-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333; /* Couleur de texte */
+}
+
 /* Trip-Specific Classes */
 .trip-container {
     display: flex;
@@ -74,4 +82,24 @@
 
 .error-messages li {
     list-style-type: disc;
+}
+
+label {
+    font-weight: bold;
+    color: #555; /* Couleur de texte */
+}
+
+.form-submit {
+    background-color: blueviolet; /* Couleur de fond */
+    color: #fff; /* Couleur de texte */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-submit:hover {
+    background-color: red; /* Couleur de fond au survol */
 }

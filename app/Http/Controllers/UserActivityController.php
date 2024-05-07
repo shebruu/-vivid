@@ -6,11 +6,13 @@ namespace App\Http\Controllers;
 use App\Models\UserActivity;
 use Illuminate\Http\Request;
 
-
+use App\Models\Activity;
+use App\Models\Place;
 use Illuminate\Routing\Controller;
 
 use Inertia\Inertia;
 
+use Illuminate\Http\Response;
 
 
 
@@ -89,9 +91,9 @@ class UserActivityController extends Controller
      */
     public function showValidatedActivitiesForm()
     {
-        // Retrieve all realized activities
+
         $validatedActivities = UserActivity::where('status', 'validated')
-            ->with('activity') // Assumes a relationship exists between UserActivity and Activity
+            ->with('activity')
             ->get()
             ->pluck('activity') //extraire directement les activitées
 
@@ -110,28 +112,39 @@ class UserActivityController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Mycomponents/activities/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserActivity $request)
     {
-        // Validate the input data
-        $validated = $request->validate([
-            'activity_id' => 'required|exists:activities,id',
-            // Additional validation rules for other fields
+        $place = Place::create([
+            'adress'     => $request->address,
+            'postal_code' => $request->postal_code,
         ]);
 
-        // Process the data, for example:
-        UserActivity::create([
-            'activity_id' => $validated['activity_id'],
-            // Other necessary data
+        $activity = Activity::create([
+            'title'    => $request->activity_title,
+            //  'place_id' => $place->id,
+            'price'    => [
+                'amount'     => $request->amount,
+                'age_range'  => $request->input('age_range'),
+                'season'     => $request->input('season'),
+            ]
+        ]);
+        $userActivity = UserActivity::create([
+            'created_by' => auth()->id(),
+            'place_id'    => $place->id,
+            'activity_id' => $activity->id,
+            'duration'    => $request->duration,
+            'start_time'  => $request->start_time,
+            'status'      => $request->status,
         ]);
 
-        return redirect()->route('useractivities.index')
-            ->with('success', 'User activity created successfully.');
+
+        return response()->json($userActivity, Response::HTTP_CREATED);
     }
 
 

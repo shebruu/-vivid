@@ -11,7 +11,7 @@ class UserActivityRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,12 +22,20 @@ class UserActivityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'activity_id' => ['required', 'exists:activities,id'],
-            'created_by' => ['required', 'exists:users,id'],
-            'place_id' => ['required', 'exists:places,id'],
+            //'activity_id' => ['required', 'exists:activities,id'],
+            'activity_title' => 'required|string|max:255',
+            //'created_by' => ['required', 'exists:users,id'],
+            //'place_id' => ['required', 'exists:places,id'],
+            'address'        => 'required|string|max:255',
+            'postal_code'    => 'required|string|max:10',
             'duration' => ['nullable', 'integer', 'min:0'],
-            'status' => ['required', 'string', 'in:proposed,revised,validated,rejected'],
-            'start_time' => ['nullable', 'date'],
+            //'status' => ['required', 'string', 'in:proposed,revised,validated,rejected'],
+            'start_time' => ['required', 'date'],
+
+            //price 
+            'amount'         => 'required|numeric|min:0',
+            'age_range'      => 'required|string',
+            'season'         => 'required|string|in:spring,summer,autumn,winter',
 
 
 

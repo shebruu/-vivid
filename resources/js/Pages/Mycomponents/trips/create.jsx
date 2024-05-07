@@ -93,7 +93,7 @@ const Create = ({ auth, errors }) => {
 
             {/* Bouton de Soumission */}
             <div>
-                <button type="submit">Créer Voyage</button>
+                <button className="form-submit"  type="submit">Créer Voyage</button>
             </div>
         </form>
         </div>

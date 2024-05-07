@@ -54,7 +54,6 @@ class TripController extends Controller
     {
 
 
-
         //les data qui arrivent au controller de http post
         // dd($request->all());
         $validatedData = $request->validated();
@@ -98,7 +97,7 @@ class TripController extends Controller
     {
         $validatedData = $request->validated();
         $trip->update($validatedData);
-        return redirect()->route('Mycomponents/trips/Show', ['trip' => $trip->id])->with('success', 'Voyage modifié avec succès.');
+        return redirect()->route('trip.show', ['trip' => $trip->id])->with('success', 'Voyage modifié avec succès.');
     }
 
     /**

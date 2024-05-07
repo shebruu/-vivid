@@ -138,11 +138,11 @@ function Show({ errors, trip, auth }) {
                     </div>
                     <div>
                         {isEditing ? (
-                            <button type="button" onClick={handleSubmit} className="btn-primary">
+                            <button className="form-submit"  type="button" onClick={handleSubmit} >
                                 Enregistrer les modifications
                             </button>
                         ) : (
-                            <button type="button" onClick={toggleEditing} className="btn-primary">
+                            <button className="form-submit" type="button" onClick={toggleEditing}>
                                 Modifier les informations
                             </button>
                         )}

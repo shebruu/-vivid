@@ -3,11 +3,13 @@
     background-image: url('/illustrations/acceuil.jpg');
     background-size: cover;
     position: fixed;
-    top: 0;
+    top: 40px;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 90%;
     z-index: -1;
+ 
+ 
 }
 
 /* Style général pour la classe `user` */
@@ -23,7 +25,7 @@
 .text-center,
 .footer {
     background: rgba(255, 255, 255, 0);
-    padding: 20px;
+    padding: 35px;
     margin: 0;
     box-shadow: none;
 }
@@ -54,13 +56,13 @@ p {
 /* Styles des cartes */
 .card {
     border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 20px;
+    border-radius: 10px;
+    padding: 40px;
+    margin-top: 30px;
     margin-bottom: 10px;
     background-color: #f9f9f9;
     display: inline-block;
-    vertical-align: top;
+    vertical-align: bottom;
 }
 
 .card p {
@@ -74,14 +76,20 @@ p {
 }
 
 /* Icônes SVG */
-svg {
-    fill: #34568B;
-    width: 60px;
-    height: 60px;
-    display: block;
-    margin: auto;
-}
 
-svg:hover {
-    transform: scale(1.1);
+
+
+/*dash board */
+
+.bg-transparent {
+    background-color: rgba(255, 255, 255, 0.7); 
+    z-index: 1;
+    position: relative; 
+    padding: 20px; /* Ajoute un espace interne */
+    margin: 20px; 
+
+
+}
+.shadow-none {
+    box-shadow: none;
 }
