@@ -24,7 +24,7 @@ class UserActivityController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
     }
 
     /**
@@ -123,7 +123,7 @@ class UserActivityController extends Controller
     public function store(UserActivityRequest $urequest)
     {
         Log::info('Entering the store method of UserActivityController at' . now());
-        dd($urequest->all());
+        //dd($urequest->all());
         $place = Place::create([
 
             'adress' => $urequest->adress,
@@ -145,11 +145,11 @@ class UserActivityController extends Controller
             'activity_id' => $activity->id,
             'duration'    => $urequest->duration,
             'start_time'  => $urequest->start_time,
-            'status'      => $urequest->status,
+            'status' => 'proposed'
         ]);
 
 
-        return response()->json($userActivity, Response::HTTP_CREATED);
+        return response()->json(['success' => true, 'message' => 'Activité ajoutée avec succès']);
     }
 
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect  } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import Navbar2 from "../Navbar";
+
 import "./style.css";
 
 const initialFormData = {
@@ -44,11 +45,15 @@ const Create = ({ auth }) => {
     };
 
     const handleSubmit = (e) => {
+        console.log("Tentative de soumission du formulaire");
         e.preventDefault();
         console.log('Envoi des données :', formData); 
 
         Inertia.post(route("user_activity.store"), formData)
+        
         .then(response => {
+            console.log('URL:', route("user_activity.store"));
+            console.log(Inertia.post);
             console.log('Réponse reçue:', response);
             // statut de réponse
             if (response.props.success) {

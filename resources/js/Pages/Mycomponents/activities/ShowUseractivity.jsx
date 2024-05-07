@@ -1,15 +1,38 @@
 // ShowUserActivity.jsx
-
-import React from 'react';
+import React, { useState, useEffect  } from "react";
 import Navbar2 from '../Navbar';
 import './style.css';
+import ActivityList from './ActivityList'; 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet"></link>
 
 function ShowUserActivity({ activity, place, createdby, prices, placeImages, auth }) {
-  
+    const [activityList, setActivityList] = useState([]);
     
+  
+      // Charger la liste sauvegardée quand le composant est monté
+      useEffect(() => {
+        const savedActivities = JSON.parse(localStorage.getItem('activityList'));
+        if (savedActivities) {
+            setActivityList(savedActivities);
+        }
+    }, []);
 
+    const addToActivityList = (activityId) => {
+        console.log('Attempting to add activity:', activityId);
+        setActivityList(prevList => {
+            if (!prevList.includes(activityId)) {
+                const updatedList = [...prevList, activityId];
+                localStorage.setItem('activityList', JSON.stringify(updatedList));
+                console.log('New activity list:', updatedList);
+                return updatedList;
+            }
+            return prevList;
+        });
+    };
+  
+   
     return (
 
         <AuthenticatedLayout
@@ -70,16 +93,14 @@ function ShowUserActivity({ activity, place, createdby, prices, placeImages, aut
                     Add to My List
                 </button>
             </div>
+            <ActivityList activities={activityList} />
         </div>
         
         </div>
+     
         </AuthenticatedLayout>
     );
 }
 
-function addToActivityList(activityId) {
-    // Logic to add the activity to the user's list
-    console.log(`Adding activity ${activityId} to my list`);
-}
 
 export default ShowUserActivity;

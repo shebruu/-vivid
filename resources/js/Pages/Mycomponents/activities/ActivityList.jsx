@@ -1,27 +1,18 @@
 import React from 'react';
 
-function ActivityList({ activities }) {
+const ActivityList = ({ activities }) => {
+    console.log('Activities to render:', activities);
+    if (activities.length === 0) {
+        return <p>No activities added yet.</p>;
+    }
+
     return (
-        <div className="cards-container">
-            {activities.map((activity) => (
-                <div key={activity.id} className="card">
-                    <h2>{activity.activity}</h2>
-                    <p>Participants:</p>
-                    <ul>
-                        {activity.participants.map((participant) => (
-                            <li key={participant.id}>{participant.firstname} {participant.lastname}</li>
-                        ))}
-                    </ul>
-                    <p>Places:</p>
-                    <ul>
-                        {activity.places.map((place) => (
-                            <li key={place.id}>{place.title}</li>
-                        ))}
-                    </ul>
-                </div>
+        <ul>
+            {activities.map((activityId, index) => (
+                <li key={index}>Activity ID: {activityId}</li>
             ))}
-        </div>
+        </ul>
     );
-}
+};
 
 export default ActivityList;
