@@ -52,11 +52,12 @@ class UserActivityController extends Controller
 
     public function show(UserActivity $useractivity)
     {
+        // Charger les relations 
         $useractivity->load('activity.prices', 'activity.place', 'activity.createdby', 'user');
+
+        // Prépa d  images
         $placeTitle = $useractivity->place->title;
         $folderPath = public_path("images/{$placeTitle}");
-
-
         $imageFiles = [];
         if (is_dir($folderPath)) {
             $files = scandir($folderPath);
@@ -67,16 +68,17 @@ class UserActivityController extends Controller
             }
         }
 
-
+        // Prépa des  données à retourner
         $activityData = [
             'activity' => $useractivity->activity,
-            'place' => $useractivity->place, // UserActivity has a direct place association
-            'createdby' => $useractivity->user, // User who created the user activity
-            'prices' => $useractivity->activity->prices, // Prices come from the activity relationship,
+            'place' => $useractivity->place,
+            'createdby' => $useractivity->user,
+            'prices' => $useractivity->activity->prices,
             'placeImages' => $imageFiles
         ];
+
         // dd($useractivity);  // instance du modele  UserActivity ( id, act, created, place, duration, status, start) 
-        //  dd($activityData); //collection de   UserActivity ( champs de places, activity, createdby ..) 
+        //dd($activityData); //collection de   UserActivity ( champs de places, activity, createdby ..) 
 
         return inertia('Mycomponents/activities/ShowUseractivity',   [
             'activity' => $activityData['activity'],

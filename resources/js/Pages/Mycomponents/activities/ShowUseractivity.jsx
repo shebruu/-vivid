@@ -2,36 +2,85 @@
 import React, { useState, useEffect  } from "react";
 import Navbar2 from '../Navbar';
 import './style.css';
-import ActivityList from './ActivityList'; 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+
+
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet"></link>
 
-function ShowUserActivity({ activity, place, createdby, prices, placeImages, auth }) {
+const ActivityListItem = ({ activity }) => {
+    const [selectedDate, setSelectedDate] = useState(activity.availableDates ? activity.availableDates[0] : '');
+
+    const handleDateChange = (event) => {
+        setSelectedDate(event.target.value);
+    };
+
+    return (
+        <div>
+            <h3>{activity.title}</h3>
+            <p>{activity.description}</p>
+            <select value={selectedDate} onChange={handleDateChange}>
+                {activity.availableDates.map(date => (
+                    <option key={date} value={date}>{date}</option>
+                ))}
+            </select>
+            <p>Prix: {activity.prices[selectedDate] || activity.defaultPrice}</p>
+
+
+
+               {/* Afficher les détails du voyage de l'utilisateur */}
+               <section className="trip-details-section">
+                <h2>User Trip Details</h2>
+                <p>Start Time: {userTripDetails.start_time}</p>
+                <p>End Time: {userTripDetails.end_time}</p>
+                {/* Autres détails du voyage */}
+            </section>
+        </div>
+
+         
+    );
+};
+function ActivityList({ activities }) {
+    if (activities.length === 0) {
+        return <p>No activities added yet.</p>;
+    }
+
+    return (
+        <ul>
+            {activities.map((activity, index) => (
+                <li key={index}>
+                    <ActivityListItem activity={activity} />
+                </li>
+            ))}
+        </ul>
+    );
+}
+
+
+function ShowUserActivity({ activity, place, createdby, prices, placeImages, auth, trip }) {
     const [activityList, setActivityList] = useState([]);
     
   
       // Charger la liste sauvegardée quand le composant est monté
       useEffect(() => {
-        const savedActivities = JSON.parse(localStorage.getItem('activityList'));
-        if (savedActivities) {
-            setActivityList(savedActivities);
-        }
+        const savedActivities = JSON.parse(localStorage.getItem('activityList') || '[]');
+        setActivityList(savedActivities);
     }, []);
 
-    const addToActivityList = (activityId) => {
-        console.log('Attempting to add activity:', activityId);
-        setActivityList(prevList => {
-            if (!prevList.includes(activityId)) {
-                const updatedList = [...prevList, activityId];
-                localStorage.setItem('activityList', JSON.stringify(updatedList));
-                console.log('New activity list:', updatedList);
-                return updatedList;
-            }
-            return prevList;
-        });
+    const addToActivityList = (activity) => {
+        if (!activityList.find(a => a.id === activity.id)) {
+            const newList = [...activityList, activity];
+            localStorage.setItem('activityList', JSON.stringify(newList));
+            setActivityList(newList);
+            alert('Activity added to your list!');
+        } else {
+            alert('This activity is already in your list.');
+        }
     };
-  
+
+
+   
+
    
     return (
 
@@ -86,6 +135,7 @@ function ShowUserActivity({ activity, place, createdby, prices, placeImages, aut
                     ))}
                 </ul>
             </section>
+         
 
             {/* Add to List Button */}
             <div className="actions">
@@ -101,6 +151,7 @@ function ShowUserActivity({ activity, place, createdby, prices, placeImages, aut
         </AuthenticatedLayout>
     );
 }
+
 
 
 export default ShowUserActivity;

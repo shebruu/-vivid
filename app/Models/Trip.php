@@ -34,6 +34,7 @@ class Trip extends Model
     }
 
 
+    // Relation avec les utilisateurs associés à ce voyage via une table pivot
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_trip')

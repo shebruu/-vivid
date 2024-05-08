@@ -13,6 +13,8 @@ use App\Http\Requests\TripRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
+use App\Models\User;
+
 class TripController extends Controller
 {
 
@@ -32,8 +34,13 @@ class TripController extends Controller
         $trips = Trip::where('created_by', $userId)->get();
         //dd($trips);
 
+        //$userActivities = User::find($userId)->trips;
+        // dd($userActivities);
         return Inertia::render('Mycomponents/trips/Trips', [
             'usertrips' => $trips,
+            //  'useractivities' => $userActivities,
+            //  'auth' => Auth::user(),
+
         ]);
     }
 

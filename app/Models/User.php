@@ -65,13 +65,13 @@ class User extends Authenticatable
     }
 
 
-
+    // Relation avec les voyages créés par cet utilisateur
     public function trips()
     {
         return $this->hasMany(Trip::class);
     }
 
-    //allows users to recover their activities,
+    // Relation avec les activités associées à cet utilisateur via une table pivot
     public function getActivities()
     {
         return $this->belongsToMany(Activity::class, 'user_activity', 'created_by', 'activity_id')->withPivot(['place_id', 'duration', 'date', 'duration', 'status', 'start_time', 'end_time']);
