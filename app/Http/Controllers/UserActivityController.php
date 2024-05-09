@@ -34,8 +34,6 @@ class UserActivityController extends Controller
     public function index(Request $request)
     {
 
-
-
         $user = $request->user();
         $realizedActivities = UserActivity::where('status', 'validated')
             ->with(['activity.prices', 'place', 'user'])
@@ -77,7 +75,7 @@ class UserActivityController extends Controller
             'usertrips' => $useractivity->user->trips
         ];
         // dd($useractivity);  // instance du modele  UserActivity ( id, act, created, place, duration, status, start) 
-        dd($activityData); //collection de   UserActivity ( champs de places, activity, createdby ..) 
+        //  dd($activityData); //collection de   UserActivity ( champs de places, activity, createdby ..) 
 
         return inertia('Mycomponents/activities/ShowUseractivity',   [
             'activity' => $activityData['activity'],

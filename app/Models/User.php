@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function trips()
     {
-        return $this->hasMany(Trip::class);
+        return $this->hasMany(Trip::class, 'created_by');
     }
 
     //allows users to recover their activities,

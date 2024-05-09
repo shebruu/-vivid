@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link } from '@inertiajs/inertia-react';
 import Navbar2 from '../Navbar';
 import './style.css'; 
-import ShowUserActivity from '../activities/ShowUseractivity';
+
 
 function Trips({ usertrips, auth }) {
     return (
@@ -22,11 +22,7 @@ function Trips({ usertrips, auth }) {
                             <h2 className="text-xl">{trip.departure} - {trip.arrival}</h2>
                             <p className="text-gray-600">Estimation totale: {trip.totalestimation}</p>
                             <Link href={route('trip.show', { trip: trip.id })} className="btn-primary">Voir les détails</Link>
-                            <ShowUserActivity
-
-trip={trip}
-auth={auth}
-/>
+      
                         </div>
                     ))}
                 </div>
