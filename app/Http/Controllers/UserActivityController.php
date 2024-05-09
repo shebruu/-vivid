@@ -72,10 +72,11 @@ class UserActivityController extends Controller
             'createdby' => $useractivity->user, // User who created the user activity
             'prices' => $useractivity->activity->prices, // Prices come from the activity relationship,
             'placeImages' => $imageFiles,
-            'usertrips' => $useractivity->user->trips
+            'trips' => $useractivity->user->trips
         ];
-        // dd($useractivity);  // instance du modele  UserActivity ( id, act, created, place, duration, status, start) 
-        //  dd($activityData); //collection de   UserActivity ( champs de places, activity, createdby ..) 
+
+        //  dd($useractivity);  // instance du modele  UserActivity ( id, act, created, place, duration, status, start) 
+        // dd($activityData); //collection de   UserActivity ( champs de places, activity, createdby ..) 
 
         return inertia('Mycomponents/activities/ShowUseractivity',   [
             'activity' => $activityData['activity'],
@@ -83,7 +84,7 @@ class UserActivityController extends Controller
             'createdby' => $activityData['createdby'],
             'prices' => $activityData['prices'],
             'placeImages' => $activityData['placeImages'],
-            'trips' => $activityData['usertrips']
+            'trips' => $activityData['trips']
         ]);
     }
 
