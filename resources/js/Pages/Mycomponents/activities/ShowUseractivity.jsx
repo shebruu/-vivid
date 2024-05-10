@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Navbar2 from "../Navbar";
 import "./style.css";
 import ActivityList from "./ActivityList";
+import CustomDatePicker from "./CustomDatepicker";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 <link
@@ -19,37 +20,56 @@ function ShowUserActivity({
     auth,
     trips,
 }) {
-    const [activityList, setActivityList] = useState([]);
+    const [activitiesByTrip, setActivitiesByTrip] = useState([]);
 
-    const [selectedTrip, setSelectedTrip] = useState(trips[0]?.id || "");
+    //stocker l objet voyage complet
+    const [selectedTrip, setSelectedTrip] = useState(trips[0] || {});
 
     const [selectedPrice, setSelectedPrice] = useState(prices[0]?.id || "");
+
+    const [selectedDateTime, setSelectedDateTime] = useState(
+        new Date(trips[0]?.departure ||  Date.now()));
+
+    useEffect(() => {
+        if (selectedTrip) {
+            setSelectedDateTime(new Date(selectedTrip.departure));
+        }
+    }, [selectedTrip]);
+
+    //mise a jour du changement de selection , recupere objet voyage avec id 
+    const handleTripChange = (e) => {
+        const tripId = e.target.value;
+        const trip = trips.find((t) => t.id.toString() === tripId);
+        setSelectedTrip(trip);
+    };
+    console.log(selectedTrip);
 
     // Charger la liste sauvegardée quand le composant est monté
     useEffect(() => {
         const savedActivities = JSON.parse(
-            localStorage.getItem("activityList")
+            localStorage.getItem("activitiesByTrip")
         );
         if (savedActivities) {
-            setActivityList(savedActivities);
+            setActivitiesByTrip(savedActivities);
         }
     }, []);
 
-    const addToActivityList = (activityId) => {
-        console.log("Attempting to add activity:", activityId);
-        setActivityList((prevList) => {
-            if (!prevList.includes(activityId)) {
-                const updatedList = [...prevList, activityId];
-                localStorage.setItem(
-                    "activityList",
-                    JSON.stringify(updatedList)
-                );
-                console.log("New activity list:", updatedList);
-                return updatedList;
-            }
-            return prevList;
-        });
-    };
+    const addToActivityList = (activityId, tripId) => {
+        console.log("Attempting to add activity:", activityId, tripId);
+
+        setActivitiesByTrip((prevList) => {
+
+            const listForTrip = prevList[tripId] || [];
+
+               if (!listForTrip.includes(activityId)) {
+            return {
+                ...prevList,
+                [tripId]: [...listForTrip, activityId]
+            };
+        }
+        return prevList;
+    });
+};
 
     return (
         <AuthenticatedLayout
@@ -116,7 +136,6 @@ function ShowUserActivity({
                         </ul>
                     </section>
 
-
                     {/* Price Selection */}
                     <section className="price">
                         <h2>Select Price</h2>
@@ -135,8 +154,8 @@ function ShowUserActivity({
                     <section className="trip-section">
                         <h2>Select a Trip</h2>
                         <select
-                            value={selectedTrip}
-                            onChange={(e) => setSelectedTrip(e.target.value)}
+                            value={selectedTrip ? selectedTrip.id : ''}
+                            onChange={handleTripChange}
                             className="trip-select"
                         >
                             {trips.map((trip) => (
@@ -147,17 +166,30 @@ function ShowUserActivity({
                         </select>
                     </section>
 
+                    <div>
+                        <h1>Choisissez une date </h1>
+                       {/*   {selectedTrip && selectedTrip.departure && selectedTrip.arrival ? (
+   <CustomDatepicker
+        selectedDate={selectedDateTime}
+        onChange={setSelectedDateTime}
+        startDate={selectedTrip.departure}
+        endDate={selectedTrip.arrival}
+    />
+) : (
+    <p>Please select a trip</p> )}
+*/}
+                    </div>
                     {/* Add to List Button */}
                     <div className="actions">
                         <button
                             className="add-to-list-btn"
-                            onClick={() => addToActivityList(activity.id)}
+                            onClick={() => selectedTrip && addToActivityList(activity.id, selectedTrip.id)}
                         >
                             Add to My List
                         </button>
                     </div>
 
-                    <ActivityList activities={activityList} />
+                    <ActivityList activities={activitiesByTrip} selectedTripId={selectedTrip ? selectedTrip.id : null} />
                 </div>
             </div>
         </AuthenticatedLayout>

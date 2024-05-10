@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('activity_id')->constrained('activities')->onDelete('cascade');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('place_id')->constrained('places')->onDelete('cascade');
+            $table->foreignId('trip_id')->nullable()->constrained('trips')->onDelete('cascade');
             $table->integer('duration')->nullable();
             $table->enum('status', ['proposed', 'revised', 'validated', 'rejected'])->default('proposed');
             $table->dateTime('start_time')->nullable();

@@ -26,6 +26,7 @@ class UserActivitySeeder extends Seeder
             [
                 'activity_id' => 1,
                 'created_by' => 1,
+                'trip_id' => 1,
                 'place_id' => 3,
                 'duration' => 4,
                 'status' => 'validated',
@@ -36,6 +37,7 @@ class UserActivitySeeder extends Seeder
             [
                 'activity_id' => 6,
                 'created_by' => 1,
+                'trip_id' => 1,
                 'place_id' => 4,
                 'duration' => 4,
                 'status' => 'validated',
@@ -45,6 +47,7 @@ class UserActivitySeeder extends Seeder
             [
                 'activity_id' => 4,
                 'created_by' => 1,
+                'trip_id' => 2,
                 'place_id' => 2,
                 'duration' => 4,
                 'status' => 'validated',

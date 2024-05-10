@@ -58,4 +58,12 @@ class Activity extends Model
     {
         return $this->belongsTo(Place::class);
     }
+
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_activities')
+            ->withPivot(['duration', 'status', 'start_time'])
+            ->withTimestamps();
+    }
 }

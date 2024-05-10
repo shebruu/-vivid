@@ -40,4 +40,9 @@ class Trip extends Model
             ->withPivot('user_activities')
             ->withTimestamps();
     }
+
+    public function activities()
+    {
+        return $this->hasManyThrough(Activity::class, User::class, 'user_trip', 'user_id', 'id', 'activity_id');
+    }
 }

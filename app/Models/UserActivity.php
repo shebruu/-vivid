@@ -18,6 +18,7 @@ class UserActivity extends Model
         'duration',
         'status',
         'start_time',
+        'trip_id'
 
 
 
@@ -44,5 +45,10 @@ class UserActivity extends Model
     public function place()
     {
         return $this->belongsTo(Place::class, 'place_id');
+    }
+
+    public function trips()
+    {
+        return $this->hasMany(Trip::class, 'trip_id');
     }
 }

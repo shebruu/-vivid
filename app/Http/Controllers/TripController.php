@@ -83,6 +83,19 @@ class TripController extends Controller
     }
 
     /**
+     * shows the activities associated to the user_trip
+     */
+    public function showActivities(Trip $trip)
+    {
+
+        $trip->load('users.activities');
+        dd($trip);
+        return Inertia::render('ActivitiesList', [
+            'trip' => $trip,
+            'activities' => $trip->users->flatMap->activities
+        ]);
+    }
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Trip $trip)

@@ -14,6 +14,7 @@ use App\Http\Controllers\UserActivityController;
 
 
 use App\Models\UserActivity;
+use App\Models\Trip;
 
 
 
@@ -60,6 +61,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'destroy' => 'trip.destroy',
         'show' => 'trip.show',
     ]);
+
+    Route::get('/trip/{trip}/activities', [TripController::class, 'showActivities'])->name('trip.activities');
 
     // Gestion des activités utilisateur
     Route::resource('itineraries', UserActivityController::class)->only(['index', 'show', 'create', 'store', 'edit'])
