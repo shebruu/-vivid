@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Navbar2 from "../Navbar";
 import "./style.css";
 import ActivityList from "./ActivityList";
-import CustomDatePicker from "./CustomDatepicker";
+import CustomDatepicker from "./CustomDatepicker";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 <link
@@ -11,6 +11,30 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
     rel="stylesheet"
 ></link>;
 
+/**
+ * Validates if the provided date string represents a valid date.
+ * @param {string} dateStr - The date string to validate.
+ * @returns {boolean} True if the date is valid, false otherwise.
+ */
+const isValidDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return !isNaN(date.getTime());
+};
+
+/**
+ * Component for displaying user activities associated with trips, providing functionalities
+ * for managing dates, activities, and trip details within an authenticated layout.
+ *
+ * @component
+ * @param {Object} props - Component props
+ * @param {Object} props.activity - Details about the activity.
+ * @param {Object} props.place - Details about the place of the activity.
+ * @param {Object} props.createdby - Information about the creator of the activity.
+ * @param {Array} props.prices - Pricing options available for the activity.
+ * @param {Array} props.placeImages - URLs of images for the place.
+ * @param {Object} props.auth - Authentication details, including user information.
+ * @param {Array} props.trips - List of available trips.
+ */
 function ShowUserActivity({
     activity,
     place,
@@ -20,23 +44,45 @@ function ShowUserActivity({
     auth,
     trips,
 }) {
-    const [activitiesByTrip, setActivitiesByTrip] = useState([]);
+    // // State hooks to manage various aspects of the component.
+    const [activitiesByTrip, setActivitiesByTrip] = useState({});
 
-    //stocker l objet voyage complet
     const [selectedTrip, setSelectedTrip] = useState(trips[0] || {});
 
     const [selectedPrice, setSelectedPrice] = useState(prices[0]?.id || "");
 
     const [selectedDateTime, setSelectedDateTime] = useState(
-        new Date(trips[0]?.departure ||  Date.now()));
+        new Date(trips[0]?.departure || Date.now())
+    );
 
+    /**
+     * useEffect to update selectedDateTime based on the selectedTrip changes.
+     */
     useEffect(() => {
-        if (selectedTrip) {
-            setSelectedDateTime(new Date(selectedTrip.departure));
+        if (
+            selectedTrip &&
+            isValidDate(selectedTrip.departure) &&
+            isValidDate(selectedTrip.arrival)
+        ) {
+            setSelectedDateTime(new Date(selectedTrip.departure)); // Assurez-vous que cette date est également valide
         }
     }, [selectedTrip]);
 
-    //mise a jour du changement de selection , recupere objet voyage avec id 
+    console.log(
+        "Selected Trip Dates:",
+        selectedTrip.departure,
+        selectedTrip.arrival
+    );
+    console.log(
+        "Valid Dates:",
+        isValidDate(selectedTrip.departure),
+        isValidDate(selectedTrip.arrival)
+    );
+
+    /**
+     * Handles changes to the trip selection, updating the selectedTrip state.
+     * @param {Event} e - The event object from the select element.
+     */
     const handleTripChange = (e) => {
         const tripId = e.target.value;
         const trip = trips.find((t) => t.id.toString() === tripId);
@@ -44,7 +90,33 @@ function ShowUserActivity({
     };
     console.log(selectedTrip);
 
-    // Charger la liste sauvegardée quand le composant est monté
+    /**
+     * Adds an activity to a list for a specific trip. Updates the state to include new activities.
+     * @param {number} activityId - The ID of the activity to add.
+     * @param {number} tripId - The ID of the trip associated with the activity.
+     */
+    const addToActivityList = (activityId, tripId) => {
+        console.log(
+            "Attempting to add activity:",
+            activityId,
+            " To trip :",
+            tripId
+        );
+
+        setActivitiesByTrip((prevList) => {
+            const listForTrip = prevList[tripId] || [];
+            return listForTrip.includes(activityId)
+                ? prevList
+                : {
+                      ...prevList,
+                      [tripId]: [...listForTrip, activityId],
+                  };
+        });
+    };
+
+    /**
+     * useEffect to load activities from local storage when the component mounts.
+     */
     useEffect(() => {
         const savedActivities = JSON.parse(
             localStorage.getItem("activitiesByTrip")
@@ -53,23 +125,6 @@ function ShowUserActivity({
             setActivitiesByTrip(savedActivities);
         }
     }, []);
-
-    const addToActivityList = (activityId, tripId) => {
-        console.log("Attempting to add activity:", activityId, tripId);
-
-        setActivitiesByTrip((prevList) => {
-
-            const listForTrip = prevList[tripId] || [];
-
-               if (!listForTrip.includes(activityId)) {
-            return {
-                ...prevList,
-                [tripId]: [...listForTrip, activityId]
-            };
-        }
-        return prevList;
-    });
-};
 
     return (
         <AuthenticatedLayout
@@ -154,7 +209,7 @@ function ShowUserActivity({
                     <section className="trip-section">
                         <h2>Select a Trip</h2>
                         <select
-                            value={selectedTrip ? selectedTrip.id : ''}
+                            value={selectedTrip ? selectedTrip.id : ""}
                             onChange={handleTripChange}
                             className="trip-select"
                         >
@@ -168,28 +223,36 @@ function ShowUserActivity({
 
                     <div>
                         <h1>Choisissez une date </h1>
-                       {/*   {selectedTrip && selectedTrip.departure && selectedTrip.arrival ? (
-   <CustomDatepicker
-        selectedDate={selectedDateTime}
-        onChange={setSelectedDateTime}
-        startDate={selectedTrip.departure}
-        endDate={selectedTrip.arrival}
-    />
-) : (
-    <p>Please select a trip</p> )}
-*/}
+                        {selectedTrip &&
+                        isValidDate(selectedTrip.departure) &&
+                        isValidDate(selectedTrip.arrival) ? (
+                            <CustomDatepicker
+                                selectedDate={selectedDateTime}
+                                onChange={setSelectedDateTime}
+                                startDate={new Date(selectedTrip.departure)}
+                                endDate={new Date(selectedTrip.arrival)}
+                            />
+                        ) : (
+                            <p>Please select a trip</p>
+                        )}
                     </div>
                     {/* Add to List Button */}
                     <div className="actions">
                         <button
                             className="add-to-list-btn"
-                            onClick={() => selectedTrip && addToActivityList(activity.id, selectedTrip.id)}
+                            onClick={() =>
+                                selectedTrip &&
+                                addToActivityList(activity.id, selectedTrip.id)
+                            }
                         >
                             Add to My List
                         </button>
                     </div>
 
-                    <ActivityList activities={activitiesByTrip} selectedTripId={selectedTrip ? selectedTrip.id : null} />
+                    <ActivityList
+                        activities={activitiesByTrip}
+                        selectedTripId={selectedTrip ? selectedTrip.id : null}
+                    />
                 </div>
             </div>
         </AuthenticatedLayout>

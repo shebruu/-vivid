@@ -30,7 +30,7 @@ class TripSeeder extends Seeder
                 'title' => 'Girls Trip',
 
                 'departure' => Carbon::parse('2024-02-02'), // Convertit la date en objet Carbon
-                'arrival' => Carbon::parse('2024-02-24'),
+                'arrival' => Carbon::parse('2024-03-24'),
                 'totalestimation' => 500,
                 'note' => 'A short break in Brussels to explore the city and its attractions.',
                 'created_by' => 1,
