@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Activity;
 use App\Models\Place;
+use App\Models\Booking;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 
@@ -51,6 +52,11 @@ class UserActivityController extends Controller
     public function show(UserActivity $useractivity)
     {
         $useractivity->load('activity.prices', 'activity.place', 'activity.createdby', 'user', 'user.trips');
+
+        // Récupère les créneaux réservés pour l'activité
+        $bookedTimes = Booking::where('user_activity_id', $useractivity->id)
+            ->get(['start_time', 'end_time']);
+
         $placeTitle = $useractivity->place->title;
         $folderPath = public_path("images/{$placeTitle}");
 
@@ -72,7 +78,8 @@ class UserActivityController extends Controller
             'createdby' => $useractivity->user, // User who created the user activity
             'prices' => $useractivity->activity->prices, // Prices come from the activity relationship,
             'placeImages' => $imageFiles,
-            'trips' => $useractivity->user->trips
+            'trips' => $useractivity->user->trips,
+            'bookedTimes' => $bookedTimes
         ];
 
         //  dd($useractivity);  // instance du modele  UserActivity ( id, act, created, place, duration, status, start) 
@@ -84,31 +91,21 @@ class UserActivityController extends Controller
             'createdby' => $activityData['createdby'],
             'prices' => $activityData['prices'],
             'placeImages' => $activityData['placeImages'],
-            'trips' => $activityData['trips']
+            'trips' => $activityData['trips'],
+            'bookedTimes' => $activityData['bookedTimes']
         ]);
     }
-
-
-    /**
-     * Display the selection form with realized activities.
-     */
-    public function showValidatedActivitiesForm()
+    public function showActivity(Request $request)
     {
-
-        $validatedActivities = UserActivity::where('status', 'validated')
-            ->with('activity')
-            ->get()
-            ->pluck('activity') //extraire directement les activitées
-
-
-            ->unique();
-        // dump($validatedActivities);
-
-
-        return Inertia::render('UserActivityForm', [
-            'activities' => $validatedActivities,
+        $activities = Activity::all(); // Ou une requête plus spécifique
+        return Inertia::render('ShowUserActivity', [
+            'activities' => $activities
         ]);
     }
+
+
+
+
 
     /**
      * Show the form for creating a new resource.

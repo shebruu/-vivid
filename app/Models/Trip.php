@@ -36,13 +36,21 @@ class Trip extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_trip')
-            ->withPivot('user_activities')
-            ->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_trip');
     }
 
+
+    /* pour accéder à des relations éloignées à travers une relation intermédiaire
     public function activities()
     {
-        return $this->hasManyThrough(Activity::class, User::class, 'user_trip', 'user_id', 'id', 'activity_id');
+        return $this->hasManyThrough(
+            Activity::class,    // La classe finale à atteindre
+            UserTrip::class,    // La classe intermédiaire
+            'trip_id',          // Clé étrangère sur la table intermédiaire
+            'id',               // Clé étrangère sur la table finale (Activity)
+            'id',               // Clé locale sur la table principale (Trip)
+            'user_id'           // Clé locale sur la table intermédiaire (UserTrip)
+        );
     }
+    */
 }

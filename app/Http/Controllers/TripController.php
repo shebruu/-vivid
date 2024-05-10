@@ -10,6 +10,7 @@ use Inertia\Inertia;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\TripRequest;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -29,8 +30,9 @@ class TripController extends Controller
     {
         $userId = Auth::id();
 
-        $trips = Trip::where('created_by', $userId)->get();
-        //dd($trips);
+        $trips = Trip::where('created_by', $userId)->with('creator', 'users')->get();
+        // dd($trips);
+
 
         return Inertia::render('Mycomponents/trips/Trips', [
             'usertrips' => $trips,
@@ -95,6 +97,8 @@ class TripController extends Controller
             'activities' => $trip->users->flatMap->activities
         ]);
     }
+
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -121,22 +125,19 @@ class TripController extends Controller
         //
     }
 
-
-
-    public function addMemberByLogin(Request $request, Trip $trip)
+    public function addMemberByLogin(Request $request, $tripId)
     {
-        $validatedData = $request->validate([
-            'login' => 'required|string',
-            'user_activities' => 'nullable|integer'
+        $request->validate([
+            'login' => 'required|string|exists:users,login'
         ]);
 
-        // Attach the user to the trip with additional data
-        $trip->users()->attach($validatedData['user_id'], [
-            'user_activities' => $validatedData['user_activities'] ?? null
-        ]);
+        $user = User::where('login', $request->input('login'))->first();
+        if (!$user) {
+            return redirect()->back()->withErrors(['login' => 'No user found with this login.']);
+        }
+        $trip = Trip::findOrFail($tripId);
+        $trip->users()->attach($user->id);
 
-
-        return redirect()->route('trip.show', ['trip' => $trip->id])
-            ->with('success', 'Membre ajouté au voyage.');
+        return redirect()->back()->with('success', 'Membre ajouté avec succès.');
     }
 }

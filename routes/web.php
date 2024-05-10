@@ -9,6 +9,7 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserActivityController;
 
@@ -51,6 +52,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
 
+    Route::resource('bookings', BookingController::class)->names([
+        'index' => 'booking.index',
+        'create' => 'booking.create',
+        'store' => 'booking.store',
+        'edit' => 'booking.edit',
+        'update' => 'booking.update',
+        'destroy' => 'booking.destroy',
+        'show' => 'booking.show',
+    ]);
+
     // Gestion des voyages
     Route::resource('trips', TripController::class)->names([
         'index' => 'trip.index',
@@ -61,6 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'destroy' => 'trip.destroy',
         'show' => 'trip.show',
     ]);
+    Route::post('/trips/{tripId}/addMember', [TripController::class, 'addMemberByLogin'])->name('trip.addmember');
 
     Route::get('/trip/{trip}/activities', [TripController::class, 'showActivities'])->name('trip.activities');
 

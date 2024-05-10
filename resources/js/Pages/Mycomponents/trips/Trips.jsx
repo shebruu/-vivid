@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link } from '@inertiajs/inertia-react';
 import Navbar2 from '../Navbar';
@@ -6,6 +6,26 @@ import './style.css';
 
 
 function Trips({ usertrips, auth }) {
+
+
+
+    const [memberLogins, setMemberLogins] = useState({});
+
+    const handleLoginChange = (tripId, login) => {
+        setMemberLogins({ ...memberLogins, [tripId]: login });
+    };
+
+    const addMember = (tripId) => {
+        if (!memberLogins[tripId]) {
+            alert("Please enter a member's login.");
+            return;
+        }
+        Inertia.post(`/trips/${tripId}/addMember`, { login: memberLogins[tripId] });
+        setMemberLogins({ ...memberLogins, [tripId]: '' }); // Reset the input after submit
+    };
+
+        
+
     return (
         <AuthenticatedLayout
         user={auth.user}
@@ -22,7 +42,20 @@ function Trips({ usertrips, auth }) {
                             <h2 className="text-xl">{trip.departure} - {trip.arrival}</h2>
                             <p className="text-gray-600">Estimation totale: {trip.totalestimation}</p>
                             <Link href={route('trip.show', { trip: trip.id })} className="btn-primary">Voir les détails</Link>
-      
+                            <ul>
+                                    {trip.users.map(user => (
+                                        <li key={user.id}>{user.login}</li>
+                                    ))}
+                                </ul>
+                                <input 
+                                    type="text" 
+                                    value={memberLogins[trip.id] || ''}
+                                    onChange={(e) => handleLoginChange(trip.id, e.target.value)} 
+                                    placeholder="Enter member login"
+                                />
+                                <button onClick={() => addMember(trip.id)}>Add Member</button>
+                            
+                            
                         </div>
                     ))}
                 </div>

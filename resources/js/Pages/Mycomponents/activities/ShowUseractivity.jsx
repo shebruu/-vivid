@@ -5,6 +5,7 @@ import "./style.css";
 import ActivityList from "./ActivityList";
 import CustomDatepicker from "./CustomDatepicker";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import BookingManager from './BookingManager';
 
 <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap"
@@ -43,7 +44,13 @@ function ShowUserActivity({
     placeImages,
     auth,
     trips,
+    bookedTimes 
 }) {
+
+    if (!bookedTimes) {
+        console.error('bookedTimes is undefined or not passed correctly.');
+        bookedTimes = []; // Définir une valeur par défaut si nécessaire
+    }
     // // State hooks to manage various aspects of the component.
     const [activitiesByTrip, setActivitiesByTrip] = useState({});
 
@@ -207,7 +214,7 @@ function ShowUserActivity({
                         </select>
                     </section>
                     <section className="trip-section">
-                        <h2>Select a Trip</h2>
+                        <h2>Select your  Trip</h2>
                         <select
                             value={selectedTrip ? selectedTrip.id : ""}
                             onChange={handleTripChange}
@@ -215,7 +222,7 @@ function ShowUserActivity({
                         >
                             {trips.map((trip) => (
                                 <option key={trip.id} value={trip.id}>
-                                    {`From ${trip.title} to  ${trip.arrival}`}
+                                    {` ${trip.title} to  ${trip.arrival}`}
                                 </option>
                             ))}
                         </select>
@@ -236,6 +243,12 @@ function ShowUserActivity({
                             <p>Please select a trip</p>
                         )}
                     </div>
+                    <BookingManager 
+    userActivityId={selectedTrip.id} 
+    bookedTimes={bookedTimes} 
+    startDate={selectedTrip.departure}
+    endDate={selectedTrip.arrival}
+/>
                     {/* Add to List Button */}
                     <div className="actions">
                         <button

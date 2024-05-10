@@ -51,4 +51,12 @@ class UserActivity extends Model
     {
         return $this->hasMany(Trip::class, 'trip_id');
     }
+
+    /**
+     * Get the bookings for the user activity.
+     */
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

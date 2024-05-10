@@ -9,7 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css';
  * @param {Object} props - Propriétés du composant.
  * @param {Date} props.selectedDate - La date actuellement sélectionnée.
  * @param {Function} props.onChange - Fonction appelée lors du changement de la date sélectionnée.
- * @param {Date} props.startDate - Date de début de la plage de sélection.
+ * @param {Date} props.startDate - Date de dédevbut de la plage de sélection.
  * @param {Date} props.endDate - Date de fin de la plage de sélection.
  */
 function isValidDate(dateStr) {
