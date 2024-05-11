@@ -32,21 +32,32 @@ class UserActivity extends Model
     protected $table = 'user_activities';
 
 
+    /**
+     * Get the user who created the activity.
+     */
     public function activity()
     {
         return $this->belongsTo(Activity::class, 'activity_id');
     }
+
 
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    /**
+     * Get the place associated with the user activity.
+     */
     public function place()
     {
         return $this->belongsTo(Place::class, 'place_id');
     }
 
+
+    /**
+     * Get the trips associated with the user activity.
+     */
     public function trips()
     {
         return $this->hasMany(Trip::class, 'trip_id');

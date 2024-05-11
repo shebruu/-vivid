@@ -166,32 +166,35 @@ function ShowUserActivity({
                     <section className="place-section">
                         <h2>Place Information</h2>
                         <p>
-                            <strong>Title:</strong> {place.title}
+                            <strong>google Title:</strong> {place.title}
                         </p>
+                        <br />
                         <p>
                             <strong>Description:</strong> {place.description}
                         </p>
+                        <br />
                         <p>
-                            <strong>Address:</strong> {place.adress}
+                            <strong>Address:</strong> {place.adress} {place.postal_code} 
+                        
                         </p>
                     </section>
 
                     {/* Created By Section */}
                     <section className="creator-section">
-                        <h2>Created By</h2>
+                        <h2>  Created By : </h2>
                         <p>
-                            <strong>Name:</strong> {createdby.firstname}{" "}
+                           {createdby.firstname}{" "}
                             {createdby.lastname}
                         </p>
                     </section>
 
                     {/* Prices Section */}
                     <section className="prices-section">
-                        <h2>Prices</h2>
+                        <h2> Prices</h2>
                         <ul className="prices-list">
-                            {prices.map((price) => (
+                            {place.prices.map((price) => (
                                 <li key={price.id}>
-                                    <strong>Range:</strong> {price.age_range},
+                                    <strong>Range:</strong> {price.age_rang},
                                     <strong>Amount:</strong> {price.amount}
                                 </li>
                             ))}
@@ -206,9 +209,9 @@ function ShowUserActivity({
                             onChange={(e) => setSelectedPrice(e.target.value)}
                             className="price-select"
                         >
-                            {prices.map((price) => (
+                            {place.prices.map((price) => (
                                 <option key={price.id} value={price.amount}>
-                                    {`${price.age_range} - ${price.amount} $`}
+                                    {`${price.age_rang} - ${price.amount} $`}
                                 </option>
                             ))}
                         </select>

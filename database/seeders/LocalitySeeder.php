@@ -107,6 +107,17 @@ class LocalitySeeder extends Seeder
                 'language' => 'French'
             ],
             [
+                "postal_code" => 1300,
+                "city" => "Wavre",
+                "province" => "Walloon Brabant",
+                "population" => 34000,
+                "adress" => "Place de l'Hôtel de Ville, 1300 Wavre, Belgium",
+                "latitude" => 50.7172,
+                "longitude" => 4.6121,
+                "description" => "Wavre, the capital of the Walloon Brabant province, is known for its dynamic cultural life and historical sites, including the famous Walibi Belgium amusement park nearby, attracting visitors with thrilling rides and family-friendly attractions.",
+                "language" => "French"
+            ],
+            [
                 'postal_code' => 4960,
                 'city' => 'Malmedy',
                 'province' => 'Liege',
@@ -183,6 +194,39 @@ class LocalitySeeder extends Seeder
                 'latitude' => 50.8606,
                 'longitude' => 5.3881,
                 'description' => 'Kortessem, a small town in Limburg, is appreciated for its quiet, rural charm and historic sites scattered across the village centers.',
+                'language' => 'Dutch'
+            ],
+            [
+                'postal_code' => 2650,
+                'city' => 'Edegem',
+                'province' => 'Antwerp',
+                'population' => 21527,
+                'adress' => 'Gemeenteplein, 2650 Edegem, Belgium',
+                'latitude' => 51.1570,
+                'longitude' => 4.4386,
+                'description' => 'Edegem, a suburban town near Antwerp, is known for its rich history and green spaces, offering residents and visitors a peaceful community with close proximity to urban amenities.',
+                'language' => 'Dutch'
+            ],
+            [
+                'postal_code' => 3840,
+                'city' => 'Borgloon',
+                'province' => 'Limburg',
+                'population' => 10800,
+                'adress' => 'Speelhof, 3840 Borgloon, Belgium',
+                'latitude' => 50.8039,
+                'longitude' => 5.3470,
+                'description' => 'Borgloon is a historic city in Limburg, famous for its fruit production and picturesque landscapes, making it a popular destination for hikers and cultural tourists.',
+                'language' => 'Dutch'
+            ],
+            [
+                'postal_code' => 2880,
+                'city' => 'Bornem',
+                'province' => 'Antwerp',
+                'population' => 21069,
+                'adress' => 'Kardinaal Cardijnplein, 2880 Bornem, Belgium',
+                'latitude' => 51.0953,
+                'longitude' => 4.2336,
+                'description' => 'Bornem, nestled on the banks of the Scheldt River, is known for its medieval castle and vibrant community events, attracting visitors with its scenic natural surroundings and active cultural life.',
                 'language' => 'Dutch'
             ],
         ];

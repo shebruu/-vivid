@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link } from '@inertiajs/inertia-react';
+import { Inertia } from '@inertiajs/inertia';
 import Navbar2 from '../Navbar';
 import './style.css'; 
 
+
+/**
+ * Le composant fonctionnel Trips affiche les voyages de l'utilisateur et permet l'ajout de membres.
+ * @param {Object} props - Propriétés passées au composant, incluant usertrips et auth.
+ */
 
 function Trips({ usertrips, auth }) {
 
@@ -11,17 +17,29 @@ function Trips({ usertrips, auth }) {
 
     const [memberLogins, setMemberLogins] = useState({});
 
+
+     /**
+     * Gère les changements dans les champs de saisie des logins.
+     * @param {Number} tripId - ID du voyage.
+     * @param {String} login - Login de l'utilisateur à ajouter.
+     */
     const handleLoginChange = (tripId, login) => {
         setMemberLogins({ ...memberLogins, [tripId]: login });
     };
 
+
+     /**
+     * Fonction pour ajouter un membre au voyage.
+     * @param {Number} tripId - ID du voyage où ajouter le membre.
+     */
     const addMember = (tripId) => {
         if (!memberLogins[tripId]) {
             alert("Please enter a member's login.");
             return;
         }
-        Inertia.post(`/trips/${tripId}/addMember`, { login: memberLogins[tripId] });
-        setMemberLogins({ ...memberLogins, [tripId]: '' }); // Reset the input after submit
+        Inertia.post(route('trip.addmember',{ tripId: tripId }), { login: memberLogins[tripId] });
+        /** Réinitialise le champ de saisie après l'envoi */
+        setMemberLogins({ ...memberLogins, [tripId]: '' });
     };
 
         

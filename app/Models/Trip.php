@@ -33,14 +33,20 @@ class Trip extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-
+    /**
+     * Get the users associated with the trip.
+     */
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_trip');
     }
 
 
-    /* pour accéder à des relations éloignées à travers une relation intermédiaire
+    /**
+     * Access distant relations through an intermediate relation.
+     * Uncomment the code below if needed.
+     */
+    /*
     public function activities()
     {
         return $this->hasManyThrough(

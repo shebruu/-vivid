@@ -49,10 +49,7 @@ class Activity extends Model
     }
 
 
-    public function prices()
-    {
-        return $this->hasMany(Price::class, 'activity_id');
-    }
+
 
     public function place()
     {

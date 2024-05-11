@@ -59,26 +59,39 @@ class User extends Authenticatable
      */
     protected $table = 'users';
 
+
+    /**
+     * User's activities relationship.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function activity()
     {
         return $this->hasMany(Activity::class);
     }
 
 
-
+    /**
+     * Get the trips created by the user.
+     */
     public function trips()
     {
         return $this->hasMany(Trip::class, 'created_by');
     }
-
-    //allows users to recover their activities,
+    /**
+     * Retrieves user's activities along with associated pivot data.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function getActivities()
     {
         return $this->belongsToMany(Activity::class, 'user_activity', 'created_by', 'activity_id')->withPivot(['place_id', 'duration', 'date', 'duration', 'status', 'start_time', 'end_time']);
     }
 
 
-
+    /**
+     * Get the trips the user is associated with.
+     */
     public function userstrips()
     {
         return $this->belongsToMany(Trip::class, 'user_trip')

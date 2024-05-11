@@ -39,4 +39,16 @@ class Place extends Model
     {
         return $this->belongsToMany(Activity::class, 'user_activities', 'place_id', 'activity_id')->withPivot(['user_id', 'duration', 'status', 'start_time', 'end_time']);
     }
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class, 'place_id');
+    }
+
+
+    // Relation avec Locality
+    public function locality()
+    {
+        return $this->belongsTo(Locality::class, 'locality_id');
+    }
 }

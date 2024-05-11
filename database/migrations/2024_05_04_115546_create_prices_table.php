@@ -22,7 +22,6 @@ return new class extends Migration
 
             // Foreign key constraint
 
-            $table->foreignId('activity_id')->constrained('activities')->onDelete('cascade')->onUpdate('cascade');
 
 
             $table->foreignId('place_id')->constrained('places')->onDelete('cascade')->onUpdate('cascade');

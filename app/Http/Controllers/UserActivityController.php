@@ -29,17 +29,33 @@ class UserActivityController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Méthode index pour afficher la liste des activités validées avec possibilité de filtrage.
+     * Utilise le chargement préalable pour optimiser les performances des requêtes et la gestion des relations.
+     * Applique un filtrage dynamique basé sur le terme de recherche fourni par l'utilisateur.
+     *
+     * @param Request $request La requête HTTP entrante
+     * @return \Inertia\Response Renvoie une réponse Inertia avec les activités filtrées et le nom de l'utilisateur.
      */
-
     public function index(Request $request)
     {
 
+
         $user = $request->user();
+        $searchTerm = $request->input('search', '');
+
         $realizedActivities = UserActivity::where('status', 'validated')
-            ->with(['activity.prices', 'place', 'user'])
+            ->with(['place.prices', 'place.locality', 'user', 'activity'])
+            ->whereHas('place', function ($query) use ($searchTerm) {
+                $query->where('title', 'like', '%' . $searchTerm . '%')
+                    ->orWhereHas('locality', function ($subQuery) use ($searchTerm) {
+                        $subQuery->where('city', 'like', '%' . $searchTerm . '%');
+                    });
+            })
+            ->orWhereHas('activity', function ($query) use ($searchTerm) {
+                $query->where('activity', 'like', '%' . $searchTerm . '%');
+            })
             ->get();
-        //dump($realizedActivities);
+        //  dump($realizedActivities);
 
         return inertia('Mycomponents/activities/UserActivityList', [
             'activities' => $realizedActivities,
@@ -51,7 +67,7 @@ class UserActivityController extends Controller
 
     public function show(UserActivity $useractivity)
     {
-        $useractivity->load('activity.prices', 'activity.place', 'activity.createdby', 'user', 'user.trips');
+        $useractivity->load('place.prices', 'activity.place', 'activity.createdby', 'user', 'user.trips');
 
         // Récupère les créneaux réservés pour l'activité
         $bookedTimes = Booking::where('user_activity_id', $useractivity->id)
@@ -76,14 +92,14 @@ class UserActivityController extends Controller
             'activity' => $useractivity->activity,
             'place' => $useractivity->place, // UserActivity has a direct place association
             'createdby' => $useractivity->user, // User who created the user activity
-            'prices' => $useractivity->activity->prices, // Prices come from the activity relationship,
+            'prices' => $useractivity->place->prices, // Prices come from the activity relationship,
             'placeImages' => $imageFiles,
             'trips' => $useractivity->user->trips,
             'bookedTimes' => $bookedTimes
         ];
 
-        //  dd($useractivity);  // instance du modele  UserActivity ( id, act, created, place, duration, status, start) 
-        // dd($activityData); //collection de   UserActivity ( champs de places, activity, createdby ..) 
+        // dump($useractivity);  // instance du modele  UserActivity ( id, act, created, place, duration, status, start) 
+        // dump($activityData); //collection de   UserActivity ( champs de places, activity, createdby ..) 
 
         return inertia('Mycomponents/activities/ShowUseractivity',   [
             'activity' => $activityData['activity'],

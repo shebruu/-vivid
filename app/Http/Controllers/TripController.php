@@ -24,7 +24,8 @@ class TripController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Affiche une liste des voyages créés par l'utilisateur authentifié.
+     *
      */
     public function index()
     {
@@ -50,7 +51,8 @@ class TripController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Stocke un nouveau voyage dans la base de données.
+     * Valide et traite les données reçues du formulaire avant de créer le voyage.
      */
     public function store(TripRequest $request)
     {
@@ -85,13 +87,14 @@ class TripController extends Controller
     }
 
     /**
-     * shows the activities associated to the user_trip
+     * Charge les activités associées à un voyage.
+     * 
      */
     public function showActivities(Trip $trip)
     {
 
         $trip->load('users.activities');
-        dd($trip);
+        // dd($trip);
         return Inertia::render('ActivitiesList', [
             'trip' => $trip,
             'activities' => $trip->users->flatMap->activities
@@ -125,6 +128,10 @@ class TripController extends Controller
         //
     }
 
+    /**
+     * Ajoute un membre à un voyage via son login.
+     * Valide le login, recherche l'utilisateur, et l'ajoute au voyage.
+     */
     public function addMemberByLogin(Request $request, $tripId)
     {
         $request->validate([

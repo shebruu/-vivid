@@ -10,10 +10,24 @@ class Price extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $fillable = ['activity_id', 'place_id', 'user_id', 'amount', 'age_rang', 'season', 'day-type'];
+    protected $fillable = ['place_id', 'user_id', 'amount', 'age_rang', 'season', 'day-type'];
 
-    public function activity()
+
+
+
+    /**
+     * Get the place associated with this price (if applicable).
+     */
+    public function place()
     {
-        return $this->belongsTo(Activity::class, 'activity_id');
+        return $this->belongsTo(Place::class, 'place_id');
+    }
+
+    /**
+     * Optional: Relation to a user if prices are user-specific.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
