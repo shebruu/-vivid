@@ -74,7 +74,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ]);
     Route::post('/trips/{tripId}/addMember', [TripController::class, 'addMemberByLogin'])->name('trip.addmember');
     Route::get('/trips/{tripId}/manage', [TripController::class, 'manageMembers'])->name('trip.manage');
-    Route::post('/trips/{tripId}/members/{userId}', [TripController::class, 'removeMember'])->name('trip.removemember');
+    Route::delete('/trips/{tripId}/members/{userId}', [TripController::class, 'removeMember'])->name('trip.removemember');
 
     Route::get('/trip/{trip}/activities', [TripController::class, 'showActivities'])->name('trip.activities');
 

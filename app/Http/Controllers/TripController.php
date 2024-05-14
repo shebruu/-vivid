@@ -3,20 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trip;
+
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use Inertia\Inertia;
 
 use Illuminate\Routing\Controller;
 use App\Http\Requests\TripRequest;
-
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+
+
+//use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+
+//pour autorisation
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+
 
 class TripController extends Controller
 {
 
+    use AuthorizesRequests;
 
     public function __construct()
     {
@@ -82,8 +90,14 @@ class TripController extends Controller
     public function show(Trip $trip)
     {
 
+        $user = Auth::user();
         // dd($trip);
-        return Inertia::render('Mycomponents/trips/Show', ['trip' => $trip]);
+        return Inertia::render('Mycomponents/trips/Show', [
+            'trip' => $trip, 'canEdit' => $user->can('update', $trip),
+            'canDelete' => $user->can('delete', $trip),
+            'canAddMember' => $user->can('addMember', $trip),
+            'canRemoveMember' => $user->can('removeMember', $trip)
+        ]);
     }
 
     /**
@@ -115,6 +129,7 @@ class TripController extends Controller
      */
     public function update(TripRequest $request, Trip $trip)
     {
+        $this->authorize('update', $trip);
         $validatedData = $request->validated();
         $trip->update($validatedData);
         return redirect()->route('trip.show', ['trip' => $trip->id])->with('success', 'Voyage modifié avec succès.');
@@ -125,7 +140,10 @@ class TripController extends Controller
      */
     public function destroy(Trip $trip)
     {
-        //
+        $this->authorize('delete', $trip);
+
+        $trip->delete();
+        return redirect()->route('trips.index')->with('success', 'Voyage supprimé avec succès.');
     }
 
     /**
@@ -137,11 +155,15 @@ class TripController extends Controller
         $request->validate([
             'login' => 'required|string|exists:users,login'
         ]);
+
+
         $user = User::where('login', $request->input('login'))->first();
         if (!$user) {
             return redirect()->back()->withErrors(['login' => 'No user found with this login.']);
         }
         $trip = Trip::findOrFail($tripId);
+
+        $this->authorize('addMember', $trip, $user);
         if ($trip->users()->where('users.id', $user->id)->exists()) {
             return redirect()->back()->withErrors(['login' => 'Member already added.']);
         }
@@ -166,11 +188,7 @@ class TripController extends Controller
         $trip = Trip::findOrFail($tripId);
         $user = User::findOrFail($userId);
 
-        /* Optionnel: vérifiez si l'utilisateur authentifié a le droit de modifier ce voyage
-        if (!auth()->user()->can('update', $trip)) {
-            return redirect()->back()->with('error', 'Unauthorized access.');
-        }*/
-
+        $this->authorize('removeMember', $trip);
         // Détacher l'utilisateur du voyage
         $trip->users()->detach($user->id);
 

@@ -18,8 +18,8 @@ function MemberManagement({ auth,trip }) {
 
     const handleRemoveMember = (userId) => {
         Inertia.delete(route('trip.removemember', { tripId: trip.id, userId }), {
+         
             onSuccess: () => {
-                // Vous pouvez rafraîchir les données ici ou utiliser une approche de revalidation optimiste
                 console.log('Member removed successfully');
             }
         });
