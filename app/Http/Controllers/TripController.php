@@ -137,14 +137,43 @@ class TripController extends Controller
         $request->validate([
             'login' => 'required|string|exists:users,login'
         ]);
-
         $user = User::where('login', $request->input('login'))->first();
         if (!$user) {
             return redirect()->back()->withErrors(['login' => 'No user found with this login.']);
         }
         $trip = Trip::findOrFail($tripId);
+        if ($trip->users()->where('users.id', $user->id)->exists()) {
+            return redirect()->back()->withErrors(['login' => 'Member already added.']);
+        }
         $trip->users()->attach($user->id);
-
         return redirect()->back()->with('success', 'Membre ajouté avec succès.');
+    }
+
+
+    public function manageMembers($tripId)
+    {
+        $trip = Trip::with('users')->findOrFail($tripId);
+        return Inertia::render('Mycomponents/trips/MemberManagement', [
+            'trip' => $trip,
+            'auth' => [
+                'user' => auth()->user()  // Assurez-vous que l'utilisateur est authentifié
+            ]
+        ]);
+    }
+
+    public function removeMember(Request $request, $tripId, $userId)
+    {
+        $trip = Trip::findOrFail($tripId);
+        $user = User::findOrFail($userId);
+
+        /* Optionnel: vérifiez si l'utilisateur authentifié a le droit de modifier ce voyage
+        if (!auth()->user()->can('update', $trip)) {
+            return redirect()->back()->with('error', 'Unauthorized access.');
+        }*/
+
+        // Détacher l'utilisateur du voyage
+        $trip->users()->detach($user->id);
+
+        return redirect()->back()->with('success', 'Member successfully removed.');
     }
 }

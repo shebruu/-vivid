@@ -10,7 +10,7 @@
 }
 
 .btn-primary {
-    background-color: #4caf50;
+    background-color: #f26419;
     color: #ffffff;
     padding: 10px 20px;
     border: none;
@@ -22,7 +22,7 @@
 }
 
 .btn-primary:hover {
-    background-color: #45a049;
+    background-color:#55dde0;
 }
 
 .card {
@@ -90,7 +90,7 @@ label {
 }
 
 .form-submit {
-    background-color: blueviolet; /* Couleur de fond */
+    background-color: #f26419; /* Couleur de fond */
     color: #fff; /* Couleur de texte */
     border: none;
     border-radius: 5px;
@@ -101,5 +101,14 @@ label {
 }
 
 .form-submit:hover {
-    background-color: red; /* Couleur de fond au survol */
+    background-color: #55dde0; /* Couleur de fond au survol */
 }
+
+
+/*members*/
+
+
+
+/*Modal */
+
+
