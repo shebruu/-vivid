@@ -13,6 +13,8 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserActivityController;
 
+use App\Http\Controllers\ActivityVoteController;
+
 
 use App\Models\UserActivity;
 use App\Models\Trip;
@@ -92,6 +94,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/itinerarie/form', [UserActivityController::class, 'showValidatedActivitiesForm'])->name('useractivities.form');
 
 
+    Route::resource('votes', ActivityVoteController::class)->names([
+        'index' => 'vote.index',
+        'create' => 'vote.create',
+        'store' => 'vote.store',
+        'edit' => 'vote.edit',
+        'update' => 'vote.update',
+        'destroy' => 'vote.destroy',
+        'show' => 'vote.show',
+    ]);
     // Autres pages spécifiques
     Route::get('/finance', function () {
         return Inertia::render('Depenses');

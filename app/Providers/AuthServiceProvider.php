@@ -8,8 +8,6 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Support\Facades\Gate;
 
 
-use App\Models\Trip;
-use App\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\TripPolicy',
+
     ];
     /**
      * Register services.

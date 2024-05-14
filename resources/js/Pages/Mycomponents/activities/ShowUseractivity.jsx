@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Navbar2 from "../Navbar";
 import "./style.css";
 import ActivityList from "./ActivityList";
-import CustomDatepicker from "./CustomDatepicker";
+
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import BookingManager from './BookingManager';
 
@@ -231,21 +231,7 @@ function ShowUserActivity({
                         </select>
                     </section>
 
-                    <div>
-                        <h1>Choisissez une date </h1>
-                        {selectedTrip &&
-                        isValidDate(selectedTrip.departure) &&
-                        isValidDate(selectedTrip.arrival) ? (
-                            <CustomDatepicker
-                                selectedDate={selectedDateTime}
-                                onChange={setSelectedDateTime}
-                                startDate={new Date(selectedTrip.departure)}
-                                endDate={new Date(selectedTrip.arrival)}
-                            />
-                        ) : (
-                            <p>Please select a trip</p>
-                        )}
-                    </div>
+              
                     <BookingManager 
     userActivityId={selectedTrip.id} 
     bookedTimes={bookedTimes} 

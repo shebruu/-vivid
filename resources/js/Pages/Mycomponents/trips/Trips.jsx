@@ -21,6 +21,7 @@ function Trips({ usertrips, auth }) {
                             <p className="text-gray-600">Estimation totale: {trip.totalestimation}</p>
                             <Link href={route('trip.show', { trip: trip.id })} className="btn-primary">Voir les détails</Link>
                             <Link href={route('trip.manage', { tripId: trip.id })} className="btn-primary">Gestion des membres</Link>
+                            <Link href={route('vote.index', { tripId: trip.id })} className="btn-primary">Propositions d' activité de tes amis </Link>
                         </div>
                     ))}
                 </div>
