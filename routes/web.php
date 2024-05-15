@@ -92,11 +92,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/itinerarie/list', [UserActivityController::class, 'addselectedtolist'])->name('itinerarie.addlist');
 
-    Route::get('/itinerari/list/{tripId}', [UserActivityController::class, 'showactivitylist'])->name('itinerarie.list');
+    Route::get('/itinerarie/list/{tripId}', [UserActivityController::class, 'showactivitylist'])->name('itinerarie.list');
 
 
-    // Formulaire pour les activités validées
-    Route::get('/itinerarie/form', [UserActivityController::class, 'showValidatedActivitiesForm'])->name('useractivities.form');
+    Route::post('/activities/{activity}/vote', [UserActivityController::class, 'vote'])->name('activities.vote');
 
 
     Route::resource('votes', ActivityVoteController::class)->names([

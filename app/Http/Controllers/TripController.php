@@ -31,6 +31,8 @@ class TripController extends Controller
         $this->middleware('auth')->only(['index', 'create', 'store', 'edit', 'update', 'destroy', 'addMemberByLogin']);
     }
 
+
+
     /**
      * Affiche une liste des voyages créés par l'utilisateur authentifié.
      *
@@ -51,6 +53,9 @@ class TripController extends Controller
             'usertrips' => $trips,
         ]);
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -88,6 +93,9 @@ class TripController extends Controller
         return response()->json(['message' => 'Voyage créé avec succès'], 201);
     }
 
+
+
+
     /**
      * Display the specified resource.
      */
@@ -103,6 +111,9 @@ class TripController extends Controller
             'canRemoveMember' => $user->can('removeMember', $trip)
         ]);
     }
+
+
+
 
     /**
      * Charge les activités associées à un voyage.
@@ -120,6 +131,7 @@ class TripController extends Controller
     }
 
 
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -127,6 +139,8 @@ class TripController extends Controller
     {
         return Inertia::render('Mycomponents/trips/Show', ['trip' => $trip]);
     }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -139,6 +153,8 @@ class TripController extends Controller
         return redirect()->route('trip.show', ['trip' => $trip->id])->with('success', 'Voyage modifié avec succès.');
     }
 
+
+
     /**
      * Remove the specified resource from storage.
      */
@@ -149,6 +165,8 @@ class TripController extends Controller
         $trip->delete();
         return redirect()->route('trips.index')->with('success', 'Voyage supprimé avec succès.');
     }
+
+
 
     /**
      * Ajoute un membre à un voyage via son login.
@@ -176,6 +194,8 @@ class TripController extends Controller
     }
 
 
+
+
     public function manageMembers($tripId)
     {
         $trip = Trip::with('users')->findOrFail($tripId);
@@ -188,6 +208,9 @@ class TripController extends Controller
             ]
         ]);
     }
+
+
+
 
     public function removeMember(Request $request, $tripId, $userId)
     {

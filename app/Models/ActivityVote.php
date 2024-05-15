@@ -16,11 +16,11 @@ class ActivityVote extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function userActivity()
     {
-        return $this->belongsTo(UserActivity::class);
+        return $this->belongsTo(UserActivity::class, 'user_activity_id');
     }
 }

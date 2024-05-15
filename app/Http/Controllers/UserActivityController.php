@@ -7,17 +7,22 @@ use App\Models\UserActivity;
 use App\Http\Requests\UseractivityRequest;
 use Illuminate\Http\Request;
 
-use App\Models\Activity;
-use App\Models\Place;
-use App\Models\Booking;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Response;
+
+
+use App\Models\Activity;
+use App\Models\Place;
+use App\Models\ActivityVote;
+use App\Models\Booking;
+
 
 
 
@@ -25,19 +30,13 @@ class UserActivityController extends Controller
 {
 
 
+
     public function __construct()
     {
         $this->middleware('auth')->only(['index', 'create', 'store', 'edit', 'update', 'destroy', 'addselectedtolist', 'showactivitylist']);
     }
 
-    /**
-     * Méthode index pour afficher la liste des activités validées avec possibilité de filtrage.
-     * Utilise le chargement préalable pour optimiser les performances des requêtes et la gestion des relations.
-     * Applique un filtrage dynamique basé sur le terme de recherche fourni par l'utilisateur.
-     *
-     * @param Request $request La requête HTTP entrante
-     * @return \Inertia\Response Renvoie une réponse Inertia avec les activités filtrées et le nom de l'utilisateur.
-     */
+    // Displays list of validated activities, supports dynamic filtering.
     public function index(Request $request)
     {
 
@@ -69,6 +68,7 @@ class UserActivityController extends Controller
 
 
 
+    // Shows detailed view for a specific user activity, loads related data.
     public function show(UserActivity $useractivity)
     {
         $useractivity->load('place.prices', 'activity.place', 'activity.createdby', 'user', 'user.trips');
@@ -117,44 +117,6 @@ class UserActivityController extends Controller
     }
 
 
-
-    //ajoute les activité a la db  pour proposer
-
-    public function addselectedtolist(Request $request)
-    {
-        // Valider les données de la demande
-        $request->validate([
-            'activityId' => 'required|exists:activities,id',
-            'tripId' => 'required|exists:trips,id',
-            'selectedPrice' => 'required|exists:places,id',
-            'selectedPrice' => 'nullable|exists:prices,id',
-            'selectedDateTime' => 'nullable|date'
-        ]);
-
-
-        $userActivity = new UserActivity();
-        $userActivity->activity_id = $request->activityId;
-        $userActivity->created_by = auth()->id();
-        $userActivity->trip_id = $request->tripId;
-        $userActivity->place_id = $request->placeId;
-        $userActivity->status = 'proposed';
-
-
-        if ($request->has('selectedPrice')) {
-            $userActivity->price_id = $request->selectedPrice;
-        }
-
-        if ($request->has('selectedDateTime')) {
-            $userActivity->start_time = new \DateTime($request->selectedDateTime);
-        }
-        $userActivity->save();
-        // Répondre avec la nouvelle activité ajoutée
-        return response()->json($userActivity, 201);
-    }
-
-
-
-
     /**
      * Show the form for creating a new resource.
      */
@@ -162,7 +124,6 @@ class UserActivityController extends Controller
     {
         return Inertia::render('Mycomponents/activities/Create');
     }
-
 
 
 
@@ -202,6 +163,75 @@ class UserActivityController extends Controller
     }
 
 
+
+    // Handles addition of a user-selected activity to the database.
+
+    public function addselectedtolist(Request $request)
+    {
+        // Valider les données de la demande
+        $request->validate([
+            'activityId' => 'required|exists:activities,id',
+            'tripId' => 'required|exists:trips,id',
+            'selectedPrice' => 'required|exists:places,id',
+            'selectedPrice' => 'nullable|exists:prices,id',
+            'selectedDateTime' => 'nullable|date'
+        ]);
+
+
+        $userActivity = new UserActivity();
+        $userActivity->activity_id = $request->activityId;
+        $userActivity->created_by = auth()->id();
+        $userActivity->trip_id = $request->tripId;
+        $userActivity->place_id = $request->placeId;
+        $userActivity->status = 'proposed';
+
+
+        if ($request->has('selectedPrice')) {
+            $userActivity->price_id = $request->selectedPrice;
+        }
+
+        if ($request->has('selectedDateTime')) {
+            $userActivity->start_time = new \DateTime($request->selectedDateTime);
+        }
+        $userActivity->save();
+        // Répondre avec la nouvelle activité ajoutée
+        return response()->json($userActivity, 201);
+    }
+
+
+
+
+
+
+    // Handles voting on an activity.
+    public function vote(Request $request, $activity)
+    {
+        $request->validate([
+            'vote' => 'required|in:yes,no',
+        ]);
+        $vote = $request->input('vote');
+
+
+        //si l utilisateur a deja voté
+        $existingVote = ActivityVote::where('user_activity_id', $activity)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if ($existingVote) {
+            return response()->json(['success' => false, 'message' => 'You have already voted for this activity.'], 403);
+        }
+
+        ActivityVote::create([
+            'user_id' => auth()->id(),
+            'user_activity_id' => $activity,
+            'status' => $vote,
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Vote registered.']);
+    }
+
+
+
     /**
      * Affiche la liste des activités.
      *
@@ -209,20 +239,13 @@ class UserActivityController extends Controller
      */
     public function showactivitylist($tripId)
     {
-
-        /*
-        $activities = UserActivity::with('creator', 'trip')
-            ->where('created_by', auth()->id())
-            ->where('trip_id', $tripId)
-            ->where('status', 'proposed')
-            ->get();
-*/
         $activities = DB::table('user_activities')
             ->join('users', 'users.id', '=', 'user_activities.created_by')
             ->join('trips', 'trips.id', '=', 'user_activities.trip_id')
             ->join('activities', 'activities.id', '=', 'user_activities.activity_id')
             ->join('places', 'places.id', '=', 'user_activities.place_id')
             ->leftJoin('prices', 'prices.id', '=', 'user_activities.price_id')
+            ->leftJoin('activity_votes', 'activity_votes.user_activity_id', '=', 'user_activities.id')
 
             ->select(
                 'user_activities.id as activity_id',
@@ -234,15 +257,25 @@ class UserActivityController extends Controller
                 'user_activities.duration',
                 'user_activities.status',
                 'places.title as place_title',
-                'prices.amount as price_amount'
+                'prices.amount as price_amount',
+                DB::raw("COUNT(activity_votes.id) as total_votes"),
+                DB::raw("SUM(case when activity_votes.status = 'yes' then 1 else 0 end) as yes_votes"),
+                DB::raw("SUM(case when activity_votes.status = 'no' then 1 else 0 end) as no_votes")
             )
             ->where('user_activities.trip_id', $tripId)
             ->where('user_activities.status', 'proposed')
+            ->groupBy('user_activities.id', 'activities.activity', 'users.firstname', 'users.lastname', 'trips.title', 'user_activities.start_time', 'user_activities.duration', 'user_activities.status', 'places.title', 'prices.amount')
             ->orderBy('users.firstname', 'asc')
             ->get();
 
 
-        // Ne pas rendre la vue ici, car ActivityList est un composant React
+        //calcul des pourcentages 
+        $activitiesWithResults = $activities->map(function ($activity) {
+            $activity->yes_percentage = $activity->total_votes ? round(($activity->yes_votes / $activity->total_votes) * 100, 2) : 0;
+            $activity->no_percentage = $activity->total_votes ? round((($activity->total_votes - $activity->yes_votes) / $activity->total_votes) * 100, 2) : 0;
+            return $activity;
+        });
+
         return inertia('Mycomponents/activities/ActivityList', [
             'activities' => $activities,
             'selectedTripId' => $tripId,
@@ -250,6 +283,29 @@ class UserActivityController extends Controller
 
         ]);
     }
+
+
+
+    // Caches and returns voting results.
+    public function getResults($activityId)
+    {
+        $results = Cache::remember('votes_activity_' . $activityId, 3600, function () use ($activityId) {
+            $votes = ActivityVote::where('activity_id', $activityId)
+                ->select('status', DB::raw('count(*) as total'))
+                ->groupBy('status')
+                ->get();
+
+            $totalVotes = $votes->sum('total');
+            return $votes->mapWithKeys(function ($item) use ($totalVotes) {
+                return [$item->status => round(($item->total / $totalVotes) * 100, 2)];
+            });
+        });
+
+        return response()->json($results);
+    }
+
+
+
 
 
 
