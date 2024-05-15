@@ -90,6 +90,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'store' => 'user_activity.store',
         ]);
 
+    Route::post('/itinerarie/list', [UserActivityController::class, 'addselectedtolist'])->name('itinerarie.addlist');
+
+    Route::get('/itinerari/list/{tripId}', [UserActivityController::class, 'showactivitylist'])->name('itinerarie.list');
+
+
     // Formulaire pour les activités validées
     Route::get('/itinerarie/form', [UserActivityController::class, 'showValidatedActivitiesForm'])->name('useractivities.form');
 

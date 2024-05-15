@@ -18,7 +18,8 @@ class UserActivity extends Model
         'duration',
         'status',
         'start_time',
-        'trip_id'
+        'trip_id',
+        'price_id'
 
 
 

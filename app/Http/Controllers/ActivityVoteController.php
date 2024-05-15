@@ -3,15 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\ActivityVote;
+
+use App\Models\Trip;
 use Illuminate\Http\Request;
+
+
 
 class ActivityVoteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        // Récupérer tous les voyages de l'utilisateur authentifié
+        $userTrips = $request->user()->trips;
+
+        // Récupérer les activités pour chaque voyage
+        $activitiesByTrip = [];
+        foreach ($userTrips as $trip) {
+            $activitiesByTrip[$trip->id] = $trip->userActivities()->with('activity')->get();
+        }
+
+        return view('vote.index', [
+            'activitiesByTrip' => $activitiesByTrip,
+        ]);
     }
 
     /**
@@ -43,9 +60,23 @@ class ActivityVoteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ActivityVote $vote)
+    public function show(Request $request, ActivityVote $vote, $tripId)
     {
-        //
+        // Récupérer le voyage spécifié
+        $trip = Trip::findOrFail($tripId);
+
+        // Vérifier si l'utilisateur appartient au voyage
+        if (!$trip->users()->where('user_id', $request->user()->id)->exists()) {
+            abort(403, 'Unauthorized');
+        }
+
+        // Récupérer les propositions d'activités pour le voyage spécifié
+        $proposedActivities = $trip->userActivities()->with('activity')->get();
+
+        return view('vote.show', [
+            'trip' => $trip,
+            'proposedActivities' => $proposedActivities,
+        ]);
     }
 
     /**

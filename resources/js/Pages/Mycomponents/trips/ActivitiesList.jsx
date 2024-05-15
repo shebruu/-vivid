@@ -4,7 +4,7 @@ const ActivitiesList = ({ trip, activities }) => {
             <h1>Activities for {trip.title}</h1>
             <ul>
                 {activities.map(activity => (
-                    <li key={activity.id}>{activity.name}</li>  // Assurez-vous que les activités ont un attribut 'name'
+                    <li key={activity.id}>{activity.name}</li>  
                 ))}
             </ul>
         </div>

@@ -4,7 +4,11 @@ import { Link } from '@inertiajs/inertia-react';
 import Navbar2 from '../Navbar';
 import './style.css';
 
+
 function Trips({ usertrips, auth }) {
+
+
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -21,7 +25,10 @@ function Trips({ usertrips, auth }) {
                             <p className="text-gray-600">Estimation totale: {trip.totalestimation}</p>
                             <Link href={route('trip.show', { trip: trip.id })} className="btn-primary">Voir les détails</Link>
                             <Link href={route('trip.manage', { tripId: trip.id })} className="btn-primary">Gestion des membres</Link>
-                            <Link href={route('vote.index', { tripId: trip.id })} className="btn-primary">Propositions d' activité de tes amis </Link>
+
+                            <Link href={route('itinerarie.list', { tripId: trip.id })} className="btn-primary">Activités proposé </Link>
+
+                         
                         </div>
                     ))}
                 </div>

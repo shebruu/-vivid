@@ -25,7 +25,7 @@ class UserActivityController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+        $this->middleware('auth')->only(['index', 'create', 'store', 'edit', 'update', 'destroy', 'addselectedtolist', 'showactivitylist']);
     }
 
     /**
@@ -111,14 +111,42 @@ class UserActivityController extends Controller
             'bookedTimes' => $activityData['bookedTimes']
         ]);
     }
-    public function showActivity(Request $request)
-    {
-        $activities = Activity::all(); // Ou une requête plus spécifique
-        return Inertia::render('ShowUserActivity', [
-            'activities' => $activities
-        ]);
-    }
 
+
+
+    //ajoute les activité a la db  pour proposer
+
+    public function addselectedtolist(Request $request)
+    {
+        // Valider les données de la demande
+        $request->validate([
+            'activityId' => 'required|exists:activities,id',
+            'tripId' => 'required|exists:trips,id',
+            'selectedPrice' => 'required|exists:places,id',
+            'selectedPrice' => 'nullable|exists:prices,id',
+            'selectedDateTime' => 'nullable|date'
+        ]);
+
+
+        $userActivity = new UserActivity();
+        $userActivity->activity_id = $request->activityId;
+        $userActivity->created_by = auth()->id();
+        $userActivity->trip_id = $request->tripId;
+        $userActivity->place_id = $request->placeId;
+        $userActivity->status = 'proposed';
+
+
+        if ($request->has('selectedPrice')) {
+            $userActivity->price_id = $request->selectedPrice;
+        }
+
+        if ($request->has('selectedDateTime')) {
+            $userActivity->start_time = new \DateTime($request->selectedDateTime);
+        }
+        $userActivity->save();
+        // Répondre avec la nouvelle activité ajoutée
+        return response()->json($userActivity, 201);
+    }
 
 
 
@@ -130,6 +158,9 @@ class UserActivityController extends Controller
     {
         return Inertia::render('Mycomponents/activities/Create');
     }
+
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -165,6 +196,35 @@ class UserActivityController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Activité ajoutée avec succès']);
     }
+
+
+    /**
+     * Affiche la liste des activités.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showactivitylist($selectedTripId)
+    {
+        // Récupérer toutes les activités depuis la base de données
+        $activities = UserActivity::where('created_by', auth()->id())
+            ->where('trip_id', $selectedTripId)
+            ->where('status', 'proposed')
+            ->get();
+
+
+        // Partager les données avec Inertia
+        Inertia::share('activities', $activities);
+        Inertia::share('selectedTripId', null);
+
+        // Ne pas rendre la vue ici, car ActivityList est un composant React
+        return inertia('Mycomponents/activities/ActivityList', [
+            'activities' => $activities,
+            'selectedTripId' => $selectedTripId,
+
+
+        ]);
+    }
+
 
 
 

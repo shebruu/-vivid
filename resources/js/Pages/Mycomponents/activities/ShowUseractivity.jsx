@@ -1,10 +1,11 @@
-// ShowUserActivity.jsx
 import React, { useState, useEffect } from "react";
 import Navbar2 from "../Navbar";
 import "./style.css";
 import ActivityList from "./ActivityList";
 
+import { Inertia } from '@inertiajs/inertia';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+//import route from 'ziggy-js';
 import BookingManager from './BookingManager';
 
 <link
@@ -47,6 +48,7 @@ function ShowUserActivity({
     bookedTimes 
 }) {
 
+    const placeId = place.id;
     if (!bookedTimes) {
         console.error('bookedTimes is undefined or not passed correctly.');
         bookedTimes = []; // Définir une valeur par défaut si nécessaire
@@ -102,25 +104,32 @@ function ShowUserActivity({
      * @param {number} activityId - The ID of the activity to add.
      * @param {number} tripId - The ID of the trip associated with the activity.
      */
-    const addToActivityList = (activityId, tripId) => {
+    const addToActivityList = (activityId, tripId, selectedPrice,selectedDateTime, placeId) => {
         console.log(
             "Attempting to add activity:",
             activityId,
             " To trip :",
-            tripId
+            tripId,
+            "at place:", placeId
         );
-
-        setActivitiesByTrip((prevList) => {
-            const listForTrip = prevList[tripId] || [];
-            return listForTrip.includes(activityId)
-                ? prevList
-                : {
-                      ...prevList,
-                      [tripId]: [...listForTrip, activityId],
-                  };
+    
+        // Envoi de la demande au backend pour ajouter l'activité au statut "proposé"
+        Inertia.post(route('itinerarie.addlist'),  {
+        
+            activityId: activityId,
+            tripId: tripId,
+            selectedPrice: selectedPrice,
+            selectedDateTime: selectedDateTime.toISOString(),
+            placeId: placeId, 
+          
+        }).then(response => {
+            console.log('Success:', response);
+        }).catch(error => {
+            console.error('Error:', error);
         });
+    
     };
-
+       
     /**
      * useEffect to load activities from local storage when the component mounts.
      */
@@ -175,31 +184,13 @@ function ShowUserActivity({
                         <br />
                         <p>
                             <strong>Address:</strong> {place.adress} {place.postal_code} 
-                        
+                         
                         </p>
                     </section>
 
-                    {/* Created By Section */}
-                    <section className="creator-section">
-                        <h2>  Created By : </h2>
-                        <p>
-                           {createdby.firstname}{" "}
-                            {createdby.lastname}
-                        </p>
-                    </section>
+                   
 
-                    {/* Prices Section */}
-                    <section className="prices-section">
-                        <h2> Prices</h2>
-                        <ul className="prices-list">
-                            {place.prices.map((price) => (
-                                <li key={price.id}>
-                                    <strong>Range:</strong> {price.age_rang},
-                                    <strong>Amount:</strong> {price.amount}
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
+                  
 
                     {/* Price Selection */}
                     <section className="price">
@@ -210,7 +201,7 @@ function ShowUserActivity({
                             className="price-select"
                         >
                             {place.prices.map((price) => (
-                                <option key={price.id} value={price.amount}>
+                                <option key={price.id} value={price.id}>
                                     {`${price.age_rang} - ${price.amount} $`}
                                 </option>
                             ))}
@@ -244,7 +235,7 @@ function ShowUserActivity({
                             className="add-to-list-btn"
                             onClick={() =>
                                 selectedTrip &&
-                                addToActivityList(activity.id, selectedTrip.id)
+                                addToActivityList(activity.id, selectedTrip.id, selectedPrice,selectedDateTime, placeId)
                             }
                         >
                             Add to My List
