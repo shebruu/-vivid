@@ -39,7 +39,11 @@ class TripController extends Controller
     {
         $userId = Auth::id();
 
-        $trips = Trip::where('created_by', $userId)->with('creator', 'users')->get();
+        $trips = Trip::where('created_by', $userId)
+            ->orWhereHas('users', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->with('creator', 'users')->get();
         // dd($trips);
 
 
@@ -175,6 +179,8 @@ class TripController extends Controller
     public function manageMembers($tripId)
     {
         $trip = Trip::with('users')->findOrFail($tripId);
+
+        $this->authorize('manageMembers', $trip);
         return Inertia::render('Mycomponents/trips/MemberManagement', [
             'trip' => $trip,
             'auth' => [

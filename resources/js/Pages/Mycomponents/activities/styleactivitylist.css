@@ -1,0 +1,68 @@
+.activities-container {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+}
+
+.activities-header {
+    color: #333;
+    text-align: center;
+}
+
+.activities-list {
+    list-style: none;
+    padding: 0;
+}
+
+.activity-card {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.activity-info {
+    flex-grow: 1;
+}
+
+.activity-name {
+    font-size: 20px;
+    color: #2c3e50;
+}
+
+.activity-detail {
+    font-size: 16px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.activity-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.vote-button {
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.vote-button.yes {
+    background-color: #27ae60;
+}
+
+.vote-button.no {
+    background-color: #c0392b;
+}
+
+.no-activities {
+    text-align: center;
+    color: #999;
+}

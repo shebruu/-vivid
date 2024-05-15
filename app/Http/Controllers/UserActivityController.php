@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Log;
 
 use Inertia\Inertia;
 
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Http\Response;
 
 
@@ -54,7 +56,9 @@ class UserActivityController extends Controller
             ->orWhereHas('activity', function ($query) use ($searchTerm) {
                 $query->where('activity', 'like', '%' . $searchTerm . '%');
             })
-            ->get();
+            ->get()
+            ->unique('place.title');
+
         //  dump($realizedActivities);
 
         return inertia('Mycomponents/activities/UserActivityList', [
@@ -203,23 +207,45 @@ class UserActivityController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function showactivitylist($selectedTripId)
+    public function showactivitylist($tripId)
     {
-        // Récupérer toutes les activités depuis la base de données
-        $activities = UserActivity::where('created_by', auth()->id())
-            ->where('trip_id', $selectedTripId)
+
+        /*
+        $activities = UserActivity::with('creator', 'trip')
+            ->where('created_by', auth()->id())
+            ->where('trip_id', $tripId)
             ->where('status', 'proposed')
             ->get();
+*/
+        $activities = DB::table('user_activities')
+            ->join('users', 'users.id', '=', 'user_activities.created_by')
+            ->join('trips', 'trips.id', '=', 'user_activities.trip_id')
+            ->join('activities', 'activities.id', '=', 'user_activities.activity_id')
+            ->join('places', 'places.id', '=', 'user_activities.place_id')
+            ->leftJoin('prices', 'prices.id', '=', 'user_activities.price_id')
 
+            ->select(
+                'user_activities.id as activity_id',
+                'activities.activity as activity_name',
+                'users.firstname as user_firstname',
+                'users.lastname as user_lastname',
+                'trips.title as trip_title',
+                'user_activities.start_time',
+                'user_activities.duration',
+                'user_activities.status',
+                'places.title as place_title',
+                'prices.amount as price_amount'
+            )
+            ->where('user_activities.trip_id', $tripId)
+            ->where('user_activities.status', 'proposed')
+            ->orderBy('users.firstname', 'asc')
+            ->get();
 
-        // Partager les données avec Inertia
-        Inertia::share('activities', $activities);
-        Inertia::share('selectedTripId', null);
 
         // Ne pas rendre la vue ici, car ActivityList est un composant React
         return inertia('Mycomponents/activities/ActivityList', [
             'activities' => $activities,
-            'selectedTripId' => $selectedTripId,
+            'selectedTripId' => $tripId,
 
 
         ]);

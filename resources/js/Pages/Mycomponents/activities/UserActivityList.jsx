@@ -36,7 +36,7 @@ function UserActivityList({ activities, auth }) {
                 <Navbar2 auth={auth} />
                 <div className="content-container" style={{ marginTop: '150px' }}>
                     <h1 className="text-3xl font-bold mb-4">
-                        Liste des activités réalisées par nos utilisateurs !
+                      Découvrez les  activités réalisées par nos utilisateurs 
                     </h1>
                     <input style={{ width: '50%', height: '7%' }}
                         type="text"

@@ -40,6 +40,17 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('mypass'),
             ],
 
+            [
+                'firstname' => 'mersen ',
+                'lastname' => 'lova ',
+                'login' => 'mers',
+                'phone' => "0456407361",
+                'email' => 'mers23@outlook.com',
+                'age' => 26,
+                'student' => 1,
+                'langue' => 'fr',
+                'password' => Hash::make('mypass'),
+            ],
         ];
         foreach ($dataset as $data) {
             User::updateOrCreate(

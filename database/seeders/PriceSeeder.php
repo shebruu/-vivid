@@ -17,77 +17,57 @@ class PriceSeeder extends Seeder
     {
         DB::table('prices')->insert(
             [
-                [
-                    'amount' => 10.99,
-                    'age_rang' => 'adult',
-                    'status' => 'active',
-                    'season' => 'summer',
-                    'day_type' => 'weekday',
+                // Tropical Spring
+                $this->createPriceEntry(1, 12.50, 'adult', 'all', 'weekday', 1),
+                $this->createPriceEntry(1, 8.00, 'child', 'all', 'weekday', 1),
 
-                    'place_id' => 1,
-                    'user_id' => 1,
-                    /*
-                'created_at' => now(),
-                'updated_at' => now()
-                */
-                ],
-                [
-                    'amount' => 15.50,
-                    'age_rang' => 'adult',
-                    'status' => 'inactive',
-                    'season' => 'winter',
-                    'day_type' => 'weekend',
+                // Borrekens castle
+                $this->createPriceEntry(2, 15.00, 'adult', 'all', 'weekend', 1),
+                $this->createPriceEntry(2, 10.00, 'child', 'all', 'weekend', 1),
 
-                    'place_id' => 2,
-                    'user_id' => 2,
+                // Hallerbos
+                $this->createPriceEntry(3, 5.00, 'adult', 'spring', 'all', 1),
+                $this->createPriceEntry(3, 0.00, 'child', 'spring', 'all', 1),
 
-                ],
+                // Royal greenhouses at Laeken
+                $this->createPriceEntry(4, 18.00, 'adult', 'all', 'weekday', 1),
+                $this->createPriceEntry(4, 10.00, 'child', 'all', 'weekday', 1),
 
-                [
-                    'amount' => 35,
-                    'age_rang' => 'student',
-                    'status' => 'active',
-                    'season' => 'all',
-                    'day_type' => 'all',
+                // Grand Bigard Castle
+                $this->createPriceEntry(5, 20.00, 'adult', 'all', 'weekend', 1),
+                $this->createPriceEntry(5, 12.00, 'child', 'all', 'weekend', 1),
 
-                    'place_id' => 20,
-                    'user_id' => 1,
+                // Park Romeinse Put
+                $this->createPriceEntry(6, 7.00, 'adult', 'all', 'all', 1),
+                $this->createPriceEntry(6, 3.50, 'child', 'all', 'all', 1),
 
-                ],
-                [
-                    'amount' => 20,
-                    'age_rang' => 'child',
-                    'status' => 'active',
-                    'season' => 'all',
-                    'day_type' => 'all',
+                // Japanese Garden Hasselt
+                $this->createPriceEntry(7, 15.00, 'adult', 'all', 'all', 1),
+                $this->createPriceEntry(7, 5.00, 'child', 'all', 'all', 1),
 
-                    'place_id' => 20,
-                    'user_id' => 1,
+                // Haspengouw per fiets
+                $this->createPriceEntry(8, 20.00, 'adult', 'summer', 'weekend', 1),
+                $this->createPriceEntry(8, 15.00, 'child', 'summer', 'weekend', 1),
 
-                ],
-                [
-                    'amount' => 10.99, // Prix de base pour adulte en semaine
-                    'age_rang' => 'adult',
-                    'status' => 'active',
-                    'season' => 'summer',
-                    'day_type' => 'weekday',
+                // Hartig Haspengouw
+                $this->createPriceEntry(9, 25.00, 'adult', 'all', 'all', 1),
+                $this->createPriceEntry(9, 15.00, 'child', 'all', 'all', 1),
 
-                    'place_id' => 20,
-                    'user_id' => 1,
-
-                ],
-                [
-                    'amount' => 20.99, // Prix augmenté pour le weekend
-                    'age_rang' => 'adult',
-                    'status' => 'active',
-                    'season' => 'summer',
-                    'day_type' => 'weekend',
-
-                    'place_id' => 20,
-                    'user_id' => 1,
-
-                ],
+                // More places...
             ]
         );
+    }
+
+    private function createPriceEntry($placeId, $amount, $ageRang, $season, $dayType, $userId)
+    {
+        return [
+            'amount' => $amount,
+            'age_rang' => $ageRang,
+            'status' => 'active',
+            'season' => $season,
+            'day_type' => $dayType,
+            'place_id' => $placeId,
+            'user_id' => $userId,
+        ];
     }
 }

@@ -242,10 +242,7 @@ function ShowUserActivity({
                         </button>
                     </div>
 
-                    <ActivityList
-                        activities={activitiesByTrip}
-                        selectedTripId={selectedTrip ? selectedTrip.id : null}
-                    />
+                   
                 </div>
             </div>
         </AuthenticatedLayout>

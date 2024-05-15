@@ -75,6 +75,10 @@ class TripPolicy
         return $user->id === $trip->created_by;
     }
 
+    public function manageMembers(User $user, Trip $trip)
+    {
+        return $user->id === $trip->created_by;
+    }
     /**
      * Determine whether the user can permanently delete the model.
      */
