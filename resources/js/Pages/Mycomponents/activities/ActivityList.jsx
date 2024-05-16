@@ -67,6 +67,7 @@ const ActivityList = ({ activities, selectedTripId }) => {
                             </p>
                         </div>
                         <VoteButtons activityId={activity.activity_id} />
+                        
                         <div>
             <p>Yes Votes: {activity.votes.yes_votes}</p>
             <p>No Votes: {activity.votes.no_votes}</p>
