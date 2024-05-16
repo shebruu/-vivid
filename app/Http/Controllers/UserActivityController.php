@@ -20,10 +20,11 @@ use Illuminate\Http\Response;
 
 use App\Models\Activity;
 use App\Models\Place;
+use App\Models\Trip;
 use App\Models\ActivityVote;
 use App\Models\Booking;
 
-
+use App\Events\VotesUpdated;
 
 
 class UserActivityController extends Controller
@@ -227,11 +228,38 @@ class UserActivityController extends Controller
             'status' => $vote,
         ]);
 
+        $this->checkAndUpdateActivityStatus($activity);
+
+
         return response()->json(['success' => true, 'message' => 'Vote registered.']);
     }
 
 
 
+    private function checkAndUpdateActivityStatus($userActivityId)
+    {
+        // Récupérer l'activité et le trip
+        $activity = UserActivity::find($userActivityId);
+        $trip = Trip::with('users')->find($activity->trip_id);
+
+        if ($activity && $trip) {
+            $totalParticipants = $trip->users->count();
+            $votes = ActivityVote::where('user_activity_id', $userActivityId)->get();
+            $totalVotes = $votes->count();
+
+            // Vérifier si tous les participants ont voté
+            if ($totalVotes === $totalParticipants) {
+                $yesVotes = $votes->where('status', 'yes')->count();
+                $yesVotePercentage = ($yesVotes / $totalVotes) * 100;
+
+                // Si plus de 50 % de votes sont positifs, mettre à jour le statut
+                if ($yesVotePercentage > 50) {
+                    $activity->status = 'revised';
+                    $activity->save();
+                }
+            }
+        }
+    }
     /**
      * Affiche la liste des activités.
      *
