@@ -50,7 +50,7 @@ function UserActivityList({ activities, auth }) {
                                     <h2>{activity.activity.activity}</h2>
                                     <p>Place: {activity.place.title}</p>
                                     <p>City: {activity.place.locality.city}</p>
-                                    <p>Created by: {activity.user.firstname} {activity.user.lastname}</p>
+                               
                                     <p>Status: {activity.status}</p>
                                     <p>Prices:</p>
                                     {activity.place.prices.length > 0 && (

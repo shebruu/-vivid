@@ -327,6 +327,29 @@ class UserActivityController extends Controller
     }
 
 
+    public function fetchActivitiesForCalendar()
+    {
+        $activities = UserActivity::with(['votes', 'place'])
+            ->get()
+            ->map(function ($activity) {
+                // Calcul du pourcentage de votes positifs
+                $votes = $this->getVotes($activity->id, $activity->trip_id);
+                if ($votes['yes_votes'] > $votes['total_votes'] * 0.50) {
+                    return [
+                        'title' => $activity->activity_name,
+                        'start' => $activity->start_time,
+                        'end' => $activity->end_time,
+                        'url' => route('activity.details', ['id' => $activity->id])
+                    ];
+                }
+            })
+            ->filter()
+            ->values();
+
+        dd($activities);
+
+        return response()->json($activities);
+    }
 
 
 

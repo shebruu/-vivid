@@ -112,7 +112,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ]);
 
     Route::get('/votes/{useractivityId}/{tripId}', [UserActivityController::class, 'getVotes'])->name('activities.getvote');
-    // Autres pages spécifiques
+
+
+    Route::get('/activities-for-calendar', [UserActivity::class, 'fetchActivitiesForCalendar'])->name('activities.getcalendr');
+
+
+
+
     Route::get('/finance', function () {
         return Inertia::render('Depenses');
     })->name('expense.index');
