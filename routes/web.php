@@ -98,6 +98,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/activities/{activity}/vote', [UserActivityController::class, 'vote'])->name('activities.vote');
 
 
+
+
+
     Route::resource('votes', ActivityVoteController::class)->names([
         'index' => 'vote.index',
         'create' => 'vote.create',
@@ -107,6 +110,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'destroy' => 'vote.destroy',
         'show' => 'vote.show',
     ]);
+
+    Route::get('/votes/{useractivityId}/{tripId}', [UserActivityController::class, 'getVotes'])->name('activities.getvote');
     // Autres pages spécifiques
     Route::get('/finance', function () {
         return Inertia::render('Depenses');

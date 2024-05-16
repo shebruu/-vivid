@@ -245,7 +245,7 @@ class UserActivityController extends Controller
             ->join('activities', 'activities.id', '=', 'user_activities.activity_id')
             ->join('places', 'places.id', '=', 'user_activities.place_id')
             ->leftJoin('prices', 'prices.id', '=', 'user_activities.price_id')
-            ->leftJoin('activity_votes', 'activity_votes.user_activity_id', '=', 'user_activities.id')
+
 
             ->select(
                 'user_activities.id as activity_id',
@@ -258,23 +258,24 @@ class UserActivityController extends Controller
                 'user_activities.status',
                 'places.title as place_title',
                 'prices.amount as price_amount',
-                DB::raw("COUNT(activity_votes.id) as total_votes"),
-                DB::raw("SUM(case when activity_votes.status = 'yes' then 1 else 0 end) as yes_votes"),
-                DB::raw("SUM(case when activity_votes.status = 'no' then 1 else 0 end) as no_votes")
+
+
+
             )
             ->where('user_activities.trip_id', $tripId)
             ->where('user_activities.status', 'proposed')
-            ->groupBy('user_activities.id', 'activities.activity', 'users.firstname', 'users.lastname', 'trips.title', 'user_activities.start_time', 'user_activities.duration', 'user_activities.status', 'places.title', 'prices.amount')
+
             ->orderBy('users.firstname', 'asc')
             ->get();
 
+        // Récupération des votes pour chaque activité
 
-        //calcul des pourcentages 
-        $activitiesWithResults = $activities->map(function ($activity) {
-            $activity->yes_percentage = $activity->total_votes ? round(($activity->yes_votes / $activity->total_votes) * 100, 2) : 0;
-            $activity->no_percentage = $activity->total_votes ? round((($activity->total_votes - $activity->yes_votes) / $activity->total_votes) * 100, 2) : 0;
-            return $activity;
-        });
+        foreach ($activities as $activity) {
+            $activity->votes = $this->getVotes($activity->activity_id, $tripId);
+        }
+
+        //dd($activities);
+
 
         return inertia('Mycomponents/activities/ActivityList', [
             'activities' => $activities,
@@ -285,26 +286,36 @@ class UserActivityController extends Controller
     }
 
 
-
-    // Caches and returns voting results.
-    public function getResults($activityId)
+    //get the results of  vote 
+    public function getVotes($useractivityId, $tripId)
     {
-        $results = Cache::remember('votes_activity_' . $activityId, 3600, function () use ($activityId) {
-            $votes = ActivityVote::where('activity_id', $activityId)
-                ->select('status', DB::raw('count(*) as total'))
-                ->groupBy('status')
-                ->get();
 
-            $totalVotes = $votes->sum('total');
-            return $votes->mapWithKeys(function ($item) use ($totalVotes) {
-                return [$item->status => round(($item->total / $totalVotes) * 100, 2)];
-            });
-        });
+        $votes = DB::table('activity_votes as av')
+            ->join('user_activities as ua', 'ua.id', '=', 'av.user_activity_id')
+            ->where('ua.id', $useractivityId)
+            ->where('ua.trip_id', $tripId)
+            ->selectRaw("COUNT(*) as total_votes, 
+                     SUM(CASE WHEN av.status = 'yes' THEN 1 ELSE 0 END) as yes_votes,
+                     SUM(CASE WHEN av.status = 'no' THEN 1 ELSE 0 END) as no_votes")
+            ->groupBy('ua.id')
+            ->first();
 
-        return response()->json($results);
+        if ($votes) {
+            return [
+                'total_votes' => $votes->total_votes,
+                'yes_votes' => $votes->yes_votes,
+                'no_votes' => $votes->no_votes
+            ];
+        }
+
+
+
+        return [
+            'total_votes' => 0,
+            'yes_votes' => 0,
+            'no_votes' => 0
+        ];
     }
-
-
 
 
 
