@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Trip;
 
 use App\Models\User;
+
+
 use Illuminate\Http\Request;
 
 use Inertia\Inertia;
@@ -17,6 +19,7 @@ use Illuminate\Support\Str;
 //use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\DB;
 //pour autorisation
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
@@ -75,7 +78,6 @@ class TripController extends Controller
     {
 
 
-        //les data qui arrivent au controller de http post
         // dd($request->all());
         $validatedData = $request->validated();
 
@@ -85,11 +87,17 @@ class TripController extends Controller
         // Ajout du slug aux données validées
         $validatedData['slug'] = $slug;
 
-        // Ajout de l'ID de l'utilisateur créant le voyage
-        $validatedData['created_by'] = auth()->id();
+        $userId = auth()->id();
+        $validatedData['created_by'] = $userId;
 
 
         $trip = Trip::create($validatedData);
+
+        DB::table('user_trip')->insert([
+            'user_id' => $userId,
+            'trip_id' => $trip->id,
+
+        ]);
         return response()->json(['message' => 'Voyage créé avec succès'], 201);
     }
 

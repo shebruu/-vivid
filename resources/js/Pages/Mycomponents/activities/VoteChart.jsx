@@ -1,37 +1,63 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 
-const VotesChart = ({ votes }) => {
+const VotesChart = ({ votes, totalParticipants }) => {
+
+    const totalVotes = parseInt(votes.yes_votes, 10) + parseInt(votes.no_votes, 10);
     const data = {
-        labels: ['Votes'],
+        labels: ['Yes Votes', 'No Votes'],
         datasets: [
             {
-                label: 'Yes Votes',
-                data: [votes.yes_votes],
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-            },
-            {
-                label: 'No Votes',
-                data: [votes.no_votes],
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
+                data: [parseInt(votes.yes_votes, 10), parseInt(votes.no_votes, 10)],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.6)',  
+                    'rgba(255, 99, 132, 0.6)'    
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
                 borderWidth: 1,
             }
         ],
     };
 
     const options = {
-        scales: {
-            y: {
-                beginAtZero: true
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            tooltip: {
+                enabled: true,
+            },
+            title: {
+                display: true,
+                text: `Total Votes: ${totalVotes} / Total Participants: ${totalParticipants}`,
+                font: {
+                    size: 14
+                }
             }
+        },
+        animation: {
+            animateScale: true,
+            animateRotate: true
         }
     };
 
-    return <Bar data={data} options={options} />;
+    const chartContainerStyle = {
+        width: '200px',
+        height: '200px',
+        margin: 'auto'
+    };
+
+    return (
+        <div style={chartContainerStyle}>
+            <Doughnut data={data} options={options} />
+        </div>
+    );
 };
 
 export default VotesChart;

@@ -7,13 +7,17 @@ import "./styleactivitylist.css";
 
 import VoteButtons from "./VoteButtons";
 import VoteResults from "./VoteResult"; 
+
+import VotesChart from './VoteChart';
+
+import ParticipantsList from './ParticipantsList';
 /**
  * Composant pour afficher la liste des activités pour un voyage sélectionné.
  * @param {Object} props - Propriétés du composant.
  * @param {Object} props.activities - Les activités classées par ID de voyage.
  * @param {number} props.selectedTripId - L'ID du voyage sélectionné.
  */
-const ActivityList = ({ activities, selectedTripId }) => {
+const ActivityList = ({ activities, selectedTripId , participants }) => {
 
 
     if (activities.length === 0) {
@@ -30,6 +34,9 @@ const ActivityList = ({ activities, selectedTripId }) => {
             <h2 className="activities-header">
                 Activities for the selected trip:
             </h2>
+ {/* liste des participants */}
+ 
+            <ParticipantsList participants={participants} />
             <ul className="activities-list">
                 {activities.map((activity, index) => (
                     <li key={index} className="activity-card">
@@ -67,12 +74,9 @@ const ActivityList = ({ activities, selectedTripId }) => {
                             </p>
                         </div>
                         <VoteButtons activityId={activity.activity_id} />
-                        
-                        <div>
-            <p>Yes Votes: {activity.votes.yes_votes}</p>
-            <p>No Votes: {activity.votes.no_votes}</p>
-            <p>Total Votes: {activity.votes.total_votes}</p>
-        </div>
+                     
+          
+        <VotesChart votes={activity.votes}  totalParticipants={participants.length}/>
         
                     </li>
                 ))}

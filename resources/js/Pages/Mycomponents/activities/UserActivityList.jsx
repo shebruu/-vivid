@@ -4,20 +4,17 @@ import { Link } from '@inertiajs/inertia-react';
 import Navbar2 from '../Navbar';
 import './style.css';
 
-
-/**
- * Composant React pour afficher la liste des activités.
- * Intègre un champ de recherche pour filtrer les activités sur le client.
- *
- * @param {Array} activities Liste initiale des activités.
- * @param {Object} auth Informations sur l'utilisateur authentifié.
- */
 function UserActivityList({ activities, auth }) {
+    console.log("Activités reçues :", activities);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredActivities, setFilteredActivities] = useState(activities);
+    // Conversion des activités d'objet en tableau s'ils sont présentés comme un objet
+    const initialActivities = Array.isArray(activities) ? activities : Object.values(activities || {});
+    const [filteredActivities, setFilteredActivities] = useState(initialActivities);
 
     useEffect(() => {
-        const results = activities.filter(activity => {
+        // S'assure que activities est toujours traité comme un tableau
+        const arrayActivities = Array.isArray(activities) ? activities : Object.values(activities || {});
+        const results = arrayActivities.filter(activity => {
             return (
                 activity.activity.activity.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 activity.place.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -36,9 +33,10 @@ function UserActivityList({ activities, auth }) {
                 <Navbar2 auth={auth} />
                 <div className="content-container" style={{ marginTop: '150px' }}>
                     <h1 className="text-3xl font-bold mb-4">
-                      Découvrez les  activités réalisées par nos utilisateurs 
+                      Découvrez les activités réalisées par nos utilisateurs 
                     </h1>
-                    <input style={{ width: '50%', height: '7%' }}
+                    <input
+                        style={{ width: '50%', height: '7%' }}
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}

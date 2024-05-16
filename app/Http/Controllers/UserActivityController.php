@@ -58,7 +58,7 @@ class UserActivityController extends Controller
             ->get()
             ->unique('place.title');
 
-        //  dump($realizedActivities);
+        //dump($realizedActivities);
 
         return inertia('Mycomponents/activities/UserActivityList', [
             'activities' => $realizedActivities,
@@ -276,10 +276,19 @@ class UserActivityController extends Controller
 
         //dd($activities);
 
+        // Récupération des participants du voyage
+        $participants = DB::table('users')
+            ->join('user_trip', 'users.id', '=', 'user_trip.user_id')
+            ->where('user_trip.trip_id', $tripId)
+            ->select('users.id', 'users.firstname', 'users.lastname')
+            ->get();
 
+
+        // dd($participants);
         return inertia('Mycomponents/activities/ActivityList', [
             'activities' => $activities,
             'selectedTripId' => $tripId,
+            'participants' => $participants,
 
 
         ]);
