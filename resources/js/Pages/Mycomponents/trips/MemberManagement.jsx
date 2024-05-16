@@ -38,7 +38,7 @@ function MemberManagement({ auth, trip }) {
                 </h2>
             }
         >
-            <Navbar2 auth={auth} />
+          
             <div>
                 <h2>Gestion des membres pour {trip.title}</h2>
                 <ul>

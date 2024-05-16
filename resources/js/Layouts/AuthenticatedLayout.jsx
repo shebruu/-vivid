@@ -4,13 +4,14 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
-//import Navbar from '../Pages/Mycomponents/Navbar'; 
+import Navbar2 from '../Pages/Mycomponents/Navbar'; 
 
-export default function Authenticated({ user, header, children }) {
+export default function Authenticated({ user, header, children,trip }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
         <div className="min-h-screen bg-gray-20">
+              <Navbar2 auth={{ user }} trip={trip} csrfToken={document.querySelector('meta[name="csrf-token"]').getAttribute('content')} />
              <nav className="hidden">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">

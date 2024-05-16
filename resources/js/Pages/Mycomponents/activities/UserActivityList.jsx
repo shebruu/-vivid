@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link } from '@inertiajs/inertia-react';
-import Navbar2 from '../Navbar';
+
+
+
 import './style.css';
 
-function UserActivityList({ activities, auth }) {
+function UserActivityList({ activities, auth , tripId }) {
     console.log("Activités reçues :", activities);
     const [searchTerm, setSearchTerm] = useState('');
     // Conversion des activités d'objet en tableau s'ils sont présentés comme un objet
@@ -24,13 +26,18 @@ function UserActivityList({ activities, auth }) {
         setFilteredActivities(results);
     }, [searchTerm, activities]);
 
+
+    useEffect(() => {
+        console.log("Trip ID:", tripId);
+    }, [tripId]);
+
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Itinéraires</h2>}
         >
             <div>
-                <Navbar2 auth={auth} />
+                
                 <div className="content-container" style={{ marginTop: '150px' }}>
                     <h1 className="text-3xl font-bold mb-4">
                       Découvrez les activités réalisées par nos utilisateurs 
@@ -73,7 +80,15 @@ function UserActivityList({ activities, auth }) {
                 >
                     Cliquez ici pour créer une activité
                 </Link>
+
+                <Link
+    href={`/trips/1/calendar`} // Remplacez '1' par un tripId valide pour tester
+    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+>
+    Voir le calendrier des activités
+</Link>
             </div>
+
         </AuthenticatedLayout>
     );
 }

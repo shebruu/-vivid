@@ -114,8 +114,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/votes/{useractivityId}/{tripId}', [UserActivityController::class, 'getVotes'])->name('activities.getvote');
 
 
-    Route::get('/activities-for-calendar', [UserActivity::class, 'fetchActivitiesForCalendar'])->name('activities.getcalendr');
 
+    Route::get('/trips/{tripId}/revised-activities', [UserActivityController::class, 'fetchRevisedActivities']);
+
+
+    // Page pour afficher le calendrier d'un voyage spécifique
+    Route::get('/trips/{tripId}/calendar', function ($tripId) {
+        return Inertia::render('Mycomponents.CalendarPage', ['tripId' => $tripId]);
+    })->name('trip.calendar');
 
 
 

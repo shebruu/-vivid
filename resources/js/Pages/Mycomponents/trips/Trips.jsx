@@ -14,7 +14,7 @@ function Trips({ usertrips, auth }) {
                 </h2>
             }
         >
-            <Navbar2 auth={auth} />
+           
             <div className="container">
                 <h1 className="title">Liste de mes voyages</h1>
                 <div className="trip-container">
@@ -58,6 +58,7 @@ function Trips({ usertrips, auth }) {
                                 >
                                     Activités proposé{" "}
                                 </Link>
+
                             </div>
                         </div>
                     ))}

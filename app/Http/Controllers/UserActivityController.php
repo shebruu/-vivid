@@ -355,26 +355,20 @@ class UserActivityController extends Controller
     }
 
 
-    public function fetchActivitiesForCalendar()
+    public function fetchRevisedActivities($tripId)
     {
-        $activities = UserActivity::with(['votes', 'place'])
+        $activities = UserActivity::where('trip_id', $tripId)
+            ->where('status', 'revised')
+            ->with('activity')
             ->get()
             ->map(function ($activity) {
-                // Calcul du pourcentage de votes positifs
-                $votes = $this->getVotes($activity->id, $activity->trip_id);
-                if ($votes['yes_votes'] > $votes['total_votes'] * 0.50) {
-                    return [
-                        'title' => $activity->activity_name,
-                        'start' => $activity->start_time,
-                        'end' => $activity->end_time,
-                        'url' => route('activity.details', ['id' => $activity->id])
-                    ];
-                }
-            })
-            ->filter()
-            ->values();
-
-        dd($activities);
+                return [
+                    'title' => $activity->activity->activity,
+                    'start' => $activity->start_time,
+                    'end' => $activity->end_time,
+                    'url' => route('user_activity.show', $activity->id)
+                ];
+            });
 
         return response()->json($activities);
     }

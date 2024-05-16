@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "@inertiajs/inertia-react";
 import { Inertia } from "@inertiajs/inertia";
-import Navbar2 from "../Navbar";
+
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import "./style.css";
 

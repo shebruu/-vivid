@@ -32,7 +32,7 @@ const ActivityList = ({ activities, selectedTripId , participants }) => {
     return (
         <div className="activities-container">
             <h2 className="activities-header">
-                Activities for the selected trip:
+                Activities for the selected trip: 
             </h2>
  {/* liste des participants */}
  
@@ -60,9 +60,7 @@ const ActivityList = ({ activities, selectedTripId , participants }) => {
                             <p className="activity-detail">
                                 Duration: {activity.duration} hours
                             </p>
-                            <p className="activity-detail">
-                                Status: {activity.status}
-                            </p>
+                           
                             <p className="activity-detail">
                                 Location: {activity.place_title}
                             </p>

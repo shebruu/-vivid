@@ -21,7 +21,7 @@ export default function Dashboard({ auth, message }) {
 
             {/* Arrière-plan plein écran */}
             <div className="full-page-background"></div>
-            <Navbar2 auth={auth} />
+        
             <div className="relative py-12 ">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
                     <div className="bg-transparent shadow-none sm:rounded-lg">

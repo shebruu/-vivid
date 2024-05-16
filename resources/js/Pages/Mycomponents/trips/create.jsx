@@ -31,7 +31,7 @@ const Create = ({ auth, errors }) => {
 
     return (
         <div>
-            <Navbar2 auth={auth} />
+          
 
             <div className="container">
                 <div className="title">Créer un nouveau voyage</div>
