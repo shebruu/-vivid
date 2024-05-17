@@ -39,8 +39,8 @@ function MemberManagement({ auth, trip }) {
             }
         >
           
-            <div>
-                <h2>Gestion des membres pour {trip.title}</h2>
+          <div className="container">
+                <h2 className="title">Gestion des membres pour {trip.title}</h2>
                 <ul>
                     {trip.users.map((user) => (
                         <li key={user.id}>
@@ -51,14 +51,14 @@ function MemberManagement({ auth, trip }) {
                         </li>
                     ))}
                 </ul>
-                <div>
+                <div className="member-form">
                     <input
                         type="text"
                         value={memberLogin}
                         onChange={(e) => setMemberLogin(e.target.value)}
                         placeholder="Enter member login"
                     />
-                    <button onClick={handleAddMember}>Ajouter Membre</button>
+                    <button onClick={handleAddMember} className="btn-primary">Ajouter Membre</button>
                 </div>
             </div>
         </AuthenticatedLayout>

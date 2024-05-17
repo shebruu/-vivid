@@ -1,0 +1,101 @@
+/* Container principal pour la liste des activités */
+.activities-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+/* En-tête pour la section des activités */
+.activities-header {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Liste des activités avec style de carte */
+.activities-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 0;
+}
+
+/* Carte d'activité individuelle */
+.activity-card {
+    background-color: #ffffff;
+    border: 1px solid #e1e4e8;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Information sur l'activité */
+.activity-info {
+    margin-bottom: 10px;
+}
+
+/* Nom et détails de l'activité */
+.activity-name {
+    font-size: 20px;
+    color: #0056b3;
+    font-weight: bold;
+}
+
+.activity-detail {
+    font-size: 16px;
+    color: #666;
+    margin: 5px 0;
+}
+
+/* Styles pour les boutons et les graphiques de vote */
+.vote-buttons, .votes-chart {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Liste des participants */
+.participants-list {
+    background-color: #e9ecef;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.participant {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Utilisation d'une couleur distincte pour les informations importantes */
+.important-info {
+    color: #d9534f;
+}
+
+/* Espacement et style pour les boutons de vote */
+.vote-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.vote-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles spécifiques pour les graphiques de vote */
+.votes-chart {
+    width: 100%;
+    padding: 15px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+}

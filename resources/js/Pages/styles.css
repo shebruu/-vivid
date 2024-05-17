@@ -12,6 +12,30 @@
  
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+ 
+    margin-top: 20px;
+}
+
+.custom-button {
+    background-color: #007bff; 
+    color: white; 
+    font-size: 15px; 
+    font-weight: bold; 
+    padding: 12px 24px; 
+    border-radius: 8px; 
+ 
+    transition: background-color 0.3s, box-shadow 0.3s; /* Transition douce pour le survol */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre subtile pour la profondeur */
+}
+
+.custom-button:hover {
+    background-color: #0056b3; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
 /* Style général pour la classe `user` */
 .user {
     font-weight: bold;

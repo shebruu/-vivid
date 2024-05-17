@@ -73,17 +73,17 @@ function UserActivityList({ activities, auth , tripId }) {
                     </div>
                 </div>
             </div>
-            <div className="mt-4">
+            <div className="button-container">
                 <Link
                     href={route('user_activity.create')}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="btn btn-blue link-button"
                 >
                     Cliquez ici pour créer une activité
                 </Link>
 
                 <Link
-    href={`/trips/1/calendar`} // Remplacez '1' par un tripId valide pour tester
-    className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+    href={`/trips/1/calendar`} 
+    className="btn btn-green link-button"
 >
     Voir le calendrier des activités
 </Link>

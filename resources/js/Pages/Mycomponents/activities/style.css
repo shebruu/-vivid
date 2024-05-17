@@ -217,6 +217,8 @@ p {
     margin-bottom: 20px;
 }
 
+
+
 .create-form .form-group label {
     display: block;
     font-weight: bold;
@@ -246,4 +248,50 @@ p {
 
 .create-form .form-submit:hover {
     background-color: red;
+}
+
+/* Style de base pour tous les boutons */
+
+.button-container {
+    display: flex; /* Utilise flexbox pour le positionnement */
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+}
+.btn {
+    font-family: 'Roboto', sans-serif; 
+    font-size: 16px;
+    color: #ffffff; 
+    width: 100%; /* Prend toute la largeur du conteneur */
+    max-width: 250px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Styles spécifiques pour le bouton bleu */
+.btn-blue {
+    background-color: #e9c46a; /* Bleu vibrant */
+}
+
+.btn-blue:hover, .btn-blue:focus {
+    background-color: #fca311; /* Bleu foncé au survol */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Ombre subtile pour effet 3D */
+}
+
+/* Styles spécifiques pour le bouton vert */
+.btn-green {
+    background-color: #e9c46a; /* Vert frais */
+}
+
+.btn-green:hover, .btn-green:focus {
+    background-color: #fca311; /* Vert foncé au survol */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Ombre subtile pour effet 3D */
+}
+
+/* Application des styles de boutons à vos liens existants */
+.link-button {
+    display: inline-block; /* S'assure que les liens se comportent comme des boutons */
 }

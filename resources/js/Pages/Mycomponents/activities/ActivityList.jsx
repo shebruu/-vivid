@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 import Navbar2 from "../Navbar";
-import "./styleactivitylist.css";
+import "./Sondage.css";
 
 import VoteButtons from "./VoteButtons";
 import VoteResults from "./VoteResult"; 
@@ -71,6 +71,9 @@ const ActivityList = ({ activities, selectedTripId , participants }) => {
                                     : "Free"}
                             </p>
                         </div>
+
+                         {/* Link to detailed activity view */}
+                        
                         <VoteButtons activityId={activity.activity_id} />
                      
           

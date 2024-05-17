@@ -1,5 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+
+
+
+
 import { Link } from '@inertiajs/inertia-react';
 import Navbar2 from './Mycomponents/Navbar';
 
@@ -13,7 +16,7 @@ export default function Dashboard({ auth, message }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
+           
         >
             
             
@@ -35,10 +38,10 @@ export default function Dashboard({ auth, message }) {
                         </p>
 
                         {/* Bouton pour créer un voyage */}
-                        <div className="mt-4">
+                        <div className="button-container">
                             <Link
                                 href={route('trip.create')}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                className="custom-button"
                             >
                                 Cliquez ici pour créer un voyage
                             </Link>

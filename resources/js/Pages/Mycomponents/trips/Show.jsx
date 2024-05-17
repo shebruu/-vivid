@@ -99,6 +99,7 @@ function Show({ errors, trip, auth }) {
                                     name="arrival"
                                     value={formData.arrival}
                                     onChange={handleChange}
+                                    
                                 />
                             ) : (
                                 <p>{formData.arrival}</p>
@@ -120,20 +121,18 @@ function Show({ errors, trip, auth }) {
                         <div>
                             <h2>Note:</h2>
                             {isEditing ? (
-                                <input
+                                <textarea
                                     type="text"
                                     name="note"
                                     value={formData.note}
                                     onChange={handleChange}
+                                    className="note-field"
                                 />
                             ) : (
                                 <p>{formData.note}</p>
                             )}
                         </div>
-                        <div>
-                            <h2>Créé par:</h2>
-                            <p>{trip.created_by}</p>
-                        </div>
+                       
                         <div>
                             {isEditing ? (
                                 <button
