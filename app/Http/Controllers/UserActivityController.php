@@ -26,6 +26,7 @@ use App\Models\Booking;
 
 use App\Events\VotesUpdated;
 
+use Carbon\Carbon;
 
 class UserActivityController extends Controller
 {
@@ -260,6 +261,8 @@ class UserActivityController extends Controller
             }
         }
     }
+
+
     /**
      * Affiche la liste des activités.
      *
@@ -357,18 +360,26 @@ class UserActivityController extends Controller
 
     public function fetchRevisedActivities($tripId)
     {
+
+
         $activities = UserActivity::where('trip_id', $tripId)
             ->where('status', 'revised')
             ->with('activity')
             ->get()
             ->map(function ($activity) {
+
+                $start = $activity->start_time ? new Carbon($activity->start_time) : null;
+                $end = $activity->end_time ? new Carbon($activity->end_time) : null;
                 return [
                     'title' => $activity->activity->activity,
-                    'start' => $activity->start_time,
-                    'end' => $activity->end_time,
+                    'start' => $start ? $start->format('c') : null,
+                    //    'end' => $end ? $end->format('c') : null,
                     'url' => route('user_activity.show', $activity->id)
                 ];
             });
+
+        // dd($activities);
+
 
         return response()->json($activities);
     }

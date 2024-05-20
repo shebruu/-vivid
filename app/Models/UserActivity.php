@@ -25,6 +25,9 @@ class UserActivity extends Model
 
     ];
 
+
+    protected $dates = ['start_time', 'end_time'];
+
     /**
      * The table associated with the model.
      *

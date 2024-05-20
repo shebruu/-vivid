@@ -20,10 +20,7 @@ function Trips({ usertrips, auth }) {
                             <p className="text-gray-600">Estimation totale: {trip.totalestimation}</p>
                             <div className="button-group">
                                 <Link href={route("trip.show", { trip: trip.id })} className="btn-primary">Voir les détails</Link>
-                                {auth.user && trip.created_by === auth.user.id && (
-                                    <Link href={route("trip.manage", { tripId: trip.id })} className="btn-primary">Gestion des membres</Link>
-                                )}
-                                <Link href={route("itinerarie.list", { tripId: trip.id })} className="btn-primary">Activités proposées</Link>
+                           
                             </div>
                         </div>
                     ))}

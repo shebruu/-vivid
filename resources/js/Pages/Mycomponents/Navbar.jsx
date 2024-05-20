@@ -40,7 +40,7 @@ const Navbar2 = ({ auth, csrfToken, trip }) => {
                                 </Link>
                             )}
 
-                            <Link href={route('expense.index')} className="nav-link">Dépenses</Link>
+                     
                            
                         </>
                     ) : (

@@ -40,23 +40,4 @@ class Trip extends Model
     {
         return $this->belongsToMany(User::class, 'user_trip');
     }
-
-
-    /**
-     * Access distant relations through an intermediate relation.
-     * Uncomment the code below if needed.
-     */
-    /*
-    public function activities()
-    {
-        return $this->hasManyThrough(
-            Activity::class,    // La classe finale à atteindre
-            UserTrip::class,    // La classe intermédiaire
-            'trip_id',          // Clé étrangère sur la table intermédiaire
-            'id',               // Clé étrangère sur la table finale (Activity)
-            'id',               // Clé locale sur la table principale (Trip)
-            'user_id'           // Clé locale sur la table intermédiaire (UserTrip)
-        );
-    }
-    */
 }

@@ -50,7 +50,7 @@ function Show({ errors, trip, auth }) {
         >
             <div>
                 <div className="container">
-                    <h1 className="title">Détails du voyage : {trip.title}</h1>
+                  
 
                     {/* Error Messages Section */}
                     {Object.keys(errors).length > 0 && (
@@ -66,7 +66,7 @@ function Show({ errors, trip, auth }) {
                     {/* Trip Details */}
                     <div className="card trip-details">
                         <div>
-                            <h2>Titre du voyage:</h2>
+                            
                             {isEditing ? (
                                 <input
                                     type="text"
@@ -152,9 +152,29 @@ function Show({ errors, trip, auth }) {
                                 </button>
                             )}
                         </div>
+
+                
+
                     </div>
+                    
                 </div>
+                <div className="sidebar">
+             
+    <Link href={`/trips/${trip.id}/calendar`} className="sidebar-link">
+      Calendrier 
+    </Link>
+    {auth.user && trip.created_by === auth.user.id && (
+                                    <Link href={route("trip.manage", { tripId: trip.id })} className="sidebar-link">Gestion des membres</Link>
+                                )}
+                                <Link href={route("itinerarie.list", { tripId: trip.id })} className="sidebar-link">Activités proposées</Link>
+                                <Link href={route("itinerarie.list", { tripId: trip.id })} className="sidebar-link">Finances </Link>
+</div>
+
+
+   
+                
             </div>
+            
         </AuthenticatedLayout>
     );
 }

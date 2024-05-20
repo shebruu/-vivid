@@ -118,9 +118,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/trips/{tripId}/revised-activities', [UserActivityController::class, 'fetchRevisedActivities']);
 
 
-    // Page pour afficher le calendrier d'un voyage spécifique
     Route::get('/trips/{tripId}/calendar', function ($tripId) {
-        return Inertia::render('Mycomponents.CalendarPage', ['tripId' => $tripId]);
+        return Inertia::render('Mycomponents/trips/CalendarPage', ['tripId' => $tripId]);
     })->name('trip.calendar');
 
 
