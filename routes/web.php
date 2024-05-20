@@ -11,6 +11,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\TripController;
+
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\UserActivityController;
 
 use App\Http\Controllers\ActivityVoteController;
@@ -123,10 +125,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('trip.calendar');
 
 
+    Route::get('/trips/{tripId}/expenses/create', [ExpenseController::class, 'getRevisedActivitiesWithPrices'])->name('expenses.create');
 
-    Route::get('/finance', function () {
-        return Inertia::render('Depenses');
-    })->name('expense.index');
+    Route::post('/trips/{tripId}/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+
+
+
 
     Route::get('/map', function () {
         return Inertia::render('Maps');

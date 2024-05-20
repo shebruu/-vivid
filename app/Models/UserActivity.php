@@ -44,6 +44,11 @@ class UserActivity extends Model
         return $this->belongsTo(Activity::class, 'activity_id');
     }
 
+    public function price()
+    {
+        return $this->belongsTo(Price::class, 'price_id');
+    }
+
 
     public function user()
     {

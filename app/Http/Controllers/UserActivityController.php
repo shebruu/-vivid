@@ -364,7 +364,7 @@ class UserActivityController extends Controller
 
         $activities = UserActivity::where('trip_id', $tripId)
             ->where('status', 'revised')
-            ->with('activity')
+            ->with('activity', 'price')
             ->get()
             ->map(function ($activity) {
 
@@ -383,6 +383,9 @@ class UserActivityController extends Controller
 
         return response()->json($activities);
     }
+
+
+
 
 
 

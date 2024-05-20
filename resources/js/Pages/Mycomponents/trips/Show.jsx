@@ -167,7 +167,7 @@ function Show({ errors, trip, auth }) {
                                     <Link href={route("trip.manage", { tripId: trip.id })} className="sidebar-link">Gestion des membres</Link>
                                 )}
                                 <Link href={route("itinerarie.list", { tripId: trip.id })} className="sidebar-link">Activités proposées</Link>
-                                <Link href={route("itinerarie.list", { tripId: trip.id })} className="sidebar-link">Finances </Link>
+                                <Link href={route("expenses.create", { tripId: trip.id })} className="sidebar-link">Finances </Link>
 </div>
 
 

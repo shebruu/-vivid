@@ -40,4 +40,12 @@ class Trip extends Model
     {
         return $this->belongsToMany(User::class, 'user_trip');
     }
+
+    /**
+     * Get de expenses
+     */
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class, 'user_trip');
+    }
 }
