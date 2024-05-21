@@ -6,13 +6,18 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Expense;
 
+use App\Models\Category;
+
 use App\Models\UserActivity;
 
 use App\Models\Price;
+use App\Models\Notification;
 
 use App\Http\Requests\ExpenseRequest;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class ExpenseController extends Controller
 {
@@ -21,10 +26,8 @@ class ExpenseController extends Controller
     public function index($tripId)
     {
         $expenses = Expense::where('trip_id', $tripId)->get();
-        return view('expenses.index', compact('expenses'));
+        return Inertia::render('Expenses/Index', compact('expenses'));
     }
-
-
 
 
     public function getRevisedActivitiesWithPrices($tripId)
@@ -58,6 +61,8 @@ class ExpenseController extends Controller
             ->where('user_trip.trip_id', $tripId)
             ->select('users.id', DB::raw("CONCAT(users.firstname, ' ', users.lastname) AS name"))
             ->get();
+
+        $categories = Category::all();
         $currentUser = auth()->user();
         // dd($activities);
         // dd($participants);
@@ -66,6 +71,7 @@ class ExpenseController extends Controller
             'activities' => $activities,
             'tripId' => $tripId,
             'users' => $participants,
+            'categories' => $categories,
             'currentUser' => [
                 'id' => $currentUser->id,
                 'name' => $currentUser->firstname . ' ' . $currentUser->lastname
@@ -73,19 +79,44 @@ class ExpenseController extends Controller
         ]);
     }
 
+    public function create($tripId)
+    {
+        $categories = Category::all();
+        return Inertia::render('Expenses/Create', [
+            'categories' => $categories,
+            'tripId' => $tripId
+        ]);
+    }
+
+    public function store(Request $request, $tripId)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+            'category_id' => 'required|exists:categories,id'
+        ]);
+
+        Expense::create([
+            'user_id' => Auth::id(),
+            'trip_id' => $tripId,
+            'category_id' => $request->category_id,
+            'amount' => $request->amount
+        ]);
+
+        return redirect()->route('expenses.index', ['tripId' => $tripId])->with('success', 'Expense added successfully.');
+    }
 
 
-    public function store(ExpenseRequest $request, $tripId)
+
+    public function storeMultipleExpenses(ExpenseRequest $request, $tripId)
     {
         $data = $request->validate([
             'amount' => 'required|numeric',
             'category' => 'required|string',
             'expenses.*.price_id' => 'required|exists:prices,id',
             'expenses.*.user_id' => 'required|exists:users,id',
-
             'payment_link' => 'nullable|url'
         ]);
-
+        $leisureCategory = Category::where('name', 'leisure')->firstOrFail();
 
         foreach ($data['expenses'] as $expenseData) {
             foreach ($expenseData['user_ids'] as $userId) {
@@ -93,11 +124,24 @@ class ExpenseController extends Controller
                     'trip_id' => $tripId,
                     'price_id' => $expenseData['price_id'],
                     'user_id' => $userId,
-                    'amount' => Price::find($expenseData['price_id'])->amount
+                    'amount' => Price::find($expenseData['price_id'])->amount,
+                    'category_id' => $leisureCategory->id
                 ]);
             }
         }
+        // sendPaymentNotification();
 
         return redirect()->route('expenses.index', ['tripId' => $tripId])->with('success', 'Expenses added successfully.');
+    }
+
+
+    public function sendPaymentNotification($userId, $amount, $senderId, $activityName)
+    {
+        $message = "Un paiement de $amount € a été effectué pour l'activité '$activityName'.";
+        Notification::create([
+            'sender_id' => $senderId,
+            'user_id' => $userId,
+            'message' => $message
+        ]);
     }
 }

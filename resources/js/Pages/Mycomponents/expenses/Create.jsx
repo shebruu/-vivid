@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 
-const Create = ({ activities, tripId, users, currentUser }) => {
+const Create = ({ activities, tripId, users, categories, currentUser }) => {
     const [selectedPrices, setSelectedPrices] = useState({});
     const [selectedUsers, setSelectedUsers] = useState({});
     const [totalAmount, setTotalAmount] = useState({});
+    const [amount, setAmount] = useState('');
+    const [categoryId, setCategoryId] = useState('');
+
+    useEffect(() => {
+        if (!categories || !categories.length) {
+            console.error('Categories are undefined or empty');
+        }
+    }, [categories]);
 
     const parsePrices = (priceString) => {
         return priceString.split(',').map(price => {
@@ -43,8 +51,17 @@ const Create = ({ activities, tripId, users, currentUser }) => {
         // Inertia.post('/path-to-payment-server', { price, activityId, totalAmount, users: selectedUsers });
     };
 
+    const handleNewExpenseSubmit = (e) => {
+        e.preventDefault();
+        Inertia.post(`/trips/${tripId}/expenses`, {
+            category_id: categoryId,
+            amount: amount,
+        });
+    };
+
     return (
         <div>
+            <h2>Activities</h2>
             {activities.map(activity => (
                 <div key={activity.user_activity_id}>
                     <h3>Activity: {activity.activity_name}</h3>
@@ -78,6 +95,35 @@ const Create = ({ activities, tripId, users, currentUser }) => {
                     </form>
                 </div>
             ))}
+            <h2>Add New Expense</h2>
+            <form onSubmit={handleNewExpenseSubmit}>
+                <label htmlFor="category">Category:</label>
+                <select
+                    id="category"
+                    value={categoryId}
+                    onChange={(e) => setCategoryId(e.target.value)}
+                >
+                    <option value="">Select a category</option>
+                    {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                            {category.name}
+                        </option>
+                    ))}
+                </select>
+
+                <label htmlFor="amount">Amount:</label>
+                <input
+                    type="number"
+                    id="amount"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    min="0"
+                    step="0.01"
+                    required
+                />
+
+                <button type="submit">Add Expense</button>
+            </form>
         </div>
     );
 };

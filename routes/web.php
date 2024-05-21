@@ -128,6 +128,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/trips/{tripId}/expenses/create', [ExpenseController::class, 'getRevisedActivitiesWithPrices'])->name('expenses.create');
 
     Route::post('/trips/{tripId}/expenses', [ExpenseController::class, 'store'])->name('expenses.store');
+    Route::get('/trips/{tripId}/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
 
 
 
