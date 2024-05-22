@@ -39,6 +39,7 @@ function UserActivityList({ activities, auth, tripId }) {
         console.log("Trip ID:", tripId);
     }, [tripId]);
 
+    console.log('Trip ID at parent:', tripId);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -47,6 +48,9 @@ function UserActivityList({ activities, auth, tripId }) {
                     Itinéraires
                 </h2>
             }
+          
+           showSidebar={false}
+           
         >
             <div>
                 <div

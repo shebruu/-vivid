@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
+
 import Navbar2 from "../Navbar";
 import "./Sondage.css";
 
@@ -17,8 +18,9 @@ import ParticipantsList from './ParticipantsList';
  * @param {Object} props.activities - Les activités classées par ID de voyage.
  * @param {number} props.selectedTripId - L'ID du voyage sélectionné.
  */
-const ActivityList = ({ activities, selectedTripId , participants }) => {
+const ActivityList = ({ activities, selectedTripId , participants, auth,isCreator}) => {
 
+  
 
     if (activities.length === 0) {
         return <p>No activities added yet for this trip.</p>;
@@ -26,10 +28,21 @@ const ActivityList = ({ activities, selectedTripId , participants }) => {
 
 
 
- 
+    
+    console.log('selected',selectedTripId,isCreator, auth)
 
    
     return (
+
+        <AuthenticatedLayout
+        user={auth.user}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Activities for the selected trip</h2>}
+        tripId={selectedTripId}
+        showSidebar={true}
+        isCreator={isCreator}
+    >
+
+        
         <div className="activities-container">
             <h2 className="activities-header">
                 Activities for the selected trip: 
@@ -83,6 +96,7 @@ const ActivityList = ({ activities, selectedTripId , participants }) => {
                 ))}
             </ul>
         </div>
+        </AuthenticatedLayout>
     );
 };
 

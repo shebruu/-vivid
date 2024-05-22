@@ -6,6 +6,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Link } from '@inertiajs/inertia-react';
 import Navbar2 from './Mycomponents/Navbar';
 
+
 import "./styles.css";
 //import "./Mycomponents/Navbarstyle.css";
 
@@ -16,7 +17,8 @@ export default function Dashboard({ auth, message }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
-           
+
+        showSidebar={false}
         >
             
             

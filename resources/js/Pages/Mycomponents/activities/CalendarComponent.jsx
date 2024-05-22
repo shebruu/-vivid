@@ -9,6 +9,7 @@ const CalendarComponent = ({ tripId }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+   
     useEffect(() => {
         //fetchRevisedActivities
         axios.get(`/trips/${tripId}/revised-activities`)

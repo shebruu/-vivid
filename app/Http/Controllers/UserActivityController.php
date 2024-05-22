@@ -270,6 +270,10 @@ class UserActivityController extends Controller
      */
     public function showactivitylist($tripId)
     {
+
+        $trip = Trip::with('users')->findOrFail($tripId);
+        $user = auth()->user();
+
         $activities = DB::table('user_activities')
             ->join('users', 'users.id', '=', 'user_activities.created_by')
             ->join('trips', 'trips.id', '=', 'user_activities.trip_id')
@@ -304,6 +308,7 @@ class UserActivityController extends Controller
         foreach ($activities as $activity) {
             $activity->votes = $this->getVotes($activity->activity_id, $tripId);
         }
+        $isCreator = $trip->created_by === $user->id;
 
         //dd($activities);
 
@@ -320,6 +325,8 @@ class UserActivityController extends Controller
             'activities' => $activities,
             'selectedTripId' => $tripId,
             'participants' => $participants,
+            'user' => auth()->user(),
+            'isCreator' => $isCreator
 
 
         ]);

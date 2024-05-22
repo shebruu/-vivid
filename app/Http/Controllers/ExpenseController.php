@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\UserActivity;
 
 use App\Models\Price;
+use App\Models\Trip;
 use App\Models\Notification;
 
 use App\Http\Requests\ExpenseRequest;
@@ -32,6 +33,12 @@ class ExpenseController extends Controller
 
     public function getRevisedActivitiesWithPrices($tripId)
     {
+
+
+        $trip = Trip::findOrFail($tripId);
+        $isCreator = $trip->created_by === auth()->id();
+        $currentUser = auth()->user();
+
         $activities = DB::table('user_activities as ua')
             ->join('activities as act', 'ua.activity_id', '=', 'act.id')
             ->leftJoin('prices as pr', 'ua.place_id', '=', 'pr.place_id')
@@ -75,7 +82,10 @@ class ExpenseController extends Controller
             'currentUser' => [
                 'id' => $currentUser->id,
                 'name' => $currentUser->firstname . ' ' . $currentUser->lastname
-            ]
+            ],
+            'isCreator' => $isCreator,
+            'tripTitle' => $trip->title
+
         ]);
     }
 
@@ -120,18 +130,41 @@ class ExpenseController extends Controller
 
         foreach ($data['expenses'] as $expenseData) {
             foreach ($expenseData['user_ids'] as $userId) {
-                Expense::create([
-                    'trip_id' => $tripId,
-                    'price_id' => $expenseData['price_id'],
-                    'user_id' => $userId,
-                    'amount' => Price::find($expenseData['price_id'])->amount,
-                    'category_id' => $leisureCategory->id
-                ]);
+                $this->sendApprovalRequest($userId, $expenseData['price_id'], Auth::id(), $tripId, "Demande d'approbation pour nouvelle dépense");
             }
         }
-        // sendPaymentNotification();
 
-        return redirect()->route('expenses.index', ['tripId' => $tripId])->with('success', 'Expenses added successfully.');
+        return redirect()->route('expenses.index', ['tripId' => $tripId])->with('success', 'Demandes d’approbation envoyées.');
+    }
+
+    public function sendApprovalRequest($userId,  $priceId, $senderId,  $tripId, $message)
+    {
+        $amount = Price::find($priceId)->amount;
+        Notification::create([
+            'sender_id' => $senderId,
+            'user_id' => $userId,
+            'trip_id' => $tripId,
+            'message' => $message,
+            'amount' => $amount,
+            'status' => 'pending'
+        ]);
+    }
+
+
+    public function handlePaymentResponse(Request $request, $notificationId)
+    {
+        $notification = Notification::find($notificationId);
+        if ($request->input('response') === 'approve') {
+            Expense::create([
+                'user_id' => $notification->user_id,
+                'amount' => $notification->amount,
+
+            ]);
+            $notification->update(['status' => 'approved']);
+        } else {
+            $notification->update(['status' => 'declined']);
+        }
+        return redirect()->back()->with('message', 'Response processed');
     }
 
 

@@ -4,11 +4,16 @@ import { Link } from "@inertiajs/inertia-react";
 import Navbar2 from "../Navbar";
 import "./style.css";
 
+
 function Trips({ usertrips, auth }) {
     return (
+
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Itinéraires</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Voyages</h2>}
+            showSidebar={false} 
+            
+            
         >
             <div className="container">
                 <h1 className="title">Liste de mes voyages</h1>

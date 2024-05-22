@@ -3,7 +3,7 @@ import { Inertia } from "@inertiajs/inertia";
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Link } from "@inertiajs/inertia-react";
-import Navbar2 from "../Navbar";
+
 import "./memberstyle.css";
 
 function MemberManagement({ auth, trip }) {
@@ -29,6 +29,12 @@ function MemberManagement({ auth, trip }) {
         );
     };
 
+    const isCreator = auth.user.id === trip.created_by;
+    const tripId=trip.id;
+    console.log('creators',trip.created_by, auth.user.id,tripId )
+
+    console.log('iscreator ' , isCreator)
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -37,6 +43,10 @@ function MemberManagement({ auth, trip }) {
                     Participants{" "}
                 </h2>
             }
+            tripId={tripId}  
+            showSidebar={true}
+            isCreator={isCreator}
+           
         >
           
           <div className="container">

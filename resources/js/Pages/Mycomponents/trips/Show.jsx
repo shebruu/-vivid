@@ -38,6 +38,7 @@ function Show({ errors, trip, auth }) {
         login: "",
         user_activities: "",
     });
+    const isCreator = auth.user.id === trip.created_by;
 
     return (
         <AuthenticatedLayout
@@ -46,7 +47,12 @@ function Show({ errors, trip, auth }) {
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
                     Itinéraires
                 </h2>
-            }
+
+                
+            }     tripId={trip.id} 
+            
+            showSidebar={true} 
+            isCreator={isCreator}
         >
             <div>
                 <div className="container">
@@ -158,18 +164,7 @@ function Show({ errors, trip, auth }) {
                     </div>
                     
                 </div>
-                <div className="sidebar">
-             
-    <Link href={`/trips/${trip.id}/calendar`} className="sidebar-link">
-      Calendrier 
-    </Link>
-    {auth.user && trip.created_by === auth.user.id && (
-                                    <Link href={route("trip.manage", { tripId: trip.id })} className="sidebar-link">Gestion des membres</Link>
-                                )}
-                                <Link href={route("itinerarie.list", { tripId: trip.id })} className="sidebar-link">Activités proposées</Link>
-                                <Link href={route("expenses.create", { tripId: trip.id })} className="sidebar-link">Finances </Link>
-</div>
-
+ 
 
    
                 

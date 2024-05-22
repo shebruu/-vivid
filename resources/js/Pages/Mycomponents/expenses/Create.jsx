@@ -1,7 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { Inertia } from '@inertiajs/inertia';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import './expensestyle.css';  
 
-const Create = ({ activities, tripId, users, categories, currentUser }) => {
+// Déplacer les sélecteurs dans des composants fonctionnels pour une meilleure réutilisation et lisibilité
+const PriceSelector = ({ activity, handlePriceChange, parsePrices }) => {
+    return (
+        <select
+            name="price"
+            id={`price-select-${activity.user_activity_id}`}
+            onChange={(e) => handlePriceChange(activity.user_activity_id, parsePrices(activity.all_prices_at_place)[e.target.selectedIndex])}
+        >
+            {parsePrices(activity.all_prices_at_place).map((price, index) => (
+                <option key={index} value={price.amount}>
+                    {price.amount} - {price.ageRange} - {price.season} - {price.dayType}
+                </option>
+            ))}
+        </select>
+    );
+};
+
+const UserSelector = ({ activity, users, handleUserChange }) => {
+    return (
+        <div id={`user-select-${activity.user_activity_id}`}>
+            {users.map(user => (
+                <div key={user.id}>
+                    <span>{user.name}</span>
+                    <button type="button" onClick={() => handleUserChange(activity.user_activity_id, user.id)}>Add</button>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+// Composant principal ajusté pour une meilleure gestion des états et évènements
+const Create = ({ activities, tripId, users, categories, currentUser, isCreator }) => {
     const [selectedPrices, setSelectedPrices] = useState({});
     const [selectedUsers, setSelectedUsers] = useState({});
     const [totalAmount, setTotalAmount] = useState({});
@@ -47,8 +80,6 @@ const Create = ({ activities, tripId, users, categories, currentUser }) => {
     const handlePayment = (price, activityId, selectedUsers) => {
         const totalAmount = parseFloat(price.amount) * selectedUsers.length;
         console.log('Total to pay:', totalAmount, 'for activity ID:', activityId);
-        // You would send this data to server
-        // Inertia.post('/path-to-payment-server', { price, activityId, totalAmount, users: selectedUsers });
     };
 
     const handleNewExpenseSubmit = (e) => {
@@ -60,71 +91,37 @@ const Create = ({ activities, tripId, users, categories, currentUser }) => {
     };
 
     return (
-        <div>
-            <h2>Activities</h2>
-            {activities.map(activity => (
-                <div key={activity.user_activity_id}>
-                    <h3>Activity: {activity.activity_name}</h3>
-                    <form onSubmit={(e) => {
-                        e.preventDefault();
-                        handlePayment(selectedPrices[activity.user_activity_id], activity.user_activity_id, selectedUsers[activity.user_activity_id]);
-                    }}>
-                        <label htmlFor={`price-select-${activity.user_activity_id}`}>Choose a price:</label>
-                        <select
-                            name="price"
-                            id={`price-select-${activity.user_activity_id}`}
-                            onChange={(e) => handlePriceChange(activity.user_activity_id, parsePrices(activity.all_prices_at_place)[e.target.selectedIndex])}
-                        >
-                            {parsePrices(activity.all_prices_at_place).map((price, index) => (
-                                <option key={index} value={price.amount}>
-                                    {price.amount} - {price.ageRange} - {price.season} - {price.dayType}
-                                </option>
-                            ))}
-                        </select>
-                        <label htmlFor={`user-select-${activity.user_activity_id}`}>Add people to pay for:</label>
-                        <div id={`user-select-${activity.user_activity_id}`}>
-                            {users.concat(currentUser).map(user => (
-                                <div key={user.id}>
-                                    <span>{user.name}</span>
-                                    <button type="button" onClick={() => handleUserChange(activity.user_activity_id, user.id)}>Add</button>
-                                </div>
-                            ))}
-                        </div>
+        <AuthenticatedLayout
+            user={currentUser}
+            tripId={tripId}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Activities</h2>}
+            isCreator={isCreator}
+        >
+            <div className="create-container">
+                {activities.map(activity => (
+                    <div key={activity.user_activity_id} className="activity-container">
+                        <h3>{activity.activity_name}</h3>
+                        <PriceSelector activity={activity} handlePriceChange={handlePriceChange} parsePrices={parsePrices} />
+                        <UserSelector activity={activity} users={users.concat(currentUser)} handleUserChange={handleUserChange} />
                         <p>Total to pay: {totalAmount[activity.user_activity_id] || 0}</p>
-                        <button type="submit">Pay</button>
-                    </form>
-                </div>
-            ))}
-            <h2>Add New Expense</h2>
-            <form onSubmit={handleNewExpenseSubmit}>
-                <label htmlFor="category">Category:</label>
-                <select
-                    id="category"
-                    value={categoryId}
-                    onChange={(e) => setCategoryId(e.target.value)}
-                >
-                    <option value="">Select a category</option>
-                    {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                            {category.name}
-                        </option>
-                    ))}
-                </select>
-
-                <label htmlFor="amount">Amount:</label>
-                <input
-                    type="number"
-                    id="amount"
-                    value={amount}
-                    onChange={(e) => setAmount(e.target.value)}
-                    min="0"
-                    step="0.01"
-                    required
-                />
-
-                <button type="submit">Add Expense</button>
-            </form>
-        </div>
+                        <button onClick={() => handlePayment(selectedPrices[activity.user_activity_id], activity.user_activity_id, selectedUsers[activity.user_activity_id])}>
+                            Pay
+                        </button>
+                    </div>
+                ))}
+                <h2>Add New Expense</h2>
+                <form onSubmit={handleNewExpenseSubmit}>
+                    <select id="category" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+                        <option value="">Select a category</option>
+                        {categories.map(category => (
+                            <option key={category.id} value={category.id}>{category.name}</option>
+                        ))}
+                    </select>
+                    <input type="number" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} min="0" step="0.01" required />
+                    <button type="submit">Add Expense</button>
+                </form>
+            </div>
+        </AuthenticatedLayout>
     );
 };
 

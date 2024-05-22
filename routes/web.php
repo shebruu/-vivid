@@ -13,6 +13,9 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\TripController;
 
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\NotificationController;
+
+
 use App\Http\Controllers\UserActivityController;
 
 use App\Http\Controllers\ActivityVoteController;
@@ -131,6 +134,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/trips/{tripId}/expenses', [ExpenseController::class, 'index'])->name('expenses.index');
 
 
+    Route::post('/trips/{tripId}/expenses/request-approval', [ExpenseController::class, 'sendApprovalRequest'])->name('expenses.request-approval');
+    Route::post('/trips/{tripId}/expenses/handle-response/{notificationId}', [ExpenseController::class, 'handlePaymentResponse'])->name('expenses.handle-response');
+    Route::get('/trips/{tripId}/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 
 
     Route::get('/map', function () {

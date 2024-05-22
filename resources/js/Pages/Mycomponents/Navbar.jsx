@@ -7,13 +7,12 @@ import { route } from 'ziggy-js';
 
 //import LogoutModal from './LogoutModal';
 
-const Navbar2 = ({ auth, csrfToken, trip }) => {
+const Navbar2 = ({ auth, csrfToken }) => {
     const handleLogout = (e) => {
         e.preventDefault();
         Inertia.post('/logout', { _token: csrfToken });
     };
 
-    console.log('Trip:', trip); 
     return (
         <header className={`custom-header`}>
             <Link href="/" className="logo-link">
@@ -31,15 +30,7 @@ const Navbar2 = ({ auth, csrfToken, trip }) => {
                             <Link href={route('trip.index')} className="nav-link">Mes voyages</Link>
                             
                        
-                            {trip && (
-                                <Link
-                                    href={route('trip.calendar', { tripId: trip.id })}
-                                    className="nav-link"
-                                >
-                                    Voir le calendrier
-                                </Link>
-                            )}
-
+                           
                      
                            
                         </>
