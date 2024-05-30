@@ -45,7 +45,7 @@ function Show({ errors, trip, auth }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Itinéraires
+                Details trip  : {trip.title}
                 </h2>
 
                 

@@ -53,9 +53,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Gestion du profil
     Route::prefix('profile')->group(function () {
-        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::get('/', [ProfileController::class, 'show'])->name('profile.show');
+        Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/edit', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/delete', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::post('/upload-photo', [ProfileController::class, 'uploadPhoto'])->name('profile.uploadPhoto');
     });
 
 
@@ -124,9 +126,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     Route::get('/trips/{tripId}/calendar', function ($tripId) {
-        return Inertia::render('Mycomponents/trips/CalendarPage', ['tripId' => $tripId]);
-    })->name('trip.calendar');
+        // Récupérer le voyage depuis la base de données
+        $trip = Trip::findOrFail($tripId);
 
+        // Passer les données nécessaires à la vue Inertia
+        return Inertia::render('Mycomponents/trips/CalendarPage', [
+            'tripId' => $trip->id,
+            'tripTitle' => $trip->title,
+        ]);
+    })->name('trip.calendar');
 
     Route::get('/trips/{tripId}/expenses/create', [ExpenseController::class, 'getRevisedActivitiesWithPrices'])->name('expenses.create');
 

@@ -40,7 +40,7 @@ function MemberManagement({ auth, trip }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Participants{" "}
+                    Manage Members  - {trip.title}
                 </h2>
             }
             tripId={tripId}  
@@ -50,7 +50,7 @@ function MemberManagement({ auth, trip }) {
         >
           
           <div className="container">
-                <h2 className="title">Gestion des membres pour {trip.title}</h2>
+                
                 <ul>
                     {trip.users.map((user) => (
                         <li key={user.id}>

@@ -18,7 +18,7 @@ import ParticipantsList from './ParticipantsList';
  * @param {Object} props.activities - Les activités classées par ID de voyage.
  * @param {number} props.selectedTripId - L'ID du voyage sélectionné.
  */
-const ActivityList = ({ activities, selectedTripId , participants, auth,isCreator}) => {
+const ActivityList = ({ activities, selectedTripId , selectedTripTitle,participants, auth,isCreator}) => {
 
   
 
@@ -36,17 +36,16 @@ const ActivityList = ({ activities, selectedTripId , participants, auth,isCreato
 
         <AuthenticatedLayout
         user={auth.user}
-        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Activities for the selected trip</h2>}
+        header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Activities for the  trip : {selectedTripTitle }  </h2>}
         tripId={selectedTripId}
         showSidebar={true}
         isCreator={isCreator}
+       
     >
 
         
         <div className="activities-container">
-            <h2 className="activities-header">
-                Activities for the selected trip: 
-            </h2>
+           
  {/* liste des participants */}
  
             <ParticipantsList participants={participants} />

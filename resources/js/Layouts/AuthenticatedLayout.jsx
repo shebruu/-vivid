@@ -7,12 +7,14 @@ import { Link } from '@inertiajs/react';
 import Navbar2 from '../Pages/Mycomponents/Navbar'; 
 import Sidebar from '../Pages/Mycomponents/Sidebar'; 
 
-export default function Authenticated({ user, header, children,tripId,showSidebar = true,isCreator }) {
+export default function Authenticated({ user, header, children,tripId,showSidebar = true,isCreator    }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
         <div className="min-h-screen bg-gray-20">
-       {showSidebar && <Sidebar user={user} tripId={tripId}  isCreator={isCreator}/>}
+       {showSidebar && <Sidebar user={user} tripId={tripId}  isCreator={isCreator} />}
+
+       
 
             <div className="flex-grow">
               <Navbar2 auth={{ user }} csrfToken={document.querySelector('meta[name="csrf-token"]').getAttribute('content')} />

@@ -2,7 +2,7 @@ import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import CalendarComponent from '../activities/CalendarComponent';
 
-const CalendarPage = ({ auth, tripId }) => {
+const CalendarPage = ({ auth, tripId , tripTitle}) => {
 
     const trip = { id: tripId, created_by: auth.user.id };
     const isCreator = auth.user.id === trip.created_by;
@@ -10,7 +10,7 @@ const CalendarPage = ({ auth, tripId }) => {
         <AuthenticatedLayout
             user={auth.user} 
             tripId={tripId}  
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Calendrier des Activités</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Calendrier des Activités - {tripTitle}</h2>}
             isCreator={isCreator}
         >
             <div className="py-12">

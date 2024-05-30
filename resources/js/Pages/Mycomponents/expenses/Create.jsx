@@ -3,7 +3,6 @@ import { Inertia } from '@inertiajs/inertia';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import './expensestyle.css';  
 
-// Déplacer les sélecteurs dans des composants fonctionnels pour une meilleure réutilisation et lisibilité
 const PriceSelector = ({ activity, handlePriceChange, parsePrices }) => {
     return (
         <select
@@ -33,8 +32,7 @@ const UserSelector = ({ activity, users, handleUserChange }) => {
     );
 };
 
-// Composant principal ajusté pour une meilleure gestion des états et évènements
-const Create = ({ activities, tripId, users, categories, currentUser, isCreator }) => {
+const Create = ({ activities, tripId, users, categories, currentUser, isCreator, tripTitle }) => {
     const [selectedPrices, setSelectedPrices] = useState({});
     const [selectedUsers, setSelectedUsers] = useState({});
     const [totalAmount, setTotalAmount] = useState({});
@@ -94,30 +92,43 @@ const Create = ({ activities, tripId, users, categories, currentUser, isCreator 
         <AuthenticatedLayout
             user={currentUser}
             tripId={tripId}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Activities</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Financing Activities - {tripTitle} </h2>}
             isCreator={isCreator}
         >
             <div className="create-container">
-                {activities.map(activity => (
-                    <div key={activity.user_activity_id} className="activity-container">
-                        <h3>{activity.activity_name}</h3>
-                        <PriceSelector activity={activity} handlePriceChange={handlePriceChange} parsePrices={parsePrices} />
-                        <UserSelector activity={activity} users={users.concat(currentUser)} handleUserChange={handleUserChange} />
-                        <p>Total to pay: {totalAmount[activity.user_activity_id] || 0}</p>
-                        <button onClick={() => handlePayment(selectedPrices[activity.user_activity_id], activity.user_activity_id, selectedUsers[activity.user_activity_id])}>
-                            Pay
-                        </button>
-                    </div>
-                ))}
-                <h2>Add New Expense</h2>
+                <div className="activity-grid">
+                    {activities.map(activity => (
+                        <div key={activity.user_activity_id} className="activity-card">
+                            <h3>{activity.activity_name}</h3>
+                            <div className="activity-info">
+                                <div>
+                                    <PriceSelector activity={activity} handlePriceChange={handlePriceChange} parsePrices={parsePrices} />
+                                    <UserSelector activity={activity} users={users.concat(currentUser)} handleUserChange={handleUserChange} />
+                                    <p>Total to pay: {totalAmount[activity.user_activity_id] || 0}</p>
+                                </div>
+                                <button onClick={() => handlePayment(selectedPrices[activity.user_activity_id], activity.user_activity_id, selectedUsers[activity.user_activity_id])}>
+                                    Pay
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <br></br><br />
+                <h2> <strong>Add New Expense </strong></h2>
                 <form onSubmit={handleNewExpenseSubmit}>
-                    <select id="category" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
-                        <option value="">Select a category</option>
-                        {categories.map(category => (
-                            <option key={category.id} value={category.id}>{category.name}</option>
-                        ))}
-                    </select>
-                    <input type="number" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} min="0" step="0.01" required />
+                    <div className="form-group">
+                        <label htmlFor="category">Category</label>
+                        <select id="category" value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+                            <option value="">Select a category</option>
+                            {categories.map(category => (
+                                <option key={category.id} value={category.id}>{category.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="amount">Amount</label>
+                        <input type="number" id="amount" value={amount} onChange={(e) => setAmount(e.target.value)} min="0" step="0.01" required />
+                    </div>
                     <button type="submit">Add Expense</button>
                 </form>
             </div>

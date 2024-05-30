@@ -196,8 +196,11 @@ class UserActivityController extends Controller
             $userActivity->start_time = new \DateTime($request->selectedDateTime);
         }
         $userActivity->save();
-        // Répondre avec la nouvelle activité ajoutée
-        return response()->json($userActivity, 201);
+        // Répondre avec un message de succès personnalisé
+        return response()->json([
+            'message' => 'Activity added to your list successfully!',
+            'userActivity' => $userActivity
+        ], 201);
     }
 
 
@@ -319,10 +322,11 @@ class UserActivityController extends Controller
             ->select('users.id', 'users.firstname', 'users.lastname')
             ->get();
 
-
         // dd($participants);
         return inertia('Mycomponents/activities/ActivityList', [
             'activities' => $activities,
+
+            'selectedTripTitle' => $trip->title,
             'selectedTripId' => $tripId,
             'participants' => $participants,
             'user' => auth()->user(),

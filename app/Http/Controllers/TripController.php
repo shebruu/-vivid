@@ -211,6 +211,7 @@ class TripController extends Controller
         $this->authorize('manageMembers', $trip);
         return Inertia::render('Mycomponents/trips/MemberManagement', [
             'trip' => $trip,
+
             'user' => auth()->user()
         ]);
     }
