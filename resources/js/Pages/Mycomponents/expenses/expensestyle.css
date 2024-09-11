@@ -58,13 +58,17 @@
 }
 
 .user-item {
+    display: flex;
+    align-items: center; /* Aligne le texte et le bouton sur la même ligne */
     flex: 1 0 150px;
     margin-right: 10px;
     margin-bottom: 10px;
 }
-
 .user-item button {
     margin-left: 10px;
+    padding: 4px 8px; /* Taille plus petite du bouton */
+    font-size: 12px; /* Taille du texte plus petite */
+    line-height: 1;
 }
 
 button {
@@ -83,5 +87,6 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: red;
 }
+

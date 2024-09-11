@@ -76,7 +76,7 @@ class User extends Authenticatable
      */
     public function trips()
     {
-        return $this->hasMany(Trip::class, 'created_by');
+        return $this->belongsToMany(Trip::class, 'user_trip', 'user_id', 'trip_id');
     }
     /**
      * Retrieves user's activities along with associated pivot data.

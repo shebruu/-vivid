@@ -1,46 +1,42 @@
+import React from 'react';
+import "./Sondage.css";
 
-import React, { useState, useEffect } from 'react';
-
-import { Inertia } from '@inertiajs/inertia';
-
-function VoteButtons({ activityId }) {
-    const [hasVoted, setHasVoted] = useState(() => {
-        return localStorage.getItem(`voted_${activityId}`) === 'true';
-    });
-       
-     
-    useEffect(() => {
-        console.log(`Initial vote state for activity ${activityId}:`, hasVoted);
-    }, []);
+const VoteButtons = ({ activityId, onVote }) => {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     const handleVote = (voteType) => {
-        console.log("Voting", voteType, "for activity", activityId);
-        Inertia.post(route('activities.vote', { activity: activityId }), { vote: voteType })
-        .then(() => {
-            console.log("Vote success");
-            setHasVoted(true);
-            localStorage.setItem(`voted_${activityId}`, 'true');
+        console.log(`Voting ${voteType} for activity ID: ${activityId}`);
+        fetch(`/activities/${activityId}/vote`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken, // Ajouter le jeton CSRF
+            },
+            body: JSON.stringify({ vote: voteType }),
         })
-        .catch(error => {
-            console.error("Error voting:", error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    console.log('Vote successful:', data);
+                    onVote(); // Appeler onVote après un vote réussi
+                } else {
+                    console.error('Vote failed:', data);
+                }
+            })
+            .catch(error => console.error('Error:', error));
     };
 
-
-    console.log("Button render state:", hasVoted); 
-
-    if (hasVoted) {
-        return <p>Thank you for voting!</p>;
-    }
-    
-
-   
     return (
-        <div className="activity-actions">
-            <button onClick={() => handleVote( 'yes')} className="vote-button yes">Yes</button>
-            <button onClick={() => handleVote( 'no')} className="vote-button no">No</button>
+        <div className="vote-buttons">
+            <button className="vote-button" onClick={() => handleVote('yes')}>Yes</button>
+            <button className="vote-button" onClick={() => handleVote('no')}>No</button>
         </div>
     );
-}
+};
 
-export default VoteButtons; 
+export default VoteButtons;

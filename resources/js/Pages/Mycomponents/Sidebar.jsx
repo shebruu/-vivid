@@ -21,6 +21,10 @@ const Sidebar = ({ usertrips = [], user, tripId, isCreator, userTrips }) => {
 
                       
                     )}
+
+             <Link  href={route("user_activities.index", { trip_id: tripId })} className="sidebar-link">
+                       Manage Itinéraires
+                    </Link>
                     <Link href={route("itinerarie.list", { tripId })} className="sidebar-link">
                         Activités proposées
                     </Link>

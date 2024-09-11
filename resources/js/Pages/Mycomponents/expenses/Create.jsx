@@ -25,7 +25,7 @@ const UserSelector = ({ activity, users, handleUserChange }) => {
             {users.map(user => (
                 <div key={user.id}>
                     <span>{user.name}</span>
-                    <button type="button" onClick={() => handleUserChange(activity.user_activity_id, user.id)}>Add</button>
+                    <button type="button" onClick={() => handleUserChange(activity.user_activity_id, user.id)}> + </button>
                 </div>
             ))}
         </div>

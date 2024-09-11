@@ -43,9 +43,14 @@ class UserActivityController extends Controller
     {
 
 
+
         $user = $request->user();
         $searchTerm = $request->input('search', '');
 
+
+        $tripId = $request->input('trip_id');
+
+        session(['trip_id' => $tripId]);
         $realizedActivities = UserActivity::where('status', 'validated')
             ->with(['place.prices', 'place.locality', 'user', 'activity'])
             ->whereHas('place', function ($query) use ($searchTerm) {
@@ -60,11 +65,16 @@ class UserActivityController extends Controller
             ->get()
             ->unique('place.title');
 
+
+
+        $trip = $tripId ? Trip::findOrFail($tripId) : null;
         //dump($realizedActivities);
 
         return inertia('Mycomponents/activities/UserActivityList', [
             'activities' => $realizedActivities,
             'user_name' => $user ? $user->name : 'Guest',
+            'trip' => $trip,
+
         ]);
     }
 
@@ -73,6 +83,11 @@ class UserActivityController extends Controller
     // Shows detailed view for a specific user activity, loads related data.
     public function show(UserActivity $useractivity)
     {
+
+
+
+        $tripId = session('trip_id');
+
         $useractivity->load('place.prices', 'activity.place', 'activity.createdby', 'user', 'user.trips');
 
         // Récupère les créneaux réservés pour l'activité
@@ -92,16 +107,18 @@ class UserActivityController extends Controller
                 }
             }
         }
+        $userTrips = $useractivity->user->trips()->distinct()->get();
 
-
+        // dump($userTrips);
         $activityData = [
             'activity' => $useractivity->activity,
             'place' => $useractivity->place, // UserActivity has a direct place association
             'createdby' => $useractivity->user, // User who created the user activity
             'prices' => $useractivity->place->prices, // Prices come from the activity relationship,
             'placeImages' => $imageFiles,
-            'trips' => $useractivity->user->trips,
-            'bookedTimes' => $bookedTimes
+            'trips' => $userTrips,
+            'bookedTimes' => $bookedTimes,
+            'tripId' => $tripId,
         ];
 
         // dump($useractivity);  // instance du modele  UserActivity ( id, act, created, place, duration, status, start) 
@@ -114,7 +131,8 @@ class UserActivityController extends Controller
             'prices' => $activityData['prices'],
             'placeImages' => $activityData['placeImages'],
             'trips' => $activityData['trips'],
-            'bookedTimes' => $activityData['bookedTimes']
+            'bookedTimes' => $activityData['bookedTimes'],
+            'tripId' => $tripId,
         ]);
     }
 
@@ -199,7 +217,8 @@ class UserActivityController extends Controller
         // Répondre avec un message de succès personnalisé
         return response()->json([
             'message' => 'Activity added to your list successfully!',
-            'userActivity' => $userActivity
+            'userActivity' => $userActivity,
+            'redirectUrl' => route('user_activities.index')
         ], 201);
     }
 

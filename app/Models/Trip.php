@@ -38,7 +38,7 @@ class Trip extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_trip');
+        return $this->belongsToMany(User::class, 'user_trip', 'trip_id', 'user_id');
     }
 
     /**

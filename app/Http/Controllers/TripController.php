@@ -16,6 +16,8 @@ use App\Http\Requests\TripRequest;
 use Illuminate\Support\Str;
 
 
+
+
 //use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 
@@ -98,7 +100,8 @@ class TripController extends Controller
             'trip_id' => $trip->id,
 
         ]);
-        return response()->json(['message' => 'Voyage créé avec succès'], 201);
+        session()->flash('success', 'Voyage créé avec succèss!');
+        return redirect()->route('trip.create');
     }
 
 
@@ -113,7 +116,8 @@ class TripController extends Controller
         $user = Auth::user();
         // dd($trip);
         return Inertia::render('Mycomponents/trips/Show', [
-            'trip' => $trip, 'canEdit' => $user->can('update', $trip),
+            'trip' => $trip,
+            'canEdit' => $user->can('update', $trip),
             'canDelete' => $user->can('delete', $trip),
             'canAddMember' => $user->can('addMember', $trip),
             'canRemoveMember' => $user->can('removeMember', $trip)
@@ -230,5 +234,14 @@ class TripController extends Controller
         $trip->users()->detach($user->id);
 
         return redirect()->back()->with('success', 'Member successfully removed.');
+    }
+
+    public function goToItineraries(Trip $trip)
+    {
+        $user = Auth::user();
+        if ($user->cannot('view', $trip)) {
+            abort(403);
+        }
+        return redirect()->route('user_activities.index', ['trip_id' => $trip->id]);
     }
 }

@@ -1,0 +1,23 @@
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4caf50; /* Vert pour le succès */
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.notification.error {
+    background-color: #f44336; /* Rouge pour les erreurs */
+}
+
+.notification button {
+    background: none;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 20px;
+}

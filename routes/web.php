@@ -166,4 +166,9 @@ Route::get('/activities', [ActivityController::class, 'index'])->name('activitie
 Route::get('/activity/{activity}', [ActivityController::class, 'show'])->name('activity.show');
 
 
+
+
+Route::get('/trips/{trip}/go-to-itineraries', [TripController::class, 'goToItineraries'])->name('trips.go-to-itineraries');
+
+
 require __DIR__ . '/auth.php';

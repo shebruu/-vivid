@@ -4,6 +4,8 @@ import { Inertia } from "@inertiajs/inertia";
 import Navbar2 from "../Navbar";
 import "./style.css";
 
+import Swal from 'sweetalert2';
+
 const initialFormData = {
     title: "",
     departure: "",
@@ -14,6 +16,7 @@ const initialFormData = {
 const Create = ({ auth, errors }) => {
     const [formData, setFormData] = useState(initialFormData);
 
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
@@ -26,9 +29,19 @@ const Create = ({ auth, errors }) => {
 
         // console.log('FormData:', formData);
 
-        Inertia.post(route("trip.store"), formData);
+        Inertia.post(route('trip.store'), formData, {
+            onSuccess: (page) => {
+                if (page.props.flash.success) {
+                    Swal.fire({
+                        title: 'Succès',
+                        text: page.props.flash.success,
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                    });
+                }
+            },
+        });
     };
-
     return (
         <div>
           

@@ -4,7 +4,7 @@ import { Link } from "@inertiajs/inertia-react";
 
 import "./style.css";
 
-function UserActivityList({ activities, auth, tripId }) {
+function UserActivityList({ activities, auth, tripId, trip}) {
     console.log("Activités reçues :", activities);
     const [searchTerm, setSearchTerm] = useState("");
     // Conversion des activités d'objet en tableau s'ils sont présentés comme un objet
@@ -57,6 +57,8 @@ function UserActivityList({ activities, auth, tripId }) {
                     className="content-container"
                     style={{ marginTop: "150px" }}
                 >
+
+                    
                     <h1 className="text-3xl font-bold mb-4">
                         Découvrez les activités réalisées par nos utilisateurs
                     </h1>
@@ -79,6 +81,7 @@ function UserActivityList({ activities, auth, tripId }) {
                                     <h2>{activity.activity.activity}</h2>
                                     <p>Place: {activity.place.title}</p>
                                     <p>City: {activity.place.locality.city}</p>
+                                    
 
                                     <p>Status: {activity.status}</p>
                                     <p>Prices:</p>
@@ -97,6 +100,8 @@ function UserActivityList({ activities, auth, tripId }) {
                                             </li>
                                         </ul>
                                     )}
+
+
                                 </div>
                             </Link>
                         ))}

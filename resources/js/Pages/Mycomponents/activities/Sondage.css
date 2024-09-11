@@ -77,15 +77,19 @@
     color: #d9534f;
 }
 
-/* Espacement et style pour les boutons de vote */
+.vote-buttons {
+    margin-top: 10px;
+}
+
 .vote-button {
+    padding: 10px 20px;
+    margin: 0 5px; /* Ajustez la marge pour rapprocher les boutons */
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 16px;
 }
 
 .vote-button:hover {
